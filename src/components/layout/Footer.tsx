@@ -28,7 +28,7 @@ export default function Footer() {
             />
             <p className={styles.tagline}>Pre-Owned Cars You Can Trust</p>
             <p className={styles.desc}>
-              Bengaluru&apos;s most trusted platform for verified pre-owned cars.
+              India&apos;s most trusted platform for verified pre-owned cars.
               Direct seller contact, transparent pricing, no middlemen.
             </p>
             <div className={styles.trustBadges}>

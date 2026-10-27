@@ -114,7 +114,7 @@ export default function DealersPage() {
             </div>
 
             <h1 className={styles.title}>
-              Bengaluru&apos;s Most Trusted <span className={styles.titleHighlight}>Pre-Owned Car Dealers</span>
+              India&apos;s Most Trusted <span className={styles.titleHighlight}>Pre-Owned Car Dealers</span>
             </h1>
 
             <p className={styles.subtitle}>

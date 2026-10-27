@@ -10,6 +10,7 @@ import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
 import HeroSpeedometer from "@/components/cars/HeroSpeedometer";
+import MovingCarHighway from "@/components/animations/MovingCarHighway";
 import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { MOCK_CARS } from "@/lib/mockData";
 import styles from "./page.module.css";
@@ -108,7 +109,7 @@ export default function HomePage() {
           <div className={`container ${styles.heroContent}`}>
             <div className={styles.heroBadge}>
               <MapPin size={12} />
-              <span>Bengaluru&apos;s Most Trusted Used Car Marketplace</span>
+              <span>India&apos;s Most Trusted Used Car Marketplace</span>
             </div>
 
             <h1 className={`text-display ${styles.heroTitle}`}>
@@ -119,7 +120,7 @@ export default function HomePage() {
             </h1>
 
             <p className={styles.heroSubtitle}>
-              100+ verified used cars in Bengaluru. Transparent pricing, RTO details,
+              Thousands of verified pre-owned cars across India. Transparent pricing, RTO verification,
               direct WhatsApp contact — <strong>no broker fees, no hidden charges.</strong>
             </p>
 
@@ -161,6 +162,9 @@ export default function HomePage() {
                 </button>
               ))}
             </div>
+
+            {/* Moving Car Highway Animation */}
+            <MovingCarHighway />
 
             {/* Interactive Automotive Tachometer & HUD */}
             <HeroSpeedometer />

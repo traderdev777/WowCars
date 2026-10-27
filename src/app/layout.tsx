@@ -3,9 +3,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://wowcars.in"),
-  title: "WOwCars — Pre-Owned Cars You Can Trust | Bengaluru",
+  title: "WOwCars — India's Most Trusted Pre-Owned Cars Marketplace",
   description:
-    "Discover verified pre-owned cars in Bengaluru. Trusted by thousands of buyers and dealers. Browse 100+ quality used cars — Hatchbacks, Sedans, SUVs — with transparent pricing, RTO details & WhatsApp contact.",
+    "Discover verified pre-owned cars across India. Trusted by thousands of buyers and dealers. Browse quality used cars — Hatchbacks, Sedans, SUVs — with transparent pricing, RTO details & WhatsApp contact.",
   keywords: [
     "used cars bangalore",
     "pre-owned cars bengaluru",
