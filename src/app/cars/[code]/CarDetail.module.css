@@ -1,0 +1,636 @@
+/* ==========================================================================
+   WOwCars — Vehicle Detail Page (VDP) CSS Module
+   Theme: Carbon Dark (#121212) with Crimson Red (#E50914) & Trust Green (#10B981)
+   ========================================================================== */
+
+.page {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding-bottom: var(--space-16);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.breadcrumbLink {
+  color: var(--color-light-gray);
+  transition: color var(--transition-fast);
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumbSep {
+  color: var(--color-border);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-white);
+  font-weight: 500;
+}
+
+/* Header Area */
+.headerArea {
+  margin-bottom: var(--space-6);
+}
+
+.topBadges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1.15;
+  margin-bottom: var(--space-1);
+}
+
+.subhead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+  flex-wrap: wrap;
+}
+
+.dot {
+  color: var(--color-border);
+}
+
+/* Main Grid Layout */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr 380px;
+    align-items: start;
+  }
+}
+
+/* Left Column */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Gallery Showcase */
+.galleryCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.heroViewer {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #1f1f1f 0%, #141414 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.heroViewerVisual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-light-gray);
+}
+
+.carBigEmoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.carAngleLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-slate);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+}
+
+.galleryWatermark {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.galleryCounter {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* Angle Thumbnails Selector */
+.thumbRow {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-surface-elevated);
+  border-top: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.thumbBtn {
+  flex: 1;
+  min-width: 80px;
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-light-gray);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all var(--transition-fast);
+}
+
+.thumbBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.thumbBtnActive {
+  background: rgba(229, 9, 20, 0.12);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* Quick Specs Strip */
+.quickSpecsStrip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .quickSpecsStrip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.quickSpecItem {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.quickSpecIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.quickSpecContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.quickSpecLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-slate);
+  letter-spacing: 0.05em;
+}
+
+.quickSpecValue {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+/* Content Sections */
+.sectionCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sectionTitleIcon {
+  color: var(--color-primary);
+}
+
+.overviewText {
+  color: var(--color-light-gray);
+  line-height: 1.7;
+  font-size: var(--font-size-base);
+}
+
+/* Specifications Table Grid */
+.specsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .specsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.specRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.specRowLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-slate);
+}
+
+.specRowVal {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-white);
+  text-align: right;
+}
+
+/* Features Pills Grid */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-3);
+}
+
+.featurePill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+}
+
+.featureCheck {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Inspection Report Banner */
+.inspectionCard {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(18, 18, 18, 1) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.inspectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.scoreBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-accent);
+  color: #000;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: var(--font-size-base);
+}
+
+.inspectionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.inspectionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+}
+
+.inspectionItemCheck {
+  color: var(--color-accent);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Right Sticky Column / Action Card */
+.stickyCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-4));
+}
+
+.priceBlock {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-4);
+}
+
+.priceLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
+}
+
+.priceAmount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.rupeeSym {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.lakhsVal {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--color-white);
+  line-height: 1;
+}
+
+.lakhsWord {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  font-weight: 600;
+}
+
+.emiHint {
+  font-size: var(--font-size-xs);
+  color: var(--color-light-gray);
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.emiHighlight {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Seller Profile Box */
+.sellerBox {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sellerBoxHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sellerName {
+  font-weight: 700;
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+}
+
+.sellerMeta {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+}
+
+/* Action Buttons */
+.ctaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.guaranteeNote {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+/* Test Drive Modal */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modalWindow {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  max-width: 500px;
+  width: 100%;
+  padding: var(--space-6);
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  animation: modalEnter 0.2s ease-out;
+}
+
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: transparent;
+  border: none;
+  color: var(--color-slate);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.modalCloseBtn:hover {
+  color: var(--color-white);
+}
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-1);
+}
+
+.modalSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+  margin-bottom: var(--space-5);
+}
+
+.formField {
+  margin-bottom: var(--space-4);
+}
+
+.formLabel {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-light-gray);
+  margin-bottom: var(--space-1);
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.formInput:focus {
+  border-color: var(--color-primary);
+}
+
+/* Related Cars Section */
+.relatedSection {
+  margin-top: var(--space-16);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-10);
+}
+
+.relatedTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: var(--space-6);
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .relatedGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

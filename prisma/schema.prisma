@@ -1,0 +1,272 @@
+// WOwCars — Prisma Schema Specification
+// Supports PostgreSQL 15+ / MySQL 8.0+ / SQLite (local dev)
+// Conforms to docs/DATABASE_DESIGN.md
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  BUYER
+  SELLER
+  DEALER
+  CITY_PARTNER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum CarStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  SOLD
+  REJECTED
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  CNG
+  ELECTRIC
+  HYBRID
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
+}
+
+enum BodyType {
+  HATCHBACK
+  SEDAN
+  SUV
+  MUV
+  LUXURY
+}
+
+enum EnquiryType {
+  WHATSAPP_CLICK
+  TEST_DRIVE_REQUEST
+  CALLBACK_REQUEST
+  LOAN_INQUIRY
+  INSURANCE_INQUIRY
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  TEST_DRIVE_SCHEDULED
+  CONVERTED
+  LOST
+}
+
+model User {
+  id               String       @id @default(uuid())
+  email            String       @unique
+  phone            String       @unique
+  passwordHash     String       @map("password_hash")
+  role             UserRole     @default(BUYER)
+  fullName         String       @map("full_name")
+  avatarUrl        String?      @map("avatar_url")
+  isPhoneVerified  Boolean      @default(false) @map("is_phone_verified")
+  isEmailVerified  Boolean      @default(false) @map("is_email_verified")
+  status           UserStatus   @default(ACTIVE)
+  lastLoginAt      DateTime?    @map("last_login_at")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  dealerProfile    DealerProfile?
+  cars             Car[]        @relation("UserCars")
+  enquiries        Enquiry[]
+  inspections      InspectionReport[] @relation("InspectorReports")
+  auditLogs        AuditLog[]
+
+  @@map("users")
+}
+
+model DealerProfile {
+  id               String       @id @default(uuid())
+  userId           String       @unique @map("user_id")
+  dealershipName   String       @map("dealership_name")
+  slug             String       @unique
+  logoUrl          String?      @map("logo_url")
+  addressLine1     String       @map("address_line1")
+  city             String
+  state            String       @default("Karnataka")
+  pincode          String
+  officialWhatsapp String       @map("official_whatsapp")
+  gstNumber        String?      @map("gst_number")
+  tradeLicenseNo   String?      @map("trade_license_no")
+  isVerified       Boolean      @default(false) @map("is_verified")
+  verifiedAt       DateTime?    @map("verified_at")
+  verifiedByUserId String?      @map("verified_by_user_id")
+  rating           Decimal      @default(5.00) @db.Decimal(3, 2)
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cars             Car[]        @relation("DealerCars")
+  subscriptions    Subscription[]
+
+  @@map("dealer_profiles")
+}
+
+model Car {
+  id                   String        @id @default(uuid())
+  listingCode          String        @unique @map("listing_code")
+  sellerId             String        @map("seller_id")
+  dealerId             String?       @map("dealer_id")
+  make                 String
+  model                String
+  variant              String
+  year                 Int
+  priceINR             Decimal       @map("price_inr") @db.Decimal(12, 2)
+  kmDriven             Int           @map("km_driven")
+  fuelType             FuelType      @map("fuel_type")
+  transmission         Transmission
+  bodyType             BodyType      @map("body_type")
+  color                String
+  numOwners            Int           @default(1) @map("num_owners")
+  registrationNumber   String        @map("registration_number")
+  rtoCode              String        @map("rto_code")
+  rtoArea              String        @map("rto_area")
+  insuranceType        String        @map("insurance_type")
+  insuranceValidUntil  DateTime?     @map("insurance_valid_until")
+  hypothecationCleared Boolean       @default(true) @map("hypothecation_cleared")
+  rtoNocAvailable      Boolean       @default(false) @map("rto_noc_available")
+  title                String
+  description          String        @db.Text
+  city                 String        @default("Bengaluru")
+  locality             String?
+  state                String        @default("Karnataka")
+  pincode              String        @default("560064")
+  status               CarStatus     @default(PENDING_APPROVAL)
+  rejectionReason      String?       @map("rejection_reason") @db.Text
+  isFeatured           Boolean       @default(false) @map("is_featured")
+  viewCount            Int           @default(0) @map("view_count")
+  createdAt            DateTime      @default(now()) @map("created_at")
+  updatedAt            DateTime      @updatedAt @map("updated_at")
+
+  seller               User          @relation("UserCars", fields: [sellerId], references: [id])
+  dealer               DealerProfile? @relation("DealerCars", fields: [dealerId], references: [id])
+  images               CarImage[]
+  features             CarFeature[]
+  inspectionReport     InspectionReport?
+  enquiries            Enquiry[]
+
+  @@index([city, status, make, model])
+  @@index([status, isFeatured, createdAt(sort: Desc)])
+  @@index([priceINR])
+  @@map("cars")
+}
+
+model CarImage {
+  id           String    @id @default(uuid())
+  carId        String    @map("car_id")
+  storageUrl   String    @map("storage_url")
+  thumbnailUrl String    @map("thumbnail_url")
+  storageKey   String    @map("storage_key")
+  caption      String?
+  displayOrder Int       @default(0) @map("display_order")
+  isCover      Boolean   @default(false) @map("is_cover")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  car          Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@map("car_images")
+}
+
+model CarFeature {
+  id          String    @id @default(uuid())
+  carId       String    @map("car_id")
+  featureName String    @map("feature_name")
+  category    String?
+
+  car         Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@map("car_features")
+}
+
+model InspectionReport {
+  id                String    @id @default(uuid())
+  carId             String    @unique @map("car_id")
+  inspectorId       String    @map("inspector_id")
+  overallRating     Decimal   @map("overall_rating") @db.Decimal(3, 1)
+  pointsChecked     Int       @default(150) @map("points_checked")
+  engineScore       Decimal   @map("engine_score") @db.Decimal(3, 1)
+  transmissionScore Decimal   @map("transmission_score") @db.Decimal(3, 1)
+  chassisBodyScore  Decimal   @map("chassis_body_score") @db.Decimal(3, 1)
+  tyresScore        Decimal   @map("tyres_score") @db.Decimal(3, 1)
+  electricalsScore  Decimal   @map("electricals_score") @db.Decimal(3, 1)
+  checklistJson     String    @map("checklist_json") @db.Text
+  pdfReportUrl      String?   @map("pdf_report_url")
+  inspectedAt       DateTime  @default(now()) @map("inspected_at")
+
+  car               Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+  inspector         User      @relation("InspectorReports", fields: [inspectorId], references: [id])
+
+  @@map("inspection_reports")
+}
+
+model Enquiry {
+  id              String        @id @default(uuid())
+  carId           String        @map("car_id")
+  userId          String?       @map("user_id")
+  buyerName       String        @map("buyer_name")
+  buyerPhone      String        @map("buyer_phone")
+  enquiryType     EnquiryType   @default(WHATSAPP_CLICK) @map("enquiry_type")
+  status          EnquiryStatus @default(NEW)
+  preferredDate   DateTime?     @map("preferred_date")
+  preferredSlot   String?       @map("preferred_slot")
+  notes           String?       @db.Text
+  consentGivenAt  DateTime      @default(now()) @map("consent_given_at")
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  car             Car           @relation(fields: [carId], references: [id], onDelete: Cascade)
+  user            User?         @relation(fields: [userId], references: [id])
+
+  @@map("enquiries")
+}
+
+model Subscription {
+  id                  String    @id @default(uuid())
+  dealerId            String    @map("dealer_id")
+  tier                String    @default("FREE")
+  monthlyPriceINR     Decimal   @default(0) @map("monthly_price_inr") @db.Decimal(10, 2)
+  maxActiveListings   Int       @default(5) @map("max_active_listings")
+  maxFeaturedListings Int       @default(1) @map("max_featured_listings")
+  startDate           DateTime  @map("start_date")
+  endDate             DateTime  @map("end_date")
+  paymentStatus       String    @default("ACTIVE") @map("payment_status")
+  createdAt           DateTime  @default(now()) @map("created_at")
+
+  dealer              DealerProfile @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model AuditLog {
+  id           String    @id @default(uuid())
+  actorId      String?   @map("actor_id")
+  action       String
+  targetEntity String    @map("target_entity")
+  targetId     String    @map("target_id")
+  details      String?   @db.Text
+  ipAddress    String?   @map("ip_address")
+  userAgent    String?   @map("user_agent")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  actor        User?     @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}

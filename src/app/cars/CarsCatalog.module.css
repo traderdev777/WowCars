@@ -1,0 +1,243 @@
+/* ==========================================================================
+   WOwCars — Cars Catalog / Browse Page CSS Module
+   Theme: Carbon Dark with Crimson Red and Slate borders
+   ========================================================================== */
+
+.page {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding-bottom: var(--space-16);
+}
+
+.catalogHeader {
+  padding: var(--space-8) 0 var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-8);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+  margin-bottom: var(--space-3);
+}
+
+.breadcrumbLink {
+  color: var(--color-light-gray);
+  transition: color var(--transition-fast);
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-primary);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  max-width: 600px;
+}
+
+/* Catalog Layout */
+.catalogLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .catalogLayout {
+    grid-template-columns: 280px 1fr;
+    align-items: start;
+  }
+}
+
+/* Filter Sidebar */
+.filterSidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-3);
+}
+
+.filterHeading {
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.resetBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resetBtn:hover {
+  text-decoration: underline;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.filterGroupTitle {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-slate);
+  font-weight: 700;
+}
+
+.filterPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pillBtn {
+  padding: 6px 12px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-light-gray);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pillBtn:hover {
+  border-color: var(--color-slate);
+  color: var(--color-white);
+}
+
+.pillBtnActive {
+  background: rgba(229, 9, 20, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* Main Content Area */
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.resultsCount {
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+}
+
+.countNumber {
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.sortBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-slate);
+}
+
+.sortSelect {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  padding: 6px 12px;
+  font-size: var(--font-size-xs);
+  outline: none;
+}
+
+.carsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .carsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .carsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Empty State */
+.emptyState {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+}
+
+.emptyEmoji {
+  font-size: 3.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-2);
+}
+
+.emptySubtitle {
+  color: var(--color-light-gray);
+  font-size: var(--font-size-sm);
+  max-width: 400px;
+  margin: 0 auto var(--space-6);
+}

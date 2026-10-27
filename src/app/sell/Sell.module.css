@@ -1,0 +1,397 @@
+/* ==========================================================================
+   WOwCars — Sell Your Car CSS Module
+   Theme: Carbon Dark with Crimson Red accents & Trust badges
+   ========================================================================== */
+
+.page {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding-bottom: var(--space-16);
+}
+
+.heroHeader {
+  text-align: center;
+  padding: var(--space-12) 0 var(--space-8);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1.15;
+  margin-bottom: var(--space-3);
+}
+
+.titleHighlight {
+  color: var(--color-primary);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  line-height: 1.6;
+}
+
+/* Trust Metric Bar */
+.trustBar {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-light-gray);
+}
+
+.trustIcon {
+  color: var(--color-accent);
+}
+
+/* Wizard Container */
+.wizardCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+}
+
+@media (max-width: 640px) {
+  .wizardCard {
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+}
+
+/* Stepper Progress Bar */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+
+.stepperLine {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: var(--color-border);
+  z-index: 0;
+}
+
+.stepperLineActive {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  height: 2px;
+  background: var(--color-primary);
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+.stepNode {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stepCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  color: var(--color-slate);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.stepCircleActive {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
+}
+
+.stepCircleDone {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #000;
+}
+
+.stepLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stepLabelActive {
+  color: var(--color-white);
+}
+
+/* Form Styles */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-1);
+}
+
+.stepSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+  margin-bottom: var(--space-4);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.formFieldFull {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-light-gray);
+}
+
+.input, .select {
+  padding: 11px 14px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.input:focus, .select:focus {
+  border-color: var(--color-primary);
+}
+
+/* Pill Selectors */
+.pillGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pillBtn {
+  padding: 8px 14px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-light-gray);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pillBtn:hover {
+  border-color: var(--color-slate);
+  color: var(--color-white);
+}
+
+.pillBtnActive {
+  background: rgba(229, 9, 20, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+/* Fair Valuation Box */
+.valuationBox {
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.08) 0%, rgba(18, 18, 18, 1) 100%);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.valuationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.valuationTitle {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-slate);
+  font-weight: 700;
+}
+
+.valuationRange {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+.valuationHint {
+  font-size: 11px;
+  color: var(--color-light-gray);
+}
+
+/* Upload Dropzone Simulation */
+.dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  background: var(--color-surface-elevated);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.dropzone:hover {
+  border-color: var(--color-primary);
+}
+
+.dropzoneIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-2);
+}
+
+.dropzoneText {
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.dropzoneSub {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+}
+
+/* Nav Buttons */
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Success Card */
+.successCard {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+}
+
+.successIcon {
+  font-size: 4rem;
+  margin-bottom: var(--space-4);
+}
+
+.successTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: var(--space-2);
+}
+
+.successSubtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  max-width: 500px;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
+
+.summaryBox {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  max-width: 450px;
+  margin: 0 auto var(--space-6);
+  text-align: left;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: var(--font-size-xs);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summaryRow:last-child {
+  border-bottom: none;
+}

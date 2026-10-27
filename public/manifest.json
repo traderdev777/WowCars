@@ -1,0 +1,26 @@
+{
+  "name": "WOwCars — Pre-Owned Cars You Can Trust",
+  "short_name": "WOwCars",
+  "description": "Bengaluru's most trusted used car marketplace",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#E50914",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/wowcars-logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/wowcars-logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["shopping", "automotive"],
+  "lang": "en-IN"
+}

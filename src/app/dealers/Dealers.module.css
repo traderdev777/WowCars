@@ -1,0 +1,195 @@
+/* ==========================================================================
+   WOwCars — Verified Dealers Showcase Page CSS Module
+   Theme: Carbon Dark with Crimson Red accents & Trust badges
+   ========================================================================== */
+
+.page {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding-bottom: var(--space-16);
+}
+
+.header {
+  text-align: center;
+  padding: var(--space-12) 0 var(--space-8);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.badgeHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1.15;
+  margin-bottom: var(--space-3);
+}
+
+.titleHighlight {
+  color: var(--color-primary);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  line-height: 1.6;
+}
+
+/* Dealers Grid */
+.dealersGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .dealersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .dealersGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dealerCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.dealerCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-slate);
+}
+
+.dealerTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dealerAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.dealerRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #FBBF24;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.dealerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dealerName {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.dealerAddress {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dealerStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statVal {
+  font-weight: 800;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--color-slate);
+  text-transform: uppercase;
+}
+
+.dealerActions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+/* Join As Dealer Banner */
+.joinBanner {
+  margin-top: var(--space-16);
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.12) 0%, rgba(18, 18, 18, 1) 100%);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.joinTitle {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: var(--space-2);
+}
+
+.joinText {
+  color: var(--color-light-gray);
+  font-size: var(--font-size-sm);
+  max-width: 550px;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
