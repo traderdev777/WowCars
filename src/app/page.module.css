@@ -14,6 +14,7 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background: #070709;
 }
 
 .heroBgVideo {
@@ -22,20 +23,24 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.18;
-  filter: saturate(1.25) brightness(0.85);
+  object-position: center;
+  opacity: 0.76;
+  filter: saturate(1.25) contrast(1.1) brightness(0.95);
   pointer-events: none;
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.heroBgVideoVivid {
+  opacity: 0.92;
+  filter: saturate(1.35) contrast(1.15) brightness(1.05);
 }
 
 .heroBgOverlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 85% 65% at 50% 30%,
-    rgba(10, 10, 12, 0.6) 0%,
-    rgba(10, 10, 12, 0.92) 80%,
-    #050507 100%
-  );
+  background: 
+    linear-gradient(180deg, rgba(7, 7, 9, 0.78) 0%, rgba(7, 7, 9, 0.28) 25%, rgba(7, 7, 9, 0.35) 65%, rgba(7, 7, 9, 0.98) 100%),
+    radial-gradient(ellipse 90% 70% at 50% 35%, transparent 35%, rgba(7, 7, 9, 0.55) 100%);
   pointer-events: none;
 }
 
@@ -48,8 +53,8 @@
   height: 600px;
   background: radial-gradient(
     ellipse 60% 50% at 50% 0%,
-    rgba(229, 9, 20, 0.22) 0%,
-    rgba(229, 9, 20, 0.08) 50%,
+    rgba(229, 9, 20, 0.16) 0%,
+    rgba(229, 9, 20, 0.05) 50%,
     transparent 100%
   );
   pointer-events: none;
@@ -102,7 +107,8 @@
 .heroTitle {
   font-size: clamp(2.5rem, 7vw, 5rem);
   color: var(--color-white);
-  max-width: 800px;
+  max-width: 840px;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.9);
   animation: fadeInUp 0.5s 0.1s ease both;
 }
 
@@ -114,11 +120,120 @@
 }
 
 .heroSubtitle {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  color: var(--color-light-gray);
-  max-width: 560px;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #f4f4f5;
+  max-width: 620px;
   line-height: 1.7;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.95);
   animation: fadeInUp 0.5s 0.2s ease both;
+}
+
+/* Floating Background Video Control Toolbar */
+.bgVideoBar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(14, 14, 18, 0.86);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(229, 9, 20, 0.25);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-4);
+  animation: fadeInUp 0.5s 0.25s ease both;
+  z-index: 2;
+}
+
+.bgVideoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-right: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.bgRadarDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-red);
+  box-shadow: 0 0 8px var(--brand-red);
+  animation: bgRadarPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes bgRadarPulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.bgModeGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bgModeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid transparent;
+  color: #d4d4d8;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.bgModeBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.bgModeBtnActive {
+  background: rgba(229, 9, 20, 0.25);
+  border-color: rgba(229, 9, 20, 0.6);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.35);
+}
+
+.bgActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.bgActionBtn:hover {
+  background: rgba(229, 9, 20, 0.3);
+  border-color: rgba(229, 9, 20, 0.7);
+}
+
+.bgActionBtnActive {
+  background: var(--brand-red);
+  border-color: #fff;
+  color: #fff;
 }
 
 .searchBar {

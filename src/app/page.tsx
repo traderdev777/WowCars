@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import {
   Search, SlidersHorizontal, MapPin, TrendingUp, Shield, PhoneCall,
   ChevronDown, X, Zap, Award, Users, MessageCircle, Star,
+  Play, Pause, Volume2, VolumeX, Eye,
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
 import HeroSpeedometer from "@/components/cars/HeroSpeedometer";
-import HeroCarVideo from "@/components/animations/HeroCarVideo";
 import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { MOCK_CARS } from "@/lib/mockData";
 import styles from "./page.module.css";
@@ -47,6 +47,39 @@ export default function HomePage() {
   const [budget, setBudget] = useState(0); // index into BUDGETS
   const [showFilters, setShowFilters] = useState(false);
   const [hintIndex, setHintIndex] = useState(0);
+
+  // Background Car Video Motion State
+  const [bgMode, setBgMode] = useState<"sprint" | "highway" | "showroom">("sprint");
+  const [isBgPlaying, setIsBgPlaying] = useState(true);
+  const [isBgMuted, setIsBgMuted] = useState(true);
+  const [isVivid, setIsVivid] = useState(true);
+  const bgVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Ensure video reliably autoplays on all modern browsers
+  useEffect(() => {
+    const video = bgVideoRef.current;
+    if (video) {
+      video.defaultMuted = true;
+      video.muted = isBgMuted;
+      if (bgMode === "sprint") {
+        video.currentTime = 10.2; // Starts immediately at high-speed Left-to-Right racing
+      } else {
+        video.currentTime = 0;
+      }
+      video.play().then(() => setIsBgPlaying(true)).catch(() => {});
+    }
+  }, [bgMode]);
+
+  // Keep looping the thrilling Left-to-Right car movement in sprint mode (10.2s to 15.2s)
+  const handleBgTimeUpdate = () => {
+    const video = bgVideoRef.current;
+    if (!video) return;
+    if (bgMode === "sprint") {
+      if (video.currentTime >= 15.2 || video.currentTime < 10.0) {
+        video.currentTime = 10.2;
+      }
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -100,19 +133,30 @@ export default function HomePage() {
       <main>
         {/* ========== HERO SECTION ========== */}
         <section className={styles.hero} aria-label="Hero search">
-          {/* Animated background grid & ambient video */}
+          {/* Cinematic Moving Car Background Video */}
           <div className={styles.heroBg} aria-hidden="true">
             <video
-              className={styles.heroBgVideo}
-              src="/videos/trailer2.mp4"
+              ref={bgVideoRef}
+              key={bgMode}
+              className={`${styles.heroBgVideo} ${isVivid ? styles.heroBgVideoVivid : ""}`}
+              src={
+                bgMode === "sprint"
+                  ? "/videos/trailer1.mp4"
+                  : bgMode === "highway"
+                  ? "/videos/trailer2.mp4"
+                  : "/videos/car3.mp4"
+              }
               autoPlay
-              loop
-              muted
+              loop={bgMode !== "sprint"}
+              muted={isBgMuted}
               playsInline
+              preload="auto"
+              onTimeUpdate={handleBgTimeUpdate}
+              onPlay={() => setIsBgPlaying(true)}
+              onPause={() => setIsBgPlaying(false)}
             />
             <div className={styles.heroBgOverlay} />
             <div className={styles.heroGlow} />
-            <div className={styles.heroGrid} />
           </div>
 
           <div className={`container ${styles.heroContent}`}>
@@ -172,8 +216,90 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Cinematic Automotive Video Showcase (Car Moving Left to Right) */}
-            <HeroCarVideo />
+            {/* Background Car Video Live Controller */}
+            <div className={styles.bgVideoBar} role="toolbar" aria-label="Background car video controls">
+              <div className={styles.bgVideoBadge}>
+                <span className={styles.bgRadarDot} />
+                <span>Live Car Motion</span>
+              </div>
+
+              <div className={styles.bgModeGroup}>
+                <button
+                  type="button"
+                  className={`${styles.bgModeBtn} ${bgMode === "sprint" ? styles.bgModeBtnActive : ""}`}
+                  onClick={() => setBgMode("sprint")}
+                >
+                  <span>⚡</span>
+                  <span>Car Moving Left → Right</span>
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.bgModeBtn} ${bgMode === "highway" ? styles.bgModeBtnActive : ""}`}
+                  onClick={() => setBgMode("highway")}
+                >
+                  <span>🛣️</span>
+                  <span>Highway Cruise</span>
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.bgModeBtn} ${bgMode === "showroom" ? styles.bgModeBtnActive : ""}`}
+                  onClick={() => setBgMode("showroom")}
+                >
+                  <span>🔄</span>
+                  <span>360° Showroom</span>
+                </button>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <button
+                  type="button"
+                  className={styles.bgActionBtn}
+                  onClick={() => {
+                    const video = bgVideoRef.current;
+                    if (!video) return;
+                    if (video.paused) {
+                      video.play();
+                      setIsBgPlaying(true);
+                    } else {
+                      video.pause();
+                      setIsBgPlaying(false);
+                    }
+                  }}
+                  title={isBgPlaying ? "Pause background video" : "Play background video"}
+                  aria-label={isBgPlaying ? "Pause video" : "Play video"}
+                >
+                  {isBgPlaying ? <Pause size={12} /> : <Play size={12} />}
+                  <span>{isBgPlaying ? "Pause" : "Play"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.bgActionBtn} ${!isBgMuted ? styles.bgActionBtnActive : ""}`}
+                  onClick={() => {
+                    const video = bgVideoRef.current;
+                    if (!video) return;
+                    video.muted = !video.muted;
+                    setIsBgMuted(video.muted);
+                  }}
+                  title={isBgMuted ? "Click to hear engine sound" : "Mute engine sound"}
+                  aria-label="Toggle audio"
+                >
+                  {isBgMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+                  <span>{isBgMuted ? "Sound Off" : "Engine Sound ON"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.bgActionBtn} ${isVivid ? styles.bgActionBtnActive : ""}`}
+                  onClick={() => setIsVivid((v) => !v)}
+                  title="Toggle Video Brightness"
+                  aria-label="Toggle video brightness"
+                >
+                  <Eye size={12} />
+                  <span>{isVivid ? "Vivid" : "Dim"}</span>
+                </button>
+              </div>
+            </div>
 
             {/* Interactive Automotive Tachometer & HUD */}
             <HeroSpeedometer />
