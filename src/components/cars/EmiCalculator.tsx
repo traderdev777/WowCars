@@ -71,6 +71,26 @@ export default function EmiCalculator({ carPrice }: EmiCalculatorProps) {
             <span>1 yr</span>
             <span>7 yrs</span>
           </div>
+
+          <div className={styles.tenurePills}>
+            {[
+              { m: 12, label: "1 Yr" },
+              { m: 24, label: "2 Yrs" },
+              { m: 36, label: "3 Yrs" },
+              { m: 48, label: "4 Yrs" },
+              { m: 60, label: "5 Yrs" },
+              { m: 84, label: "7 Yrs" },
+            ].map((p) => (
+              <button
+                key={p.m}
+                type="button"
+                onClick={() => setTenure(p.m)}
+                className={`${styles.tenurePillBtn} ${tenure === p.m ? styles.tenurePillBtnActive : ""}`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Interest Rate Slider */}
@@ -96,39 +116,82 @@ export default function EmiCalculator({ carPrice }: EmiCalculatorProps) {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Results with Animated Donut Chart */}
       <div className={styles.results}>
         <div className={styles.emiDisplay}>
-          <IndianRupee size={20} className={styles.rupeeIcon} />
+          <IndianRupee size={24} className={styles.rupeeIcon} />
           <span className={styles.emiAmount}>
             {monthlyEMI.toLocaleString("en-IN")}
           </span>
           <span className={styles.emiLabel}>/month</span>
         </div>
 
-        <div className={styles.breakdown}>
-          <div className={styles.breakdownItem}>
-            <span className={styles.breakdownLabel}>Loan Amount</span>
-            <span className={styles.breakdownValue}>{formatINR(loanAmount)}</span>
+        <div className={styles.chartAndBreakdown}>
+          {/* Animated Donut Chart */}
+          <div className={styles.chartWrap}>
+            <svg viewBox="0 0 100 100" className={styles.svgDonut}>
+              {/* Principal Track (Red) */}
+              <circle
+                cx="50"
+                cy="50"
+                r="36"
+                className={styles.donutBg}
+              />
+              {/* Interest Arc (Amber) */}
+              <circle
+                cx="50"
+                cy="50"
+                r="36"
+                className={styles.donutFill}
+                style={{
+                  strokeDasharray: 226.2,
+                  strokeDashoffset: 226.2 * (1 - Math.min(1, Math.max(0, totalInterest / Math.max(1, totalPayable)))),
+                }}
+              />
+            </svg>
           </div>
-          <div className={styles.breakdownItem}>
-            <span className={styles.breakdownLabel}>Total Interest</span>
-            <span className={styles.breakdownValue} style={{ color: "var(--color-warning-amber)" }}>
-              {formatINR(Math.max(0, totalInterest))}
-            </span>
+
+          <div className={styles.breakdown}>
+            <div className={styles.breakdownItem}>
+              <span className={styles.breakdownLabel}>Loan Amount</span>
+              <span className={styles.breakdownValue}>{formatINR(loanAmount)}</span>
+            </div>
+            <div className={styles.breakdownItem}>
+              <span className={styles.breakdownLabel}>Total Interest</span>
+              <span className={styles.breakdownValue} style={{ color: "var(--color-warning-amber)" }}>
+                {formatINR(Math.max(0, totalInterest))}
+              </span>
+            </div>
+            <div className={styles.breakdownItem}>
+              <span className={styles.breakdownLabel}>Total Payable</span>
+              <span className={styles.breakdownValue} style={{ fontWeight: 700 }}>
+                {formatINR(Math.max(0, totalPayable))}
+              </span>
+            </div>
+
+            <div className={styles.chartLegend}>
+              <span><span className={styles.legendDot} style={{ background: "var(--color-primary)" }} /> Principal ({Math.round((loanAmount / Math.max(1, totalPayable)) * 100)}%)</span>
+              <span><span className={styles.legendDot} style={{ background: "var(--color-warning-amber)" }} /> Interest ({Math.round((totalInterest / Math.max(1, totalPayable)) * 100)}%)</span>
+            </div>
           </div>
-          <div className={styles.breakdownItem}>
-            <span className={styles.breakdownLabel}>Total Payable</span>
-            <span className={styles.breakdownValue} style={{ fontWeight: 700 }}>
-              {formatINR(Math.max(0, totalPayable))}
-            </span>
-          </div>
+        </div>
+
+        <div className={styles.loanActionRow}>
+          <a
+            href={`https://wa.me/919019088160?text=${encodeURIComponent(
+              `Hi WOwCars! I am looking for car loan assistance for an estimated EMI of ₹${monthlyEMI.toLocaleString("en-IN")}/mo.`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`btn ${styles.loanBtn}`}
+          >
+            Check Pre-Approved Bank Loan Rate via WhatsApp
+          </a>
         </div>
       </div>
 
       <p className={styles.disclaimer}>
         * EMI is indicative based on reducing balance formula. Actual rate depends on your bank, credit score & terms.
-        Contact us for bank loan assistance — <strong>+91 901 908 8160</strong>
       </p>
     </div>
   );

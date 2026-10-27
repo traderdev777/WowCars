@@ -6,6 +6,7 @@ import { Search, SlidersHorizontal, RotateCcw, BadgeCheck } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
+import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import type { Car } from "@/lib/mockData";
 import styles from "./CarsCatalog.module.css";
 
@@ -305,7 +306,7 @@ export default function CarsCatalogClient({ initialCars }: CarsCatalogClientProp
           </div>
         </div>
       </main>
-
+      <LiveActivityTicker />
       <Footer />
     </>
   );

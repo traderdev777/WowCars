@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Shield, BadgeCheck, MapPin, MessageCircle, Star, Phone, ArrowRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import styles from "./Dealers.module.css";
 
@@ -212,7 +213,7 @@ export default function DealersPage() {
           </section>
         </div>
       </main>
-
+      <LiveActivityTicker />
       <Footer />
     </>
   );

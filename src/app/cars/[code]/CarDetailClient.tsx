@@ -11,6 +11,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
+import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { formatLakhs, formatKM, formatINR, generateWhatsAppLink } from "@/lib/formatters";
 import type { Car } from "@/lib/mockData";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
@@ -104,6 +105,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
               <span className="badge badge-white">{car.listingCode}</span>
               {car.isVerified && (
                 <span className="badge badge-green">
+                  <span className="radar-dot" style={{ width: 6, height: 6 }} />
                   <BadgeCheck size={12} /> WOwCars Verified
                 </span>
               )}
@@ -314,9 +316,27 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
                     </p>
                   </div>
 
-                  <div className={styles.scoreBadge}>
-                    <Award size={18} />
-                    <span>{car.inspectionScore || 9.4} / 10 Score</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <svg width="44" height="44" viewBox="0 0 60 60" style={{ transform: "rotate(-90deg)" }}>
+                      <circle cx="30" cy="30" r="24" stroke="rgba(255,255,255,0.12)" strokeWidth="6" fill="none" />
+                      <circle
+                        cx="30"
+                        cy="30"
+                        r="24"
+                        stroke="var(--color-trust-green)"
+                        strokeWidth="6"
+                        strokeDasharray="150.8"
+                        strokeDashoffset={150.8 * (1 - ((car.inspectionScore || 9.4) / 10))}
+                        strokeLinecap="round"
+                        fill="none"
+                        style={{ transition: "stroke-dashoffset 0.8s ease" }}
+                      />
+                    </svg>
+
+                    <div className={styles.scoreBadge}>
+                      <Award size={18} />
+                      <span>{car.inspectionScore || 9.4} / 10 Score</span>
+                    </div>
                   </div>
                 </div>
 
@@ -551,6 +571,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
         </div>
       )}
 
+      <LiveActivityTicker />
       <Footer />
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Search, SlidersHorizontal, MapPin, TrendingUp, Shield, PhoneCall,
   ChevronDown, X, Zap, Award, Users, MessageCircle, Star,
@@ -9,8 +9,19 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
+import HeroSpeedometer from "@/components/cars/HeroSpeedometer";
+import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { MOCK_CARS } from "@/lib/mockData";
 import styles from "./page.module.css";
+
+const PLACEHOLDER_HINTS = [
+  "Search 'Creta in Yelahanka'...",
+  "Search 'Swift under 8 Lakhs'...",
+  "Search 'Automatic Petrol SUVs'...",
+  "Search 'Single Owner in Indiranagar'...",
+  "Search 'Toyota Innova Crysta'...",
+  "Search 'Low KM Baleno in Malleshwaram'...",
+];
 
 const MAKES = ["All Makes", "Hyundai", "Maruti Suzuki", "Tata", "Honda", "Kia", "Toyota", "Volkswagen", "MG", "Mahindra", "Renault"];
 const BODY_TYPES = ["All Types", "Hatchback", "Sedan", "SUV", "MUV", "Luxury"];
@@ -34,6 +45,14 @@ export default function HomePage() {
   const [transmission, setTransmission] = useState("Any");
   const [budget, setBudget] = useState(0); // index into BUDGETS
   const [showFilters, setShowFilters] = useState(false);
+  const [hintIndex, setHintIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHintIndex((prev) => (prev + 1) % PLACEHOLDER_HINTS.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
 
   const filtered = useMemo(() => {
     const bud = BUDGETS[budget];
@@ -104,7 +123,7 @@ export default function HomePage() {
               direct WhatsApp contact — <strong>no broker fees, no hidden charges.</strong>
             </p>
 
-            {/* Search Bar */}
+            {/* Search Bar with Animated Placeholder */}
             <div className={styles.searchBar}>
               <Search size={18} className={styles.searchIcon} />
               <input
@@ -112,7 +131,7 @@ export default function HomePage() {
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by make, model or location... (Creta, Swift, Yelahanka)"
+                placeholder={PLACEHOLDER_HINTS[hintIndex]}
                 className={styles.searchInput}
                 aria-label="Search cars"
               />
@@ -143,6 +162,9 @@ export default function HomePage() {
               ))}
             </div>
 
+            {/* Interactive Automotive Tachometer & HUD */}
+            <HeroSpeedometer />
+
             {/* Trust Stats */}
             <div className={styles.heroStats}>
               {[
@@ -160,6 +182,32 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Continuous Animated Automotive Marquee Ticker */}
+        <div style={{ background: "rgba(18, 18, 18, 0.95)", borderTop: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)", padding: "14px 0", overflow: "hidden" }}>
+          <div className="marquee-container">
+            <div className="marquee-content">
+              <span>🚗 <strong style={{ color: "var(--color-white)" }}>Hyundai Creta SX (O)</strong> · KA-50 Yelahanka</span>
+              <span>⚡ <strong style={{ color: "var(--color-white)" }}>Maruti Swift ZXi</strong> · 18,500 KM</span>
+              <span>🛡️ <strong style={{ color: "var(--color-trust-green)" }}>150-Point Inspection</strong> Guaranteed</span>
+              <span>💰 <strong style={{ color: "var(--color-primary)" }}>₹0 Buyer Brokerage</strong></span>
+              <span>🏢 <strong style={{ color: "var(--color-white)" }}>Sri Balaji Motors</strong> · Verified Dealer</span>
+              <span>📱 <strong style={{ color: "var(--color-trust-green)" }}>Direct WhatsApp Inquiries</strong></span>
+              <span>✨ <strong style={{ color: "var(--color-white)" }}>2020 Innova Crysta</strong> · Single Owner</span>
+              <span>🚗 <strong style={{ color: "var(--color-white)" }}>Tata Nexon Dark Edition</strong> · KA-04 Whitefield</span>
+            </div>
+            <div className="marquee-content" aria-hidden="true">
+              <span>🚗 <strong style={{ color: "var(--color-white)" }}>Hyundai Creta SX (O)</strong> · KA-50 Yelahanka</span>
+              <span>⚡ <strong style={{ color: "var(--color-white)" }}>Maruti Swift ZXi</strong> · 18,500 KM</span>
+              <span>🛡️ <strong style={{ color: "var(--color-trust-green)" }}>150-Point Inspection</strong> Guaranteed</span>
+              <span>💰 <strong style={{ color: "var(--color-primary)" }}>₹0 Buyer Brokerage</strong></span>
+              <span>🏢 <strong style={{ color: "var(--color-white)" }}>Sri Balaji Motors</strong> · Verified Dealer</span>
+              <span>📱 <strong style={{ color: "var(--color-trust-green)" }}>Direct WhatsApp Inquiries</strong></span>
+              <span>✨ <strong style={{ color: "var(--color-white)" }}>2020 Innova Crysta</strong> · Single Owner</span>
+              <span>🚗 <strong style={{ color: "var(--color-white)" }}>Tata Nexon Dark Edition</strong> · KA-04 Whitefield</span>
+            </div>
+          </div>
+        </div>
 
         {/* ========== BROWSE / FILTER SECTION ========== */}
         <section id="browse" className={styles.browseSection} aria-label="Browse cars">
@@ -505,6 +553,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+      <LiveActivityTicker />
       <Footer />
     </>
   );

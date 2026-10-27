@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { MapPin, Fuel, Settings, Users, MessageCircle, Eye, BadgeCheck } from "lucide-react";
+import { MapPin, Fuel, Settings, Users, MessageCircle, Eye, BadgeCheck, Heart } from "lucide-react";
 import { formatLakhs, formatKM, generateWhatsAppLink } from "@/lib/formatters";
 import type { Car } from "@/lib/mockData";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
@@ -20,6 +21,8 @@ const FUEL_COLORS: Record<string, string> = {
 };
 
 export default function CarCard({ car }: CarCardProps) {
+  const [isSaved, setIsSaved] = useState(false);
+
   const waLink = generateWhatsAppLink(WHATSAPP_CONCIERGE_PHONE, {
     listingCode: car.listingCode,
     title: `${car.year} ${car.make} ${car.model} ${car.variant}`,
@@ -27,17 +30,37 @@ export default function CarCard({ car }: CarCardProps) {
     url: `https://wowcars.in/cars/${car.listingCode.toLowerCase()}`,
   });
 
+  const toggleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsSaved((prev) => !prev);
+  };
+
   return (
     <article className={`card ${styles.carCard}`}>
-      {/* Image */}
-      <div className={styles.imageWrap}>
-        {/* Placeholder gradient image until real photos are loaded */}
+      {/* Image with glossy shine hover effect */}
+      <div className={`${styles.imageWrap} shine-hover`}>
+        {/* Placeholder gradient image */}
         <div className={styles.imagePlaceholder} aria-label={`${car.make} ${car.model} photo`}>
           <div className={styles.placeholderContent}>
             <span className={styles.carEmoji}>🚗</span>
             <span className={styles.carMakeLabel}>{car.make}</span>
           </div>
         </div>
+
+        {/* Favorite Heart Button */}
+        <button
+          type="button"
+          onClick={toggleSave}
+          className={`${styles.favoriteBtn} ${isSaved ? styles.favoriteBtnActive : ""}`}
+          aria-label={isSaved ? "Remove from saved cars" : "Save this car"}
+        >
+          <Heart
+            size={16}
+            fill={isSaved ? "#fff" : "none"}
+            className={isSaved ? "animate-heart" : ""}
+          />
+        </button>
 
         {/* Top Badges */}
         <div className={styles.topBadges}>
@@ -46,7 +69,8 @@ export default function CarCard({ car }: CarCardProps) {
           )}
           {car.isVerified && (
             <span className={`badge badge-green ${styles.verifiedBadge}`}>
-              <BadgeCheck size={10} /> Verified
+              <span className="radar-dot" style={{ width: 6, height: 6 }} />
+              <BadgeCheck size={12} /> Verified
             </span>
           )}
         </div>

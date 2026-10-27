@@ -2,7 +2,14 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+}
+
+.carCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(229, 9, 20, 0.5);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(229, 9, 20, 0.2);
 }
 
 .imageWrap {
@@ -20,11 +27,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform var(--transition-slow);
+  transition: transform 0.4s ease;
 }
 
 .carCard:hover .imagePlaceholder {
-  transform: scale(1.04);
+  transform: scale(1.08);
+}
+
+.favoriteBtn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  color: var(--color-white);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.favoriteBtn:hover {
+  background: rgba(229, 9, 20, 0.85);
+  border-color: var(--color-primary);
+  transform: scale(1.15);
+}
+
+.favoriteBtnActive {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
 }
 
 .placeholderContent {
@@ -32,12 +70,16 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .carEmoji {
   font-size: 3rem;
-  filter: grayscale(1);
+  transition: transform 0.3s ease;
+}
+
+.carCard:hover .carEmoji {
+  transform: scale(1.1) translateY(-2px);
 }
 
 .carMakeLabel {

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import styles from "./Sell.module.css";
 
@@ -599,7 +600,7 @@ export default function SellClient() {
           </div>
         </div>
       </main>
-
+      <LiveActivityTicker />
       <Footer />
     </>
   );

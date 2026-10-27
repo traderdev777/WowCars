@@ -172,7 +172,7 @@ ul, ol {
 .text-muted { color: var(--color-light-gray); }
 .text-white { color: var(--color-white); }
 
-/* ---- Animations ---- */
+/* ---- Enhanced Animation Engine ---- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -188,9 +188,29 @@ ul, ol {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 @keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(229, 9, 20, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.45); }
+  50%       { box-shadow: 0 0 0 12px rgba(229, 9, 20, 0); }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(8px) rotate(-1deg); }
 }
 
 @keyframes shimmer {
@@ -198,12 +218,138 @@ ul, ol {
   100% { background-position: 200% 0; }
 }
 
+@keyframes shineSweep {
+  0%   { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+  50%  { opacity: 0.6; }
+  100% { transform: translateX(200%) skewX(-25deg); opacity: 0; }
+}
+
+@keyframes borderGlowRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
-.animate-fadeIn   { animation: fadeIn 0.4s ease forwards; }
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes heartBeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.3); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.3); }
+  70%  { transform: scale(1); }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes radar {
+  0%   { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Animation Utility Classes */
+.animate-fadeInUp   { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fadeIn     { animation: fadeIn 0.4s ease forwards; }
+.animate-float      { animation: floatSlow 5s ease-in-out infinite; }
+.animate-float-rev  { animation: floatReverse 6s ease-in-out infinite; }
+.animate-pulse-red  { animation: pulse-red 2s infinite; }
+.animate-pulse-green{ animation: pulse-green 2s infinite; }
+.animate-heart      { animation: heartBeat 0.8s ease-in-out; }
+
+/* Radar Live Dot */
+.radar-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-trust-green);
+}
+
+.radar-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-trust-green);
+  animation: radar 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+/* Glowing Border Beam */
+.border-beam {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-beam::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 70deg, var(--brand-red) 90deg, transparent 110deg);
+  animation: borderGlowRotate 4s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Continuous Marquee Ticker */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  user-select: none;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  gap: var(--space-8);
+  animation: marquee 25s linear infinite;
+  flex-shrink: 0;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+/* Glossy Shine Hover Card */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-25deg);
+  pointer-events: none;
+}
+
+.shine-hover:hover::after {
+  animation: shineSweep 0.85s ease-out;
+}
 
 /* ---- Skeleton Loading ---- */
 .skeleton {
