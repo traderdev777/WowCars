@@ -10,7 +10,7 @@ import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
 import HeroSpeedometer from "@/components/cars/HeroSpeedometer";
-import MovingCarHighway from "@/components/animations/MovingCarHighway";
+import HeroCarVideo from "@/components/animations/HeroCarVideo";
 import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { MOCK_CARS } from "@/lib/mockData";
 import styles from "./page.module.css";
@@ -100,8 +100,17 @@ export default function HomePage() {
       <main>
         {/* ========== HERO SECTION ========== */}
         <section className={styles.hero} aria-label="Hero search">
-          {/* Animated background grid */}
+          {/* Animated background grid & ambient video */}
           <div className={styles.heroBg} aria-hidden="true">
+            <video
+              className={styles.heroBgVideo}
+              src="/videos/trailer2.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+            <div className={styles.heroBgOverlay} />
             <div className={styles.heroGlow} />
             <div className={styles.heroGrid} />
           </div>
@@ -163,8 +172,8 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Moving Car Highway Animation */}
-            <MovingCarHighway />
+            {/* Cinematic Automotive Video Showcase (Car Moving Left to Right) */}
+            <HeroCarVideo />
 
             {/* Interactive Automotive Tachometer & HUD */}
             <HeroSpeedometer />
