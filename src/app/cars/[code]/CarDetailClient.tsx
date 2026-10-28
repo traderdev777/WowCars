@@ -4,15 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   MapPin, Fuel, Settings, Users, MessageCircle, Eye, BadgeCheck,
-  Shield, CheckCircle2, ChevronRight, Share2, Calendar, Phone,
-  X, Award, Sparkles, Check, Info, FileText
+  Shield, CheckCircle2, Share2, Calendar,
+  X, Award, Sparkles, Info, FileText
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
 import LiveActivityTicker from "@/components/common/LiveActivityTicker";
-import { formatLakhs, formatKM, formatINR, generateWhatsAppLink } from "@/lib/formatters";
+import { formatLakhs, formatKM, generateWhatsAppLink } from "@/lib/formatters";
 import type { Car } from "@/lib/mockData";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import styles from "./CarDetail.module.css";

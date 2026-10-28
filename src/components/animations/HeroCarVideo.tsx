@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize2, Zap, Gauge, Compass, ShieldCheck } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize2, Zap, Gauge } from "lucide-react";
 import styles from "./HeroCarVideo.module.css";
 
 interface ChannelConfig {
@@ -68,8 +68,10 @@ export default function HeroCarVideo() {
   // Dynamically fluctuate speedometer around target speed for realistic HUD telemetry
   useEffect(() => {
     if (!isPlaying || activeChannel.defaultSpeed === 0) {
-      setCurrentSpeed(activeChannel.defaultSpeed);
-      return;
+      const timer = setTimeout(() => {
+        setCurrentSpeed(activeChannel.defaultSpeed);
+      }, 0);
+      return () => clearTimeout(timer);
     }
     const interval = setInterval(() => {
       const variation = Math.floor(Math.random() * 7) - 3;
@@ -144,7 +146,7 @@ export default function HeroCarVideo() {
       }
       video.play().catch(() => {});
     }
-  }, [activeChannel.id]);
+  }, [activeChannel.id, activeChannel.loopRange]);
 
   return (
     <div className={styles.videoContainer}>

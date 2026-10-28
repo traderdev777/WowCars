@@ -3,8 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import {
-  Shield, CheckCircle2, ChevronRight, ChevronLeft, ArrowRight,
-  Phone, MessageCircle, MapPin, Sparkles, UploadCloud, Info
+  Shield, CheckCircle2, ChevronLeft, ArrowRight,
+  MessageCircle, Sparkles
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";

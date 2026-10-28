@@ -1,17 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, MapPin, MessageCircle, Shield, ChevronRight } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
-  const [currentYear, setCurrentYear] = useState(2025);
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+  const currentYear = 2026;
 
   return (
     <footer className={styles.footer}>

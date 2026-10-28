@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Shield, BadgeCheck, MapPin, MessageCircle, Star, Phone, ArrowRight } from "lucide-react";
+import { BadgeCheck, MapPin, MessageCircle, Star, ArrowRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LiveActivityTicker from "@/components/common/LiveActivityTicker";

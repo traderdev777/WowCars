@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Gauge, Zap, Flame, Shield, CheckCircle2 } from "lucide-react";
+import { Flame } from "lucide-react";
 import styles from "./HeroSpeedometer.module.css";
 
 export default function HeroSpeedometer() {
