@@ -32,9 +32,19 @@
 }
 
 .logoImg {
-  height: 42px;
+  height: 44px;
   width: auto;
+  max-width: 135px;
   object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .logoImg {
+    height: 32px;
+    width: auto;
+    max-width: 95px;
+  }
 }
 
 .desktopNav {

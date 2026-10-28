@@ -23,9 +23,9 @@ export default function Navbar() {
         <Link href="/" className={styles.logo} aria-label="WOwCars Home">
           <Image
             src="/wowcars-logo.png"
-            alt="WOwCars — Pre-Owned Cars You Can Trust"
-            width={140}
-            height={48}
+            alt="WOwCars — Pre-owned cars you can trust."
+            width={128}
+            height={45}
             priority
             className={styles.logoImg}
           />

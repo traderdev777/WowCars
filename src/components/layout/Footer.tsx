@@ -16,9 +16,9 @@ export default function Footer() {
           <div className={styles.brandCol}>
             <Image
               src="/wowcars-logo.png"
-              alt="WOwCars"
-              width={140}
-              height={48}
+              alt="WOwCars — Pre-owned cars you can trust."
+              width={128}
+              height={45}
               className={styles.logo}
             />
             <p className={styles.tagline}>Pre-Owned Cars You Can Trust</p>
