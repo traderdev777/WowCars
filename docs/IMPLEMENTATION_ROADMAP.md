@@ -1,4 +1,4 @@
-# WOwCars — Implementation Roadmap & Execution Plan
+# WowCars — Implementation Roadmap & Execution Plan
 
 **Document Version:** 1.0.0  
 **Methodology:** Incremental Agile, Zero-Waste Delivery, Production-Verified Releases  
@@ -10,7 +10,7 @@
 
 ```mermaid
 gantt
-    title WOwCars Phased Development Roadmap
+    title WowCars Phased Development Roadmap
     dateFormat  YYYY-MM-DD
     section Phase 0: Setup
     Architecture & Foundation PRD           :done,    p0_1, 2026-10-27, 2d
@@ -43,7 +43,7 @@ gantt
 ## 2. Detailed Phase Specifications
 
 ### Phase 0: Foundations & Design System (Sprint 1)
-- **Objective:** Establish a clean, maintainable repository, configure the design system matching the WOwCars brand (Crimson Red `#E50914`, Charcoal `#121212`, Crisp White), set up database migrations, and establish code quality gates.
+- **Objective:** Establish a clean, maintainable repository, configure the design system matching the WowCars brand (Crimson Red `#E50914`, Charcoal `#121212`, Crisp White), set up database migrations, and establish code quality gates.
 - **Dependencies:** None.
 - **Deliverables:**
   1. Next.js 14+ / React 18+ repository structure with TypeScript.
@@ -89,7 +89,7 @@ gantt
 - **Key Features:**
   1. **Dealer Onboarding & KYC:**
      - Registration with dealership name, location, contact, and GST/Trade License upload.
-     - Admin verification badge ("WOwCars Verified Dealer").
+     - Admin verification badge ("WowCars Verified Dealer").
   2. **Dedicated Dealer Showroom Pages:**
      - Clean URL: `wowcars.in/dealers/dealership-name`.
      - Displays showroom address, map pin, Google rating badge, and active inventory.
@@ -113,7 +113,7 @@ gantt
   2. **Automotive JSON-LD Schema:**
      - Schema.org `Car` and `AutomotiveBusiness` structured data for rich Google search cards.
   3. **PWA (Progressive Web App):**
-     - Web App Manifest with WOwCars red icon.
+     - Web App Manifest with WowCars red icon.
      - Service worker for offline asset caching.
      - "Add to Home Screen" prompt for mobile shoppers.
 
@@ -121,7 +121,7 @@ gantt
 
 ### Phase 4: Monetization & Paid Subscriptions (POST-REVENUE)
 > [!IMPORTANT]
-> **Strictly deferred until WOwCars achieves 100+ active listings and proven dealer engagement.**
+> **Strictly deferred until WowCars achieves 100+ active listings and proven dealer engagement.**
 - **Features:**
   1. **Dealer Subscription Plans:** Free Tier (up to 5 cars), Starter Tier (₹1,499/mo for 20 cars), Pro Tier (₹3,499/mo for 50 cars + 5 featured spots).
   2. **Payment Gateway Integration:** Indian payment gateway (Razorpay or Cashfree) supporting UPI, Credit Cards, Net Banking.

@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://wowcars.in"),
-  title: "WOwCars — India's Most Trusted Pre-Owned Cars Marketplace",
+  title: "WowCars — India's Most Trusted Pre-Owned Cars Marketplace",
   description:
     "Discover verified pre-owned cars across India. Trusted by thousands of buyers and dealers. Browse quality used cars — Hatchbacks, Sedans, SUVs — with transparent pricing, RTO details & WhatsApp contact.",
   keywords: [
@@ -12,23 +12,23 @@ export const metadata: Metadata = {
     "second hand cars yelahanka",
     "buy used car bangalore",
     "verified used cars india",
-    "WOwCars",
+    "WowCars",
   ],
-  authors: [{ name: "WOwCars" }],
-  creator: "WOwCars",
+  authors: [{ name: "WowCars" }],
+  creator: "WowCars",
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: "https://wowcars.in",
-    siteName: "WOwCars",
-    title: "WOwCars — Pre-Owned Cars You Can Trust",
+    siteName: "WowCars",
+    title: "WowCars — Pre-Owned Cars You Can Trust",
     description:
       "Browse verified pre-owned cars in Bengaluru with transparent pricing, RTO details & direct WhatsApp contact.",
-    images: [{ url: "/wowcars-logo.png", width: 1024, height: 576, alt: "WOwCars Logo" }],
+    images: [{ url: "/wowcars-logo.png", width: 1024, height: 576, alt: "WowCars Logo" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WOwCars — India's Most Trusted Pre-Owned Cars Marketplace",
+    title: "WowCars — India's Most Trusted Pre-Owned Cars Marketplace",
     description: "Discover verified pre-owned cars across India.",
     images: ["/wowcars-logo.png"],
   },

@@ -8,11 +8,11 @@ import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import styles from "./Dealers.module.css";
 
 export const metadata: Metadata = {
-  title: "Verified Pre-Owned Car Dealers in Bengaluru | WOwCars",
+  title: "Verified Pre-Owned Car Dealers in Bengaluru | WowCars",
   description:
     "Discover certified pre-owned car dealers across Bengaluru. Buy genuine used cars with verified titles, inspection warranties, and transparent pricing.",
   openGraph: {
-    title: "Verified Used Car Dealers in Bengaluru | WOwCars",
+    title: "Verified Used Car Dealers in Bengaluru | WowCars",
     description: "Browse trusted digital showrooms with verified pre-owned car inventory in Bengaluru.",
   },
 };
@@ -109,7 +109,7 @@ export default function DealersPage() {
           <div className={styles.header}>
             <div className={styles.badgeHeader}>
               <span className="badge badge-green">
-                <BadgeCheck size={12} /> WOwCars Certified Dealerships
+                <BadgeCheck size={12} /> WowCars Certified Dealerships
               </span>
             </div>
 
@@ -118,7 +118,7 @@ export default function DealersPage() {
             </h1>
 
             <p className={styles.subtitle}>
-              Every dealer in the WOwCars network is KYC verified with physical lot inspection. No accidental titles, no meter tampering, and complete paperwork support.
+              Every dealer in the WowCars network is KYC verified with physical lot inspection. No accidental titles, no meter tampering, and complete paperwork support.
             </p>
           </div>
 
@@ -126,7 +126,7 @@ export default function DealersPage() {
           <div className={styles.dealersGrid}>
             {VERIFIED_DEALERS.map((dealer) => {
               const waLink = `https://wa.me/${dealer.whatsapp}?text=${encodeURIComponent(
-                `Hi ${dealer.name}! I found your verified dealership on WOwCars. I am looking for a used car in Bengaluru.`
+                `Hi ${dealer.name}! I found your verified dealership on WowCars. I am looking for a used car in Bengaluru.`
               )}`;
 
               return (
@@ -195,11 +195,11 @@ export default function DealersPage() {
             <div style={{ fontSize: "2.5rem", marginBottom: "var(--space-2)" }}>🤝</div>
             <h2 className={styles.joinTitle}>Are You a Pre-Owned Car Dealer in Bengaluru?</h2>
             <p className={styles.joinText}>
-              Join WOwCars verified dealer network for zero upfront listing fee. Get qualified customer leads directly on your WhatsApp and increase your monthly car turn rate.
+              Join WowCars verified dealer network for zero upfront listing fee. Get qualified customer leads directly on your WhatsApp and increase your monthly car turn rate.
             </p>
             <a
               href={`https://wa.me/${WHATSAPP_CONCIERGE_PHONE}?text=${encodeURIComponent(
-                "Hi WOwCars! I operate a pre-owned car dealership in Bengaluru and want to list my inventory."
+                "Hi WowCars! I operate a pre-owned car dealership in Bengaluru and want to list my inventory."
               )}`}
               target="_blank"
               rel="noopener noreferrer"

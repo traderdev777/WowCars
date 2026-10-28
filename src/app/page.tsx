@@ -424,7 +424,7 @@ export default function HomePage() {
                   We&apos;re adding new verified cars daily. Try adjusting your budget or fuel type,
                   or{" "}
                   <a
-                    href="https://wa.me/919019088160?text=Hi%20WOwCars!%20I%20am%20looking%20for%20a%20specific%20car%20and%20couldn't%20find%20it.%20Can%20you%20help%3F"
+                    href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20am%20looking%20for%20a%20specific%20car%20and%20couldn't%20find%20it.%20Can%20you%20help%3F"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.emptyLink}
@@ -466,7 +466,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <a
-                  href="https://wa.me/919019088160?text=Hi%20WOwCars!%20I%20need%20help%20with%20a%20car%20loan.%20Can%20you%20assist%3F"
+                  href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20need%20help%20with%20a%20car%20loan.%20Can%20you%20assist%3F"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-whatsapp"
@@ -483,11 +483,11 @@ export default function HomePage() {
         </section>
 
         {/* ========== WHY WOWCARS SECTION ========== */}
-        <section id="services" className={styles.whySection} aria-label="Why WOwCars">
+        <section id="services" className={styles.whySection} aria-label="Why WowCars">
           <div className="container">
             <div className={styles.whyHeader}>
               <h2 className={`text-display ${styles.whyTitle}`}>
-                Why <span className="text-red">WOwCars</span>?
+                Why <span className="text-red">WowCars</span>?
               </h2>
               <p className={styles.whySubtitle}>
                 Built for Bengaluru car buyers who value honesty, transparency and their time.
@@ -579,7 +579,7 @@ export default function HomePage() {
                     + List Your Car Free
                   </a>
                   <a
-                    href="https://wa.me/919019088160?text=Hi%20WOwCars!%20I%20want%20to%20sell%20my%20car.%20Can%20you%20help%3F"
+                    href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20want%20to%20sell%20my%20car.%20Can%20you%20help%3F"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-whatsapp btn-lg"
@@ -611,7 +611,7 @@ export default function HomePage() {
                     "Free digital showroom on wowcars.in",
                     "List up to 5 cars free during pilot",
                     "Direct qualified buyer leads on WhatsApp",
-                    "WOwCars Verified Dealer badge",
+                    "WowCars Verified Dealer badge",
                     "No monthly aggregator subscription fees",
                   ].map((p) => (
                     <li key={p} className={styles.dealerPoint}>
@@ -625,7 +625,7 @@ export default function HomePage() {
                     Join as Dealer — Free
                   </a>
                   <a
-                    href="https://wa.me/919019088160?text=Hi%20WOwCars!%20I%20am%20a%20used%20car%20dealer%20and%20want%20to%20list%20my%20inventory.%20Please%20assist."
+                    href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20am%20a%20used%20car%20dealer%20and%20want%20to%20list%20my%20inventory.%20Please%20assist."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-ghost btn-lg"

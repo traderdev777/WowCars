@@ -1,8 +1,8 @@
-# WOwCars — Product Requirements Document (PRD)
+# WowCars — Product Requirements Document (PRD)
 
 **Document Version:** 1.0.0  
 **Status:** Approved for Implementation  
-**Product:** WOwCars — Pre-Owned Cars You Can Trust  
+**Product:** WowCars — Pre-Owned Cars You Can Trust  
 **Primary Pilot Market:** Bengaluru (Bengaluru Urban & Rural - 64 / Yelahanka / Greater Bengaluru) & Pan-India Expansion  
 **Official Support Contact:** +91 901 908 8160  
 
@@ -17,18 +17,18 @@ The Indian pre-owned car market is expanding rapidly, projected to reach over 8 
 - **Classifieds Spam & Privacy Violations:** Traditional open classifieds (like OLX) result in phone numbers being leaked, spam calls, fraudulent buyers, and dangerous meetup requests.
 - **Fragmented Independent Dealers:** Thousands of independent, honest local used car dealerships lack an affordable digital storefront to showcase verified inventory without paying high monthly aggregator fees.
 
-### 1.2 The WOwCars Mission
-**WOwCars** ("*Pre-Owned Cars You Can Trust*") bridges this gap by creating an affordable, transparent, and verified marketplace. It empowers:
+### 1.2 The WowCars Mission
+**WowCars** ("*Pre-Owned Cars You Can Trust*") bridges this gap by creating an affordable, transparent, and verified marketplace. It empowers:
 1. **Buyers** to discover verified pre-owned cars with transparent pricing, comprehensive specifications, condition disclosures, and instant WhatsApp communication.
 2. **Individual Sellers** to list personal cars safely with phone privacy protection, realistic market pricing guidance, and direct buyer inquiries.
 3. **Verified Local Dealers** to establish a branded digital showroom, manage inventory, and capture high-intent local leads at zero or low predictable subscription costs.
-4. **City Partners & Franchisees** to expand the WOwCars trust network across Tier-1, Tier-2, and Tier-3 cities in India through standardized physical inspections and dealership onboarding.
+4. **City Partners & Franchisees** to expand the WowCars trust network across Tier-1, Tier-2, and Tier-3 cities in India through standardized physical inspections and dealership onboarding.
 
 ### 1.3 Core Brand Identity & Palette
-- **Brand Name:** WOwCars
+- **Brand Name:** WowCars
 - **Brand Slogan:** Pre-Owned Cars You Can Trust
 - **Color Identity:**
-  - **WOwCars Crimson Red:** `#E50914` (Energy, speed, passion, attention)
+  - **WowCars Crimson Red:** `#E50914` (Energy, speed, passion, attention)
   - **Deep Carbon / Charcoal:** `#121212` and `#1E1E1E` (Premium automotive feel, authority)
   - **Crisp Neutral White:** `#FFFFFF` (Clarity, honesty, readability)
   - **Automotive Silver / Slate:** `#8E8E93` and `#2C2C2E` (Borders, structural elements)
@@ -53,12 +53,12 @@ The Indian pre-owned car market is expanding rapidly, projected to reach over 8 
 - **Pain Points:** Cannot afford ₹30,000–₹50,000/month fees charged by corporate aggregators; wants his own brand recognized rather than hidden behind an aggregator badge.
 - **Needs:** Low-cost/Free digital showroom; easy inventory addition (takes less than 3 minutes per car from smartphone); direct qualified customer leads sent to his WhatsApp; branded dealer profile page.
 
-### Persona 4: The WOwCars City Partner / Franchisee ("Vikram Patel", Hubballi / Mysuru)
-- **Profile:** Local automotive entrepreneur wanting to operate the WOwCars franchise in a regional city.
+### Persona 4: The WowCars City Partner / Franchisee ("Vikram Patel", Hubballi / Mysuru)
+- **Profile:** Local automotive entrepreneur wanting to operate the WowCars franchise in a regional city.
 - **Pain Points:** Hard to build a proprietary marketplace tech platform from scratch.
 - **Needs:** Territory exclusivity; ability to onboard local dealers; physical inspection booking workflow; commission tracking on partner services (loans, insurance, inspections).
 
-### Persona 5: Platform Administrator ("WOwCars Operations & Trust Team")
+### Persona 5: Platform Administrator ("WowCars Operations & Trust Team")
 - **Profile:** Managing the central marketplace, ensuring listing quality, preventing fraud, and supporting customers.
 - **Needs:** Quick moderation dashboard to approve/reject listings; verify dealer KYC (GST/Trade License/PAN); monitor lead activities; resolve disputes.
 
@@ -85,7 +85,7 @@ To ensure zero unnecessary cost and rapid launch, the product is strictly phased
 
 ```mermaid
 journey
-    title WOwCars Buyer & Seller Experience
+    title WowCars Buyer & Seller Experience
     section Discovery
       Visit Homepage (City auto-detected / Bengaluru): 5: Buyer
       Filter by Budget (e.g. ₹5 - ₹8 Lakhs) & Fuel (Petrol): 5: Buyer
@@ -119,7 +119,7 @@ journey
    - Interactive EMI Calculator: Loan amount, tenure (1–7 years), interest rate (8.5%–14%).
 4. **Zero-Friction Communication:**
    - Primary Action: **"Chat on WhatsApp"** button. Generates a pre-filled WhatsApp message containing the exact Car ID, Title, Price, and URL directly to the verified seller/dealer.
-   - Secondary Action: **"Book Test Drive / Request Callback"** form. Notifies WOwCars Ops and the dealer immediately.
+   - Secondary Action: **"Book Test Drive / Request Callback"** form. Notifies WowCars Ops and the dealer immediately.
 
 ### 4.2 Individual Seller Journey
 1. **Click "Sell Your Car":** Prompted to enter car registration number or select Make, Model, Variant, Year.
@@ -127,8 +127,8 @@ journey
 3. **Photo Upload:** Upload 5 to 15 photos (Front, Rear, Left, Right, Dashboard, Rear Seats, Odometer, Engine Bay, Tyres).
 4. **Phone Verification & Privacy Selection:**
    - Seller enters mobile number.
-   - Choose privacy setting: "Allow direct WhatsApp inquiries" or "Route all buyer inquiries through WOwCars concierge".
-5. **Submission & Verification:** Listing status changes to `Pending Approval`. WOwCars Ops reviews for spam/misleading data and approves within 2 hours.
+   - Choose privacy setting: "Allow direct WhatsApp inquiries" or "Route all buyer inquiries through WowCars concierge".
+5. **Submission & Verification:** Listing status changes to `Pending Approval`. WowCars Ops reviews for spam/misleading data and approves within 2 hours.
 
 ### 4.3 Verified Dealer Journey
 1. **Dealer Registration:** Dealer enters business name, physical showroom address, contact person, WhatsApp number, and optional GST/trade license.
@@ -145,7 +145,7 @@ journey
    - Review pending car listings.
    - Inspect photos for watermarks of competing portals (OLX, Cars24, etc.).
    - Approve, Reject (with reason), or Request Edits.
-3. **Dealer & Partner Verification:** Review submitted business documents, mark as "WOwCars Verified Dealer".
+3. **Dealer & Partner Verification:** Review submitted business documents, mark as "WowCars Verified Dealer".
 4. **Lead Monitor:** View all test drive inquiries and partner loan/insurance leads with export capability (CSV).
 
 ---
@@ -165,7 +165,7 @@ journey
 - **REQ-005 (Media Gallery):** Responsive image carousel with thumbnail navigation, swipe gestures on mobile, and full-screen lightbox modal.
 - **REQ-006 (Trust Card):** Visible badge showing Seller Type (Individual vs Verified Dealer), Inspection Rating (if inspected), and Verification status.
 - **REQ-007 (WhatsApp Deep Linking):** WhatsApp button must generate RFC 3986 encoded URL:
-  `https://wa.me/91XXXXXXXXXX?text=Hi%20WOwCars%2C%20I%20am%20interested%20in%20the%202021%20Hyundai%20Creta%20SX%20(ID%3A%20WC-1049)%20listed%20for%20%E2%82%B912.50%20Lakhs.%20Is%20it%20available%3F`
+  `https://wa.me/91XXXXXXXXXX?text=Hi%20WowCars%2C%20I%20am%20interested%20in%20the%202021%20Hyundai%20Creta%20SX%20(ID%3A%20WC-1049)%20listed%20for%20%E2%82%B912.50%20Lakhs.%20Is%20it%20available%3F`
 - **REQ-008 (EMI Calculator):** Dynamic interactive sliders for Down Payment, Loan Tenure, and Interest Rate calculating monthly EMI using the standard reducing balance formula.
 
 ### 5.3 Listing Management & Moderation

@@ -21,13 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!car) {
     return {
-      title: "Vehicle Not Found — WOwCars Bengaluru",
-      description: "The requested vehicle listing could not be found on WOwCars.",
+      title: "Vehicle Not Found — WowCars Bengaluru",
+      description: "The requested vehicle listing could not be found on WowCars.",
     };
   }
 
   return {
-    title: `${car.year} ${car.make} ${car.model} ${car.variant} for Sale in ${car.locality}, Bengaluru | WOwCars`,
+    title: `${car.year} ${car.make} ${car.model} ${car.variant} for Sale in ${car.locality}, Bengaluru | WowCars`,
     description: `Verified ${car.year} ${car.make} ${car.model} (${car.fuelType}, ${car.transmission}) with ${car.kmDriven.toLocaleString("en-IN")} km, ${car.numOwners} owner, RTO ${car.rtoCode} (${car.rtoArea}). Price: ₹${formatLakhs(car.priceINR)} Lakhs. Direct WhatsApp inquiry with ₹0 buyer fee.`,
     openGraph: {
       title: `${car.year} ${car.make} ${car.model} ${car.variant} — ₹${formatLakhs(car.priceINR)} Lakhs`,

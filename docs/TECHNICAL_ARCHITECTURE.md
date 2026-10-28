@@ -1,4 +1,4 @@
-# WOwCars — Technical Architecture & Infrastructure Blueprint
+# WowCars — Technical Architecture & Infrastructure Blueprint
 
 **Document Version:** 1.0.0  
 **Target Platform:** Mobile-First Web Application (PWA Ready)  
@@ -37,7 +37,7 @@ graph TD
 | Layer | Recommended Technology | Why Selected & Cost Justification |
 |---|---|---|
 | **Frontend Framework** | **Next.js (React 18/19, App Router, TypeScript)** | Industry standard for automotive portals. Provides hybrid rendering: static generation for car models & city landing pages (instant load, perfect SEO) + dynamic server rendering for active inventory and admin dashboards. PWA ready. |
-| **Styling & Design System** | **Modern Vanilla CSS & CSS Modules** | Zero runtime overhead, maximum performance on budget Indian Android smartphones (Jio, Redmi, Vivo). Handcrafted design tokens matching WOwCars brand (Crimson Red `#E50914`, Carbon Black `#121212`, Crisp White). Avoids bloated CSS libraries. |
+| **Styling & Design System** | **Modern Vanilla CSS & CSS Modules** | Zero runtime overhead, maximum performance on budget Indian Android smartphones (Jio, Redmi, Vivo). Handcrafted design tokens matching WowCars brand (Crimson Red `#E50914`, Carbon Black `#121212`, Crisp White). Avoids bloated CSS libraries. |
 | **Backend / API Layer** | **Next.js Route Handlers / Node.js** | Unifies frontend and backend in a single maintainable repository. TypeScript ensures end-to-end type safety from database models to UI components. Runs seamlessly on Node.js-compatible hosting or serverless containers. |
 | **Data Validation** | **Zod** | Runtime schema validation for every API request, search query, and form input. Prevents bad data injection before it touches the database. |
 | **Database & ORM** | **PostgreSQL + Prisma ORM** (or MySQL on shared hosting) | Relational integrity is mandatory for financial amounts, vehicle status, dealer verification, and audit logs. Prisma provides type-safe migrations and parameterized queries to prevent SQL injection. |
@@ -84,7 +84,7 @@ sequenceDiagram
     autonumber
     actor Seller as Seller / Dealer
     participant Browser as Client Browser (Mobile/Desktop)
-    participant API as WOwCars API
+    participant API as WowCars API
     participant R2 as Cloudflare R2 Bucket
     participant CDN as Cloudflare Edge CDN
 
@@ -114,13 +114,13 @@ sequenceDiagram
 - **The Bootstrapped Solution (Zero Cost):**
   We utilize standardized, intelligent URL schemes using the official `https://wa.me/` protocol:
   ```
-  https://wa.me/919019088160?text=Hello%20WOwCars!%20I%20am%20interested%20in%20the%202021%20Hyundai%20Creta%20SX%20(ID:%20WC-892)%20priced%20at%20%E2%82%B912.45%20Lakhs.%20Is%20it%20available%20for%20test%20drive%3F%20Listing:%20https://wowcars.in/cars/hyundai-creta-sx-892
+  https://wa.me/919019088160?text=Hello%20WowCars!%20I%20am%20interested%20in%20the%202021%20Hyundai%20Creta%20SX%20(ID:%20WC-892)%20priced%20at%20%E2%82%B912.45%20Lakhs.%20Is%20it%20available%20for%20test%20drive%3F%20Listing:%20https://wowcars.in/cars/hyundai-creta-sx-892
   ```
 - **Benefits:**
   - Zero API subscription fees.
   - Zero per-message charges.
   - Opens directly inside the buyer's native WhatsApp app with the vehicle info pre-filled.
-  - Direct connection to WOwCars concierge or the verified dealer.
+  - Direct connection to WowCars concierge or the verified dealer.
 
 ### 5.2 SMS & DLT Regulations
 - In India, commercial SMS requires Telecom Regulatory Authority of India (TRAI) **DLT (Distributed Ledger Technology) registration**, entity verification fees (~₹5,900 one-time), SMS header approval, and template approvals on portals like Vilpower/Jio/Airtel.
@@ -136,9 +136,9 @@ sequenceDiagram
 ## 6. Progressive Web App (PWA) & Mobile Strategy
 
 Over 85% of car shoppers in India browse on mobile devices. Instead of spending money on Apple Developer ($99/year ≈ ₹8,300/year) and Google Play Developer ($25 one-time) licenses, we engineer the web application as a **Progressive Web App (PWA)**:
-1. **Web App Manifest (`manifest.json`):** Defines brand name ("WOwCars"), crimson theme color (`#E50914`), standalone display mode, and high-resolution icons.
+1. **Web App Manifest (`manifest.json`):** Defines brand name ("WowCars"), crimson theme color (`#E50914`), standalone display mode, and high-resolution icons.
 2. **Service Worker:** Caches core UI layout, fonts, and styles for lightning-fast subsequent visits, even on erratic 4G/3G connections.
-3. **Add to Home Screen:** Android users receive a native-like banner prompting them to install WOwCars directly on their home screen without an app store download.
+3. **Add to Home Screen:** Android users receive a native-like banner prompting them to install WowCars directly on their home screen without an app store download.
 4. **Future Native App Path:** The same responsive React codebase and REST APIs can later be wrapped in **Capacitor** or transitioned to **React Native** once the business generates cash flow.
 
 ---

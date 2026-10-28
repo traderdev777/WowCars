@@ -1,4 +1,4 @@
-# WOwCars — Relational Database Design & Schema Specification
+# WowCars — Relational Database Design & Schema Specification
 
 **Document Version:** 1.0.0  
 **Target Database Engines:** PostgreSQL 15+ / MySQL 8.0+ / MariaDB 10.5+  
@@ -8,7 +8,7 @@
 
 ## 1. Entity Relationship Overview
 
-The WOwCars database is designed with strict relational integrity, ACID compliance, and foreign key cascades. It supports multi-role users (Buyers, Sellers, Dealers, City Partners, Admins), rich automotive vehicle specifications tailored for the Indian market (RTO codes, fuel types, owners, hypothecation), direct buyer inquiries, digital inspection reports, dealer subscriptions, and an immutable security audit log.
+The WowCars database is designed with strict relational integrity, ACID compliance, and foreign key cascades. It supports multi-role users (Buyers, Sellers, Dealers, City Partners, Admins), rich automotive vehicle specifications tailored for the Indian market (RTO codes, fuel types, owners, hypothecation), direct buyer inquiries, digital inspection reports, dealer subscriptions, and an immutable security audit log.
 
 ```mermaid
 erDiagram
@@ -261,7 +261,7 @@ Tracks all buyer interest, leads, test drive bookings, and loan/insurance inquir
 | `created_at` | `TIMESTAMP WITH TIME ZONE`| DEFAULT CURRENT_TIMESTAMP | Inquiry submission time |
 
 ### 2.6 Table: `inspection_reports`
-Detailed physical condition evaluation conducted by WOwCars inspectors or certified partners.
+Detailed physical condition evaluation conducted by WowCars inspectors or certified partners.
 
 | Column | Type | Constraints | Description |
 |---|---|---|---|

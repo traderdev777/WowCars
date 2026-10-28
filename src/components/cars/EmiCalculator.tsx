@@ -179,7 +179,7 @@ export default function EmiCalculator({ carPrice }: EmiCalculatorProps) {
         <div className={styles.loanActionRow}>
           <a
             href={`https://wa.me/919019088160?text=${encodeURIComponent(
-              `Hi WOwCars! I am looking for car loan assistance for an estimated EMI of ₹${monthlyEMI.toLocaleString("en-IN")}/mo.`
+              `Hi WowCars! I am looking for car loan assistance for an estimated EMI of ₹${monthlyEMI.toLocaleString("en-IN")}/mo.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

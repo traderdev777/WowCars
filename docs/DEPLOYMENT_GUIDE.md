@@ -1,4 +1,4 @@
-# WOwCars — Founder-Friendly Deployment & Operations Guide
+# WowCars — Founder-Friendly Deployment & Operations Guide
 
 **Document Version:** 1.0.0  
 **Target Audience:** Non-technical founder and development team  
@@ -8,7 +8,7 @@
 
 ## 1. Quick Overview for the Founder
 
-This guide explains how to run, test, and deploy **WOwCars** without needing an engineering degree. 
+This guide explains how to run, test, and deploy **WowCars** without needing an engineering degree. 
 
 Because you already have an **existing domain name and web hosting**, you have two practical paths to launch:
 1. **Option A (Existing Hosting / cPanel):** Run the application directly on your current hosting package if it supports Node.js.
@@ -50,7 +50,7 @@ npm run dev
 Open your browser and navigate to:  
 👉 **`http://localhost:3000`**
 
-You will see the live WOwCars marketplace, search engine, car cards, and EMI calculator running right on your screen.
+You will see the live WowCars marketplace, search engine, car cards, and EMI calculator running right on your screen.
 
 ---
 
@@ -101,7 +101,7 @@ If your existing hosting does not support Node.js, or to ensure maximum speed an
    ```bash
    git init
    git add .
-   git commit -m "feat: WOwCars MVP Foundation"
+   git commit -m "feat: WowCars MVP Foundation"
    # Create a private repository on github.com and push
    ```
 2. **Connect to Vercel or Cloudflare Pages (Free):**
@@ -163,7 +163,7 @@ To receive an alert on your phone if your website ever goes down:
 1. Create a free account at [UptimeRobot.com](https://uptimerobot.com).
 2. Click **Add New Monitor**.
 3. Monitor Type: **HTTPS**.
-4. Friendly Name: `WOwCars Production`.
+4. Friendly Name: `WowCars Production`.
 5. URL: `https://your-domain.com`.
 6. Monitoring Interval: **5 minutes**.
 7. Alert Contact: Enter your WhatsApp or Email (`+91 901 908 8160`).

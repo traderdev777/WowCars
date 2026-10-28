@@ -1,4 +1,4 @@
-# WOwCars — Application Security Audit & Findings Report
+# WowCars — Application Security Audit & Findings Report
 
 **Document Version:** 2.0.0  
 **Audit Date:** 2026-10-28  
@@ -44,7 +44,7 @@
   - In `src/app/sell/SellClient.tsx`, the seller's submitted phone number is placed into the URL query parameters of a WhatsApp deep link.
 - **Threat Vector:** Automated web scrapers and lead scrapers routinely harvest raw phone numbers from car listing pages to sell to insurance/telemarketing lists.
 - **Remediation:**
-  1. Route all initial buyer inquiries through the centralized WOwCars concierge number rather than exposing individual private seller phone numbers publicly.
+  1. Route all initial buyer inquiries through the centralized WowCars concierge number rather than exposing individual private seller phone numbers publicly.
   2. Implement click-to-reveal obfuscation for phone numbers on public pages.
   3. Ensure compliance with Indian Digital Personal Data Protection Act (DPDPA 2023) by obtaining explicit buyer consent before sharing contact info with dealerships.
 

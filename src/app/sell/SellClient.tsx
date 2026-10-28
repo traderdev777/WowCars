@@ -96,14 +96,14 @@ export default function SellClient() {
   };
 
   const waListingMessage = encodeURIComponent(
-    `Hi WOwCars! I've submitted my car for sale:\n\n` +
+    `Hi WowCars! I've submitted my car for sale:\n\n` +
     `🚗 Vehicle: ${formData.year} ${formData.make} ${formData.model} ${formData.variant}\n` +
     `⛽ Fuel: ${formData.fuelType} | ⚙️ Trans: ${formData.transmission}\n` +
     `🛣️ KM Driven: ${Number(formData.kmDriven).toLocaleString("en-IN")} km\n` +
     `📍 Location: ${formData.locality}, Bengaluru (RTO ${formData.rtoCode})\n` +
     `💰 Expected Price: ₹${formData.expectedPriceLakhs} Lakhs\n` +
     `👤 Seller: ${formData.fullName || "Car Owner"} (+91 ${formData.phone})\n\n` +
-    `Please review and publish my listing on WOwCars.`
+    `Please review and publish my listing on WowCars.`
   );
 
   const waListingUrl = `https://wa.me/${WHATSAPP_CONCIERGE_PHONE}?text=${waListingMessage}`;
@@ -442,7 +442,7 @@ export default function SellClient() {
                       <div className={styles.valuationHeader}>
                         <span className={styles.valuationTitle}>
                           <Sparkles size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} />
-                          WOwCars Estimated Bengaluru Market Valuation
+                          WowCars Estimated Bengaluru Market Valuation
                         </span>
                         <span className={styles.valuationRange}>
                           ₹{estimatedFairRange.low}L – ₹{estimatedFairRange.high}L

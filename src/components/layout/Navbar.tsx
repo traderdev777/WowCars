@@ -20,10 +20,10 @@ export default function Navbar() {
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
-        <Link href="/" className={styles.logo} aria-label="WOwCars Home">
+        <Link href="/" className={styles.logo} aria-label="WowCars Home">
           <Image
             src="/wowcars-logo.png"
-            alt="WOwCars — Pre-owned cars you can trust."
+            alt="WowCars — Pre-Owned Cars You Can Trust"
             width={128}
             height={45}
             priority
@@ -44,7 +44,7 @@ export default function Navbar() {
           <a
             href="tel:+919019088160"
             className={`btn btn-ghost btn-sm ${styles.phoneBtn}`}
-            aria-label="Call WOwCars"
+            aria-label="Call WowCars"
           >
             <Phone size={14} />
             <span>+91 901 908 8160</span>

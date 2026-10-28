@@ -248,7 +248,7 @@ export default function CarsCatalogClient({ initialCars }: CarsCatalogClientProp
                     onChange={(e) => setVerifiedOnly(e.target.checked)}
                     style={{ accentColor: "var(--color-primary)", cursor: "pointer" }}
                   />
-                  <span>WOwCars Verified Only</span>
+                  <span>WowCars Verified Only</span>
                   <BadgeCheck size={14} style={{ color: "var(--color-accent)" }} />
                 </label>
               </div>

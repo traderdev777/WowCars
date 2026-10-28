@@ -16,7 +16,7 @@ export default function Footer() {
           <div className={styles.brandCol}>
             <Image
               src="/wowcars-logo.png"
-              alt="WOwCars — Pre-owned cars you can trust."
+              alt="WowCars — Pre-Owned Cars You Can Trust"
               width={128}
               height={45}
               className={styles.logo}
@@ -53,7 +53,7 @@ export default function Footer() {
           <div className={styles.linksCol}>
             <h3 className={styles.colTitle}>Services</h3>
             <ul className={styles.linkList}>
-              {["Sell Your Car Free", "Verified Dealer Network", "Car Loan Assistance", "Vehicle Insurance", "150-Point Inspection", "WOwCars City Partner"].map((item) => (
+              {["Sell Your Car Free", "Verified Dealer Network", "Car Loan Assistance", "Vehicle Insurance", "150-Point Inspection", "WowCars City Partner"].map((item) => (
                 <li key={item}>
                   <Link href="/#services" className={styles.footerLink}>
                     <ChevronRight size={12} />
@@ -65,7 +65,7 @@ export default function Footer() {
           </div>
 
           <div className={styles.contactCol}>
-            <h3 className={styles.colTitle}>Contact WOwCars</h3>
+            <h3 className={styles.colTitle}>Contact WowCars</h3>
             <div className={styles.contactItems}>
               <a href="tel:+919019088160" className={styles.contactItem}>
                 <Phone size={16} className={styles.contactIcon} />
@@ -83,7 +83,7 @@ export default function Footer() {
               </div>
             </div>
             <a
-              href="https://wa.me/919019088160?text=Hi%20WOwCars!%20I%20need%20help%20finding%20a%20car."
+              href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20need%20help%20finding%20a%20car."
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-whatsapp btn-full"
@@ -98,7 +98,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className={styles.bottomBar}>
           <p className={styles.copyright}>
-            © {currentYear} WOwCars. All Rights Reserved. | Bengaluru, Karnataka, India
+            © {currentYear} WowCars. All Rights Reserved. | Bengaluru, Karnataka, India
           </p>
           <div className={styles.legalLinks}>
             <Link href="/privacy" className={styles.legalLink}>Privacy Policy</Link>

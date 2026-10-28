@@ -1,16 +1,16 @@
-# WOwCars — Independent CTO Technical & Architecture Audit
+# WowCars — Independent CTO Technical & Architecture Audit
 
 **Document Version:** 2.0.0 (Independent Baseline Verification)  
 **Date:** 2026-10-28  
 **Audit Role:** Independent Principal Software Engineer, Application Security Engineer & DevOps Architect (Interim CTO)  
-**Stakeholder:** Founder & Managing Director, WOwCars  
+**Stakeholder:** Founder & Managing Director, WowCars  
 **Operating Constraint:** Existing domain name + shared cPanel hosting; ₹0 additional launch budget  
 
 ---
 
 ## 1. Executive Summary & Verdict
 
-This independent technical audit was conducted to replace all unverified claims with concrete, source-verified facts regarding the WOwCars repository (`main` branch).
+This independent technical audit was conducted to replace all unverified claims with concrete, source-verified facts regarding the WowCars repository (`main` branch).
 
 ### Critical Takeaway for the Founder:
 The current codebase is a **high-fidelity, aesthetically polished interactive frontend prototype** built on Next.js 16.4.3 and React 19. The UI looks professional, fast, and responsive. 

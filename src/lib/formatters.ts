@@ -1,5 +1,5 @@
 /**
- * WOwCars — Indian Automotive Formatters
+ * WowCars — Indian Automotive Formatters
  * All price and distance formatting follows Indian conventions
  */
 
@@ -64,7 +64,7 @@ export function generateWhatsAppLink(
   phone: string,
   car: { listingCode: string; title: string; priceLakhs: string; url?: string }
 ): string {
-  const text = `Hi WOwCars! 🙏 I'm interested in the *${car.title}* (ID: ${car.listingCode}) listed for *${car.priceLakhs}*. Is it still available? Please share more details.${car.url ? `\n\n🔗 ${car.url}` : ""}`;
+  const text = `Hi WowCars! 🙏 I'm interested in the *${car.title}* (ID: ${car.listingCode}) listed for *${car.priceLakhs}*. Is it still available? Please share more details.${car.url ? `\n\n🔗 ${car.url}` : ""}`;
   const encoded = encodeURIComponent(text);
   return `https://wa.me/${phone}?text=${encoded}`;
 }

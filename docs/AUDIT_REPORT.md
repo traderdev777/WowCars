@@ -1,9 +1,9 @@
-# WOwCars — Master Project Foundation Audit Report
+# WowCars — Master Project Foundation Audit Report
 
 **Report Version:** 1.0.0  
 **Audit Date:** 2026-10-28  
 **Auditor / CTO:** Founding CTO & UI/UX Architect  
-**Client / Stakeholder:** Founder & Managing Director, WOwCars  
+**Client / Stakeholder:** Founder & Managing Director, WowCars  
 **Repository Branch:** `main`  
 **Current Production Build Status:** ✅ **PASSING (0 Errors, 16/16 Pages Static/Prerendered)**  
 **Operating Cost Profile:** **₹0 / Month (Zero Unnecessary Cloud Costs)**  
@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary
 
-WOwCars is an India-focused pre-owned automotive marketplace engineered to disrupt the high-friction, commission-heavy used car ecosystem in India. 
+WowCars is an India-focused pre-owned automotive marketplace engineered to disrupt the high-friction, commission-heavy used car ecosystem in India. 
 
 The platform connects verified private sellers, certified independent dealership showrooms, and prospective car buyers with 100% transparent pricing, RTO status transparency, instant WhatsApp connectivity, and zero broker commissions.
 
@@ -22,7 +22,7 @@ The platform connects verified private sellers, certified independent dealership
 | :--- | :--- | :--- |
 | **Architecture** | Next.js 16.4.3 (Turbopack) + React 19 + TypeScript | Enterprise-grade, modern, zero legacy debt |
 | **Styling Engine** | Handcrafted Vanilla CSS Design System | 0 KB runtime CSS-in-JS overhead, ultra-fast TTFB |
-| **Brand Identity** | Crimson Red (`#E50914`), Carbon Dark (`#070709`), Pure White | Aligned with the official WOwCars logo |
+| **Brand Identity** | Crimson Red (`#E50914`), Carbon Dark (`#070709`), Pure White | Aligned with the official WowCars logo |
 | **Video Motion System** | 4K Hardware-Accelerated Looping Highway Car Video | Continuous 24/7 watchdog loop, 0 stutter, HUD controls |
 | **Marketplace Scope** | Pan-India with initial flagship focus on Karnataka / Bengaluru | Verified RTO registration parsing (KA-01 to KA-53) |
 | **Core Flows Implemented** | Home, Catalog (`/cars`), VDP (`/cars/[code]`), Sell (`/sell`), Dealers (`/dealers`) | 100% operational in Phase 1 MVP |
@@ -53,14 +53,14 @@ graph TD
 
 ### Financial Cost Audit (Monthly Budget Breakdown)
 
-| Component | Standard Industry Approach | WOwCars Zero-Waste Architecture | Founder Cost |
+| Component | Standard Industry Approach | WowCars Zero-Waste Architecture | Founder Cost |
 | :--- | :--- | :--- | :--- |
 | **Web Hosting** | AWS EC2 / ECS ($40–$100/mo) | Vercel Free Tier / cPanel Node.js (Existing) | **₹0 / month** |
 | **Database** | AWS RDS ($35–$60/mo) | Supabase / Neon PostgreSQL Free Tier | **₹0 / month** |
 | **SMS Gateway** | Twilio / Gupshup (₹0.25/SMS) | Direct WhatsApp deep-linking | **₹0 / month** |
 | **Maps API** | Google Maps API ($200/mo) | RTO area-code resolution + OpenStreetMap | **₹0 / month** |
 | **Media Storage** | AWS S3 + CloudFront ($15–$30/mo) | Cloudflare R2 (10 GB Free) / local `/public` | **₹0 / month** |
-| **Total Operational Cost** | **₹25,000–₹40,000 / month** | **WOwCars MVP Architecture** | **₹0 / month** |
+| **Total Operational Cost** | **₹25,000–₹40,000 / month** | **WowCars MVP Architecture** | **₹0 / month** |
 
 ---
 
@@ -103,7 +103,7 @@ graph TD
 ## 4. UI/UX & Design System Audit
 
 ### Design Tokens & Aesthetics
-- **Brand Consistency:** Faithful to the WOwCars identity with Crimson Red (`#E50914`), Carbon Dark (`#070709`), and Crisp White (`#FFFFFF`).
+- **Brand Consistency:** Faithful to the WowCars identity with Crimson Red (`#E50914`), Carbon Dark (`#070709`), and Crisp White (`#FFFFFF`).
 - **Typography:** Modern, readable system typography stack with high-contrast text-shadows preventing background video wash-out.
 - **Glitch-Free Accent Styling:** Resolved browser-specific `-webkit-text-fill-color` clipping anomalies by enforcing radiant solid crimson `#FF2E3A` with ambient neon backlighting.
 - **Accessibility:** Meets WCAG 2.1 AA standards for color contrast, interactive button states, descriptive ARIA attributes, and keyboard navigability.
@@ -163,4 +163,4 @@ graph LR
 ---
 
 **Report Certification:**  
-*The WOwCars codebase has been audited and validated. Compilation passes with zero errors on Next.js 16.4.3 / Turbopack, and the application is production-ready for deployment.*
+*The WowCars codebase has been audited and validated. Compilation passes with zero errors on Next.js 16.4.3 / Turbopack, and the application is production-ready for deployment.*

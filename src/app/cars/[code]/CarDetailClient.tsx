@@ -64,8 +64,8 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${car.year} ${car.make} ${car.model} — WOwCars Bengaluru`,
-          text: `Check out this verified ${car.year} ${car.make} ${car.model} on WOwCars for ₹${formatLakhs(car.priceINR)} Lakhs.`,
+          title: `${car.year} ${car.make} ${car.model} — WowCars Bengaluru`,
+          text: `Check out this verified ${car.year} ${car.make} ${car.model} on WowCars for ₹${formatLakhs(car.priceINR)} Lakhs.`,
           url: window.location.href,
         });
       } catch {
@@ -106,7 +106,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
               {car.isVerified && (
                 <span className="badge badge-green">
                   <span className="radar-dot" style={{ width: 6, height: 6 }} />
-                  <BadgeCheck size={12} /> WOwCars Verified
+                  <BadgeCheck size={12} /> WowCars Verified
                 </span>
               )}
               {car.isFeatured && (
@@ -146,7 +146,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
 
                   <div className={styles.galleryWatermark}>
                     <Shield size={14} style={{ color: "var(--color-primary)" }} />
-                    <span>WOwCars Inspected</span>
+                    <span>WowCars Inspected</span>
                   </div>
 
                   <div className={styles.galleryCounter}>
@@ -309,7 +309,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
                   <div>
                     <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--color-white)", display: "flex", alignItems: "center", gap: 8 }}>
                       <Shield size={20} style={{ color: "var(--color-accent)" }} />
-                      WOwCars 150-Point Technical Inspection
+                      WowCars 150-Point Technical Inspection
                     </h2>
                     <p style={{ fontSize: "var(--font-size-xs)", color: "var(--color-light-gray)", marginTop: 4 }}>
                       Verified by certified automotive technicians in Bengaluru. No flood or structural accidental damage.
@@ -393,7 +393,7 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
                       {car.dealerName || "Direct Individual Seller"}
                     </div>
                     <div className={styles.sellerMeta}>
-                      {car.sellerType === "Verified Dealer" ? "WOwCars Verified Dealer" : "Private Car Owner"} · {car.locality}
+                      {car.sellerType === "Verified Dealer" ? "WowCars Verified Dealer" : "Private Car Owner"} · {car.locality}
                     </div>
                   </div>
                 </div>

@@ -174,7 +174,7 @@ export default function HeroCarVideo() {
         <div className={styles.hudTopBar}>
           <div className={styles.hudBadge}>
             <span className={styles.radarDot} />
-            <span>WOwCars Live Drive • {activeChannel.tag}</span>
+            <span>WowCars Live Drive • {activeChannel.tag}</span>
           </div>
 
           <div className={styles.hudTelemetry}>

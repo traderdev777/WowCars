@@ -1,4 +1,4 @@
-// WOwCars — Prisma Schema Specification
+// WowCars — Prisma Schema Specification
 // Supports PostgreSQL 15+ / MySQL 8.0+ / SQLite (local dev)
 // Conforms to docs/DATABASE_DESIGN.md
 

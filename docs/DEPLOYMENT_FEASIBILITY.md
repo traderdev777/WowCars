@@ -1,4 +1,4 @@
-# WOwCars — cPanel Hosting Compatibility & Zero-Budget Deployment Analysis
+# WowCars — cPanel Hosting Compatibility & Zero-Budget Deployment Analysis
 
 **Document Version:** 2.0.0  
 **Target Audience:** Founder & Technical Implementation Team  

@@ -1,4 +1,4 @@
-# WOwCars — Production Readiness & Go/No-Go Checklist
+# WowCars — Production Readiness & Go/No-Go Checklist
 
 **Document Version:** 2.0.0  
 **Audit Baseline:** Post-Refactor (`main` branch)  
@@ -77,6 +77,6 @@ The platform **CANNOT** be launched as a transactional, self-service marketplace
 ### 🟢 CRITERIA FOR GO (Showcase & Assisted Concierge Pilot Launch):
 The platform **CAN IMMEDIATELY LAUNCH** as a **Concierge-Assisted Marketplace**, which is the smartest, zero-budget way to start in the automotive industry:
 1. All listings on the site are genuine, verified dealer cars manually onboarded by the founder.
-2. When a buyer clicks "Inquire on WhatsApp" or "Book Test Drive", it connects them directly to the WOwCars Concierge WhatsApp hotline (`+91 90190 88160`).
-3. When a seller fills `/sell`, it generates an instant WhatsApp message sending the car details directly to the WOwCars Concierge for manual onboarding.
+2. When a buyer clicks "Inquire on WhatsApp" or "Book Test Drive", it connects them directly to the WowCars Concierge WhatsApp hotline (`+91 90190 88160`).
+3. When a seller fills `/sell`, it generates an instant WhatsApp message sending the car details directly to the WowCars Concierge for manual onboarding.
 4. **This concierge model requires ₹0 server cost, ₹0 database maintenance, and eliminates all risk of malicious uploads or spam listings on day one.**

@@ -1,5 +1,5 @@
 /**
- * WOwCars — Mock Car Data (Demo Only)
+ * WowCars — Mock Car Data (Demo Only)
  * MOCK / DEMO ONLY — Replace with real database queries via Prisma ORM
  */
 
@@ -281,7 +281,7 @@ export const MOCK_CARS: Car[] = [
       "Brake pads at 80% remaining life",
       "Verified dealer warranty with 6-month engine cover"
     ],
-    overview: "Feature-packed Kia Seltos HTX+ Petrol Automatic in Glacier White Pearl. Thoroughly inspected by WOwCars certified mechanics with 6-month dealer engine & gearbox assurance."
+    overview: "Feature-packed Kia Seltos HTX+ Petrol Automatic in Glacier White Pearl. Thoroughly inspected by WowCars certified mechanics with 6-month dealer engine & gearbox assurance."
   },
   {
     id: "6",
