@@ -20,7 +20,7 @@ export default function Footer() {
         <div className={styles.topBand}>
           <div className={styles.brandCol}>
             <Image
-              src="/wowcars-logo.jpg"
+              src="/wowcars-logo.png"
               alt="WOwCars"
               width={140}
               height={48}

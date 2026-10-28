@@ -22,7 +22,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className={styles.logo} aria-label="WOwCars Home">
           <Image
-            src="/wowcars-logo.jpg"
+            src="/wowcars-logo.png"
             alt="WOwCars — Pre-Owned Cars You Can Trust"
             width={140}
             height={48}

@@ -24,17 +24,18 @@ export const metadata: Metadata = {
     title: "WOwCars — Pre-Owned Cars You Can Trust",
     description:
       "Browse verified pre-owned cars in Bengaluru with transparent pricing, RTO details & direct WhatsApp contact.",
-    images: [{ url: "/wowcars-logo.jpg", width: 1200, height: 630, alt: "WOwCars Logo" }],
+    images: [{ url: "/wowcars-logo.png", width: 1024, height: 576, alt: "WOwCars Logo" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WOwCars — Pre-Owned Cars You Can Trust",
-    description: "Browse verified pre-owned cars in Bengaluru.",
+    title: "WOwCars — India's Most Trusted Pre-Owned Cars Marketplace",
+    description: "Discover verified pre-owned cars across India.",
+    images: ["/wowcars-logo.png"],
   },
   robots: { index: true, follow: true },
   icons: {
-    icon: "/wowcars-logo.jpg",
-    apple: "/wowcars-logo.jpg",
+    icon: "/wowcars-logo.png",
+    apple: "/wowcars-logo.png",
   },
 };
 
