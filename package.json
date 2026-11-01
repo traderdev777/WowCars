@@ -7,6 +7,7 @@
     "build": "next build",
     "build:static": "NEXT_PUBLIC_OUTPUT=export next build",
     "build:pages": "npx tsx scripts/build-github-pages.ts",
+    "deploy:pages": "npx tsx scripts/deploy-gh-pages.ts",
     "start": "next start",
     "lint": "eslint",
     "create-admin": "npx tsx scripts/create-admin.ts",
