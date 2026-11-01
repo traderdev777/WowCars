@@ -11,7 +11,6 @@ import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
 import HeroSpeedometer from "@/components/cars/HeroSpeedometer";
-import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { MOCK_CARS } from "@/lib/mockData";
 import styles from "./page.module.css";
 
@@ -756,7 +755,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <LiveActivityTicker />
       <Footer />
     </>
   );

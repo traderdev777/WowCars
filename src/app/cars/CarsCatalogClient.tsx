@@ -20,7 +20,6 @@ import CarCard from "@/components/cars/CarCard";
 import PageHero from "@/components/common/PageHero";
 import TrustIndicators from "@/components/common/TrustIndicators";
 import CTASection from "@/components/common/CTASection";
-import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import type { Car } from "@/lib/mockData";
 import styles from "./CarsCatalog.module.css";
 
@@ -175,9 +174,6 @@ export default function CarsCatalogClient({
 
       {/* Trust Guarantee Strip */}
       <TrustIndicators />
-
-      {/* Live Activity Ticker */}
-      <LiveActivityTicker />
 
       <main className={styles.page}>
         <div className="container">

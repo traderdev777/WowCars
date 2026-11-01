@@ -11,7 +11,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
-import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import ResponsiveGallery from "@/components/common/ResponsiveGallery";
 import CTASection from "@/components/common/CTASection";
 import StaffBrandingImage from "@/components/common/StaffBrandingImage";
@@ -822,7 +821,6 @@ export default function CarDetailClient({ car, relatedCars }: CarDetailClientPro
         imageAlt={`WowCars specialist with ${car.make} ${car.model}`}
       />
 
-      <LiveActivityTicker />
       <Footer />
     </>
   );

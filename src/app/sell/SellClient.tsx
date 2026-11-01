@@ -11,7 +11,6 @@ import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
 import TrustIndicators from "@/components/common/TrustIndicators";
 import CTASection from "@/components/common/CTASection";
-import LiveActivityTicker from "@/components/common/LiveActivityTicker";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import {
   ALL_MANUFACTURERS,
@@ -897,7 +896,6 @@ export default function SellClient() {
         imageAlt="WowCars specialist Arjun at vehicle delivery hub"
       />
 
-      <LiveActivityTicker />
       <Footer />
     </>
   );
