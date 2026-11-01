@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Phone, MapPin, MessageCircle, ShieldCheck, ChevronRight, Zap } from "lucide-react";
 import styles from "./WowCarsFooter.module.css";
+import { getAssetPath } from "@/lib/assets";
 
 export default function WowCarsFooter() {
   const currentYear = 2026;
@@ -16,7 +17,7 @@ export default function WowCarsFooter() {
           {/* Brand Intro Column */}
           <div className={styles.brandCol}>
             <Image
-              src="/wowcars-logo.png"
+              src={getAssetPath("/wowcars-logo.png")}
               alt="WowCars — Pre-Owned Cars You Can Trust"
               width={140}
               height={50}

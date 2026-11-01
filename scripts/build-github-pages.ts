@@ -28,6 +28,7 @@ try {
       ...process.env,
       GITHUB_PAGES: "true",
       NEXT_PUBLIC_OUTPUT: "export",
+      NEXT_PUBLIC_BASE_PATH: "/WowCars",
     },
   });
 
@@ -44,6 +45,61 @@ try {
   if (!fs.existsSync(notFoundHtml) && fs.existsSync(notFoundDirHtml)) {
     fs.copyFileSync(notFoundDirHtml, notFoundHtml);
     console.log("📄 Created out/404.html from _not-found");
+  }
+
+  // Rewrite un-prefixed asset references in all HTML, JS, JSON, and CSS files
+  console.log("🔧 Rewriting static asset paths to include /WowCars prefix...");
+  const assetRegex = /(["'\(])\/(?!(?:WowCars\/|_next\/|api\/|http:\/\/|https:\/\/|data:|#))((?:images|videos|parts|demo|uploads|wowcars-logo\.(?:png|jpg)|favicon\.ico|manifest\.json)[^"'\)]*)/g;
+
+  function processDirectory(dir: string) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name !== ".git") {
+          processDirectory(fullPath);
+        }
+      } else if (/\.(html|js|json|css|txt)$/i.test(entry.name)) {
+        const content = fs.readFileSync(fullPath, "utf-8");
+        if (assetRegex.test(content)) {
+          const updated = content.replace(assetRegex, "$1/WowCars/$2");
+          fs.writeFileSync(fullPath, updated, "utf-8");
+        }
+      }
+    }
+  }
+
+  processDirectory(outDir);
+  console.log("✅ Asset path rewriting completed across all output files.");
+
+  // Mirror static folders under out/WowCars for 100% fail-safe path resolution
+  const wowCarsSubDir = path.join(outDir, "WowCars");
+  if (!fs.existsSync(wowCarsSubDir)) {
+    fs.mkdirSync(wowCarsSubDir, { recursive: true });
+  }
+
+  const staticAssetItems = [
+    "wowcars-logo.png",
+    "wowcars-logo.jpg",
+    "favicon.ico",
+    "manifest.json",
+    "images",
+    "videos",
+    "parts",
+    "uploads",
+  ];
+
+  for (const item of staticAssetItems) {
+    const src = path.join(outDir, item);
+    const dest = path.join(wowCarsSubDir, item);
+    if (fs.existsSync(src)) {
+      if (fs.statSync(src).isDirectory()) {
+        fs.cpSync(src, dest, { recursive: true });
+      } else {
+        fs.copyFileSync(src, dest);
+      }
+      console.log(`📁 Mirrored ${item} to out/WowCars/${item}`);
+    }
   }
 
   console.log("🎉 GitHub Pages static build complete in ./out!");

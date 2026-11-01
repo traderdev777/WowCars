@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import styles from "./WowCarsHeader.module.css";
 import { useCart } from "@/lib/cart/CartContext";
+import { getAssetPath } from "@/lib/assets";
 
 export default function WowCarsHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,7 +77,7 @@ export default function WowCarsHeader() {
         {/* Official Brand Logo */}
         <Link href="/" className={styles.logo} aria-label="WowCars Home">
           <Image
-            src="/wowcars-logo.png"
+            src={getAssetPath("/wowcars-logo.png")}
             alt="WowCars — Pre-Owned Cars You Can Trust"
             width={140}
             height={44}

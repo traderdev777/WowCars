@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ShieldCheck, Award } from "lucide-react";
 import styles from "./StaffBrandingImage.module.css";
+import { getAssetPath } from "@/lib/assets";
 
 export interface StaffBrandingImageProps {
   src?: string;
@@ -31,7 +32,8 @@ export default function StaffBrandingImage({
   className = "",
   showCaption = true,
 }: StaffBrandingImageProps) {
-  const finalSrc = src || imageSrc || "/images/staff-representative.jpg";
+  const rawSrc = src || imageSrc || "/images/staff-representative.jpg";
+  const finalSrc = getAssetPath(rawSrc);
   const displayRole = caption || (role ? `${role} · Bengaluru Pilot Hub` : "Lead Specialist · Bengaluru Pilot Hub");
   return (
     <div

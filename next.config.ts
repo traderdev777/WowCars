@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   basePath: isGhPages ? "/WowCars" : undefined,
   trailingSlash: isGhPages,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isGhPages ? "/WowCars" : "",
+  },
   images: {
     unoptimized: isStaticExport,
   },
