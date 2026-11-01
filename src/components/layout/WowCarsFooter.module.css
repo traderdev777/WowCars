@@ -25,6 +25,24 @@
   height: 44px;
 }
 
+.logoDark {
+  display: block;
+}
+
+.logoLight {
+  display: none;
+}
+
+:global([data-theme="light"]) .logoDark,
+:global(.light) .logoDark {
+  display: none !important;
+}
+
+:global([data-theme="light"]) .logoLight,
+:global(.light) .logoLight {
+  display: block !important;
+}
+
 .tagline {
   color: var(--brand-red, #ED1C24);
   font-weight: 700;

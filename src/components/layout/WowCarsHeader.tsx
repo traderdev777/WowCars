@@ -86,7 +86,15 @@ export default function WowCarsHeader() {
             width={140}
             height={44}
             priority
-            className={styles.logoImg}
+            className={`${styles.logoImg} ${styles.logoDark}`}
+          />
+          <Image
+            src={getAssetPath("/wowcars-logo-light.png")}
+            alt="WowCars — Pre-Owned Cars You Can Trust"
+            width={140}
+            height={44}
+            priority
+            className={`${styles.logoImg} ${styles.logoLight}`}
           />
         </Link>
 

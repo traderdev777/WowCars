@@ -277,7 +277,8 @@ export default function AdminSparePartsClient() {
       <div className={styles.loginWrapper}>
         <div className={styles.loginCard}>
           <div className={styles.loginHeader}>
-            <Image src="/wowcars-logo.png" alt="WowCars" width={128} height={45} className={styles.loginLogo} />
+            <Image src="/wowcars-logo.png" alt="WowCars" width={128} height={45} className={`${styles.loginLogo} theme-logo-dark`} />
+            <Image src="/wowcars-logo-light.png" alt="WowCars" width={128} height={45} className={`${styles.loginLogo} theme-logo-light`} />
             <h2>Spare Parts Control Center</h2>
             <p>Authorized Admin Access Only</p>
           </div>

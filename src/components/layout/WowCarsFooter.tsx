@@ -21,7 +21,14 @@ export default function WowCarsFooter() {
               alt="WowCars — Pre-Owned Cars You Can Trust"
               width={140}
               height={50}
-              className={styles.logo}
+              className={`${styles.logo} ${styles.logoDark}`}
+            />
+            <Image
+              src={getAssetPath("/wowcars-logo-light.png")}
+              alt="WowCars — Pre-Owned Cars You Can Trust"
+              width={140}
+              height={50}
+              className={`${styles.logo} ${styles.logoLight}`}
             />
             <p className={styles.tagline}>Pre-Owned Cars You Can Trust</p>
             <p className={styles.desc}>

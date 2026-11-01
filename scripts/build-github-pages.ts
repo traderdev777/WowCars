@@ -49,7 +49,7 @@ try {
 
   // Rewrite un-prefixed asset references in all HTML, JS, JSON, and CSS files
   console.log("🔧 Rewriting static asset paths to include /WowCars prefix...");
-  const assetRegex = /(["'\(])\/(?!(?:WowCars\/|_next\/|api\/|http:\/\/|https:\/\/|data:|#))((?:images|videos|parts|demo|uploads|wowcars-logo\.(?:png|jpg)|favicon\.ico|manifest\.json)[^"'\)]*)/g;
+  const assetRegex = /(["'\(])\/(?!(?:WowCars\/|_next\/|api\/|http:\/\/|https:\/\/|data:|#))((?:images|videos|parts|demo|uploads|wowcars-logo(?:-light)?\.(?:png|jpg)|favicon\.ico|manifest\.json)[^"'\)]*)/g;
 
   function processDirectory(dir: string) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -81,6 +81,8 @@ try {
   const staticAssetItems = [
     "wowcars-logo.png",
     "wowcars-logo.jpg",
+    "wowcars-logo-light.png",
+    "wowcars-logo-light.jpg",
     "favicon.ico",
     "manifest.json",
     "images",

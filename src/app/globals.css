@@ -681,3 +681,22 @@ nextjs-portal,
   pointer-events: none !important;
 }
 
+/* ---- Theme-Adaptive Brand Logo Utilities ---- */
+.theme-logo-dark {
+  display: block !important;
+}
+.theme-logo-light {
+  display: none !important;
+}
+
+[data-theme="light"] .theme-logo-dark,
+.light .theme-logo-dark {
+  display: none !important;
+}
+
+[data-theme="light"] .theme-logo-light,
+.light .theme-logo-light {
+  display: block !important;
+}
+
+

@@ -494,6 +494,16 @@ export default function AdminPage() {
                   height={48}
                   style={{ objectFit: "contain", margin: "0 auto" }}
                   priority
+                  className="theme-logo-dark"
+                />
+                <Image
+                  src="/wowcars-logo-light.png"
+                  alt="WowCars Logo"
+                  width={140}
+                  height={48}
+                  style={{ objectFit: "contain", margin: "0 auto" }}
+                  priority
+                  className="theme-logo-light"
                 />
               </Link>
             </div>
@@ -592,6 +602,16 @@ export default function AdminPage() {
                   height={40}
                   style={{ objectFit: "contain" }}
                   priority
+                  className="theme-logo-dark"
+                />
+                <Image
+                  src="/wowcars-logo-light.png"
+                  alt="WowCars Logo"
+                  width={120}
+                  height={40}
+                  style={{ objectFit: "contain" }}
+                  priority
+                  className="theme-logo-light"
                 />
               </Link>
               <div>
