@@ -6,32 +6,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap');
 
 /* ---- CSS Design Tokens ---- */
-:root {
+:root,
+[data-theme="dark"],
+.dark {
   /* Brand Core — Official WowCars Palette */
   --brand-red: #ED1C24;
   --brand-red-hover: #D0141B;
   --brand-red-dark: #B30E14;
   --brand-red-subtle: #FDE8E9;
   --brand-red-glow: rgba(237, 28, 36, 0.25);
-  --brand-black: #111111;
-  --brand-charcoal: #242424;
-  --brand-light-grey: #F4F5F7;
+  --brand-black: #0B0E14;
+  --brand-charcoal: #1E293B;
+  --brand-light-grey: #F8FAFC;
   --brand-secondary-grey: #777777;
   --brand-white: #FFFFFF;
 
   /* Automotive Dark Neutrals */
-  --color-black: #111111;
-  --color-carbon: #181818;
-  --color-dark-gray: #1E1E1E;
-  --color-surface: #202020;
-  --color-surface-raised: #242424;
-  --color-mid-gray: #2C2C2E;
-  --color-border: #333333;
-  --color-border-light: #444444;
-  --color-light-gray: #8E8E93;
-  --color-muted: #777777;
-  --color-off-white: #F4F5F7;
+  --color-black: #0B0E14;
+  --color-carbon: #10141D;
+  --color-dark-gray: #161D2B;
+  --color-surface: #1B2435;
+  --color-surface-raised: #222E42;
+  --color-mid-gray: #2C3A52;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-light: rgba(255, 255, 255, 0.18);
+  --color-light-gray: #94A3B8;
+  --color-muted: #64748B;
+  --color-off-white: #F1F5F9;
   --color-white: #FFFFFF;
+
+  /* Header & Navigation */
+  --nav-bg: rgba(16, 20, 29, 0.95);
+  --nav-bg-scrolled: rgba(11, 14, 21, 0.98);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --topbar-bg: #0B0E14;
+  --topbar-text: #94A3B8;
+  --topbar-phone: #D1D5DB;
+  --topbar-divider: #334155;
+  --nav-link-color: #D1D5DB;
+  --nav-link-hover: #FFFFFF;
+  --dropdown-bg: #141A26;
+  --dropdown-border: rgba(255, 255, 255, 0.14);
+  --dropdown-item-hover: rgba(255, 255, 255, 0.08);
+  --action-btn-bg: rgba(255, 255, 255, 0.08);
+  --action-btn-border: rgba(255, 255, 255, 0.15);
+  --action-btn-color: #F3F4F6;
+  --action-btn-hover-bg: rgba(255, 255, 255, 0.14);
+  --theme-toggle-bg: rgba(255, 255, 255, 0.08);
+  --theme-toggle-border: rgba(255, 255, 255, 0.15);
+  --theme-toggle-color: #F3F4F6;
+  --theme-toggle-hover-bg: rgba(255, 255, 255, 0.16);
+
+  /* Footer Tokens */
+  --footer-bg: #0B0E14;
+  --footer-border: rgba(255, 255, 255, 0.08);
+  --footer-text: #94A3B8;
+  --footer-title: #FFFFFF;
+  --footer-link: #CBD5E1;
+  --footer-link-hover: #FFFFFF;
+
+  /* Page Hero & Trust */
+  --pagehero-bg: linear-gradient(180deg, #0B0E14 0%, #131A26 50%, #0B0E14 100%);
+  --pagehero-title: #FFFFFF;
+  --pagehero-subtitle: #94A3B8;
+  --pagehero-stat-bg: rgba(255, 255, 255, 0.04);
+  --pagehero-stat-border: rgba(255, 255, 255, 0.08);
+  --pagehero-stat-val: #FFFFFF;
+  --trust-section-bg: #0B0E14;
+  --trust-section-border: rgba(255, 255, 255, 0.08);
+  --trust-card-bg: rgba(255, 255, 255, 0.03);
+  --trust-card-border: rgba(255, 255, 255, 0.08);
+  --trust-title: #FFFFFF;
+  --trust-desc: #94A3B8;
 
   /* Status & Trust */
   --color-trust-green: #10B981;
@@ -42,6 +88,93 @@
   --color-error-red: #EF4444;
   --color-error-subtle: #FEE2E2;
   --color-info-blue: #3B82F6;
+}
+
+/* Light Theme Tokens */
+[data-theme="light"],
+.light {
+  /* Brand Core */
+  --brand-red: #ED1C24;
+  --brand-red-hover: #D0141B;
+  --brand-red-dark: #B30E14;
+  --brand-red-subtle: #FDE8E9;
+  --brand-red-glow: rgba(237, 28, 36, 0.2);
+  --brand-black: #FFFFFF;
+  --brand-charcoal: #E2E8F0;
+  --brand-light-grey: #0F172A;
+  --brand-secondary-grey: #64748B;
+  --brand-white: #0F172A;
+
+  /* Automotive Crisp Light Neutrals */
+  --color-black: #FFFFFF;
+  --color-carbon: #F8FAFC;
+  --color-dark-gray: #F1F5F9;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #F8FAFC;
+  --color-mid-gray: #E2E8F0;
+  --color-border: #E2E8F0;
+  --color-border-light: #CBD5E1;
+  --color-light-gray: #475569;
+  --color-muted: #64748B;
+  --color-off-white: #0F172A;
+  --color-white: #0F172A;
+
+  /* Header & Navigation */
+  --nav-bg: rgba(255, 255, 255, 0.96);
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.99);
+  --nav-border: #E2E8F0;
+  --topbar-bg: #F1F5F9;
+  --topbar-text: #64748B;
+  --topbar-phone: #334155;
+  --topbar-divider: #CBD5E1;
+  --nav-link-color: #334155;
+  --nav-link-hover: #0F172A;
+  --dropdown-bg: #FFFFFF;
+  --dropdown-border: #E2E8F0;
+  --dropdown-item-hover: #F8FAFC;
+  --action-btn-bg: #F1F5F9;
+  --action-btn-border: #E2E8F0;
+  --action-btn-color: #0F172A;
+  --action-btn-hover-bg: #E2E8F0;
+  --theme-toggle-bg: #F1F5F9;
+  --theme-toggle-border: #CBD5E1;
+  --theme-toggle-color: #334155;
+  --theme-toggle-hover-bg: #E2E8F0;
+
+  /* Footer Tokens */
+  --footer-bg: #F8FAFC;
+  --footer-border: #E2E8F0;
+  --footer-text: #64748B;
+  --footer-title: #0F172A;
+  --footer-link: #475569;
+  --footer-link-hover: #0F172A;
+
+  /* Page Hero & Trust */
+  --pagehero-bg: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 50%, #F8FAFC 100%);
+  --pagehero-title: #0F172A;
+  --pagehero-subtitle: #475569;
+  --pagehero-stat-bg: #FFFFFF;
+  --pagehero-stat-border: #E2E8F0;
+  --pagehero-stat-val: #0F172A;
+  --trust-section-bg: #FFFFFF;
+  --trust-section-border: #E2E8F0;
+  --trust-card-bg: #F8FAFC;
+  --trust-card-border: #E2E8F0;
+  --trust-title: #0F172A;
+  --trust-desc: #475569;
+
+  /* Status & Trust */
+  --color-trust-green: #059669;
+  --color-trust-green-hover: #047857;
+  --color-trust-green-subtle: #D1FAE5;
+  --color-warning-amber: #D97706;
+  --color-warning-subtle: #FEF3C7;
+  --color-error-red: #DC2626;
+  --color-error-subtle: #FEE2E2;
+  --color-info-blue: #2563EB;
+}
+
+:root {
 
   /* Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

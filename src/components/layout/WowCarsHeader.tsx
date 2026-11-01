@@ -19,9 +19,12 @@ import {
   Building2,
   Info,
   HelpCircle,
+  Sun,
+  Moon,
 } from "lucide-react";
 import styles from "./WowCarsHeader.module.css";
 import { useCart } from "@/lib/cart/CartContext";
+import { useTheme } from "@/lib/theme/ThemeContext";
 import { getAssetPath } from "@/lib/assets";
 
 export default function WowCarsHeader() {
@@ -29,6 +32,7 @@ export default function WowCarsHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [vehiclesDropdownOpen, setVehiclesDropdownOpen] = useState(false);
   const { itemCount } = useCart();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -181,6 +185,17 @@ export default function WowCarsHeader() {
 
         {/* Action Controls */}
         <div className={styles.actions}>
+          {/* Theme Switcher */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={styles.themeToggleBtn}
+            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+          >
+            {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
+
           {/* Cart */}
           <Link href="/spare-parts/cart" className={styles.cartBtn} aria-label="Shopping Cart">
             <ShoppingCart size={18} />
@@ -284,6 +299,21 @@ export default function WowCarsHeader() {
             <Link href="/contact" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>
               <HelpCircle size={16} /> Contact & Support
             </Link>
+
+            {/* Mobile Theme Switcher */}
+            <button
+              type="button"
+              className={styles.mobileThemeToggleRow}
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            >
+              <span className={styles.mobileThemeToggleLabel}>
+                Appearance: {theme === "dark" ? "Dark Mode" : "Light Mode"}
+              </span>
+              <span className={styles.mobileThemeToggleIconWrap}>
+                {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+              </span>
+            </button>
 
             <hr className="divider" style={{ margin: "0.75rem 0" }} />
 

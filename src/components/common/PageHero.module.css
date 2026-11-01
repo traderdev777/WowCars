@@ -1,9 +1,10 @@
 .heroSection {
   position: relative;
-  background: linear-gradient(180deg, #111111 0%, #181818 50%, #111111 100%);
-  border-bottom: 1px solid rgba(237, 28, 36, 0.2);
+  background: var(--pagehero-bg);
+  border-bottom: 1px solid var(--nav-border);
   padding: 48px 0 56px;
   overflow: hidden;
+  transition: background var(--transition-base, 250ms ease), border-color var(--transition-base, 250ms ease);
 }
 
 .ambientGlow {
@@ -55,7 +56,7 @@
 }
 
 .title {
-  color: #FFFFFF;
+  color: var(--pagehero-title);
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: 800;
@@ -68,7 +69,7 @@
 }
 
 .subtitle {
-  color: #B0B0B0;
+  color: var(--pagehero-subtitle);
   font-size: 1.0625rem;
   line-height: 1.6;
   max-width: 620px;
@@ -88,6 +89,7 @@
   gap: 8px;
   padding: 12px 24px;
   font-weight: 600;
+  color: #FFFFFF !important;
   box-shadow: 0 4px 18px rgba(237, 28, 36, 0.35);
 }
 
@@ -96,14 +98,15 @@
   align-items: center;
   gap: 8px;
   padding: 12px 22px;
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-white);
+  border-color: var(--color-border);
+  background: var(--action-btn-bg);
+  transition: all var(--transition-fast, 150ms ease);
 }
 
 .heroBtnSecondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #FFFFFF;
+  background: var(--action-btn-hover-bg);
+  border-color: var(--color-border-light);
 }
 
 .statsStrip {
@@ -112,7 +115,7 @@
   gap: 16px;
   margin-top: 16px;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--color-border);
 }
 
 .statItem {
@@ -122,14 +125,14 @@
 }
 
 .statValue {
-  color: #FFFFFF;
+  color: var(--pagehero-stat-val);
   font-size: 1.35rem;
   font-weight: 800;
   font-family: var(--font-display, 'Poppins', sans-serif);
 }
 
 .statLabel {
-  color: #888888;
+  color: var(--color-muted);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;

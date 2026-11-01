@@ -1,18 +1,19 @@
 /* ==========================================================================
    WowCars — Cars Catalog / Browse Page CSS Module
-   Theme: Carbon Dark with Crimson Red and Slate borders
+   Theme: Dynamic Carbon Dark and Crisp Light Theme Support
    ========================================================================== */
 
 .page {
   min-height: 100vh;
-  background-color: var(--brand-black, #111111);
-  color: var(--brand-white, #FFFFFF);
+  background-color: var(--color-carbon);
+  color: var(--color-white);
   padding: 40px 0 80px;
+  transition: background-color var(--transition-base, 250ms ease), color var(--transition-base, 250ms ease);
 }
 
 .catalogHeader {
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 32px;
 }
 
@@ -21,12 +22,12 @@
   align-items: center;
   gap: 8px;
   font-size: 0.8125rem;
-  color: #777777;
+  color: var(--color-muted);
   margin-bottom: 16px;
 }
 
 .breadcrumbLink {
-  color: #9CA3AF;
+  color: var(--color-light-gray);
   text-decoration: none;
   transition: color var(--transition-fast, 150ms ease);
 }
@@ -47,17 +48,17 @@
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-size: clamp(1.5rem, 2.8vw, 2rem);
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--color-white);
   margin-bottom: 4px;
 }
 
 .resultCount {
   font-size: 0.875rem;
-  color: #9CA3AF;
+  color: var(--color-muted);
 }
 
 .resultCount strong {
-  color: #FFFFFF;
+  color: var(--color-white);
 }
 
 .categoryPills {
@@ -72,10 +73,10 @@
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  background: var(--brand-charcoal, #242424);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-full, 9999px);
-  color: #D1D5DB;
+  color: var(--color-light-gray);
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
@@ -83,16 +84,16 @@
 }
 
 .catTab:hover {
-  background: #2C2C2E;
+  background: var(--color-surface-raised);
   border-color: rgba(237, 28, 36, 0.4);
-  color: #FFFFFF;
+  color: var(--color-white);
 }
 
 .catTabActive {
-  background: rgba(237, 28, 36, 0.15);
+  background: var(--brand-red, #ED1C24);
   border-color: var(--brand-red, #ED1C24);
-  color: #FFFFFF;
-  box-shadow: 0 0 12px rgba(237, 28, 36, 0.3);
+  color: #FFFFFF !important;
+  box-shadow: 0 0 12px rgba(237, 28, 36, 0.35);
 }
 
 /* Catalog Layout */
@@ -111,21 +112,21 @@
 
 /* Filter Sidebar */
 .filterSidebar {
-  background: var(--brand-charcoal, #242424);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg, 16px);
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .filterHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 14px;
 }
 
@@ -133,7 +134,7 @@
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-size: 0.9375rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--color-white);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -168,16 +169,16 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #8E8E93;
+  color: var(--color-muted);
 }
 
 .searchInput {
   width: 100%;
   padding: 10px 12px 10px 34px;
-  background: rgba(17, 17, 17, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm, 6px);
-  color: #FFFFFF;
+  color: var(--color-white);
   font-size: 0.8125rem;
   outline: none;
   transition: border-color var(--transition-fast, 150ms ease);
@@ -191,7 +192,7 @@
   position: absolute;
   left: 10px;
   top: 12px;
-  color: #6B7280;
+  color: var(--color-muted);
 }
 
 .filterPills {
@@ -202,10 +203,10 @@
 
 .pillBtn {
   padding: 6px 12px;
-  background: rgba(17, 17, 17, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm, 6px);
-  color: #9CA3AF;
+  color: var(--color-light-gray);
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
@@ -213,15 +214,15 @@
 }
 
 .pillBtn:hover {
-  background: #2C2C2E;
-  color: #FFFFFF;
+  background: var(--color-mid-gray);
+  color: var(--color-white);
 }
 
 .pillBtnActive {
   background: rgba(237, 28, 36, 0.15);
   border-color: var(--brand-red, #ED1C24);
-  color: #FFFFFF;
-  font-weight: 600;
+  color: var(--brand-red, #ED1C24);
+  font-weight: 700;
 }
 
 .checkboxLabel {
@@ -240,7 +241,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #D1D5DB;
+  color: var(--color-white);
   font-size: 0.8125rem;
 }
 
@@ -259,7 +260,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #FFFFFF;
+  color: var(--color-white);
   font-size: 0.75rem;
   font-weight: 700;
 }
@@ -272,7 +273,7 @@
 }
 
 .helpText {
-  color: #9CA3AF;
+  color: var(--color-muted);
   font-size: 0.7rem;
   line-height: 1.4;
 }
@@ -292,15 +293,15 @@
 }
 
 .sortLabel {
-  color: #8E8E93;
+  color: var(--color-muted);
   font-size: 0.8125rem;
 }
 
 .sortSelect {
-  background: var(--brand-charcoal, #242424);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm, 6px);
-  color: #FFFFFF;
+  color: var(--color-white);
   padding: 8px 12px;
   font-size: 0.8125rem;
   cursor: pointer;
@@ -324,8 +325,8 @@
   justify-content: center;
   text-align: center;
   padding: 64px 24px;
-  background: var(--brand-charcoal, #242424);
-  border: 1px dashed rgba(255, 255, 255, 0.12);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
   border-radius: var(--radius-lg, 16px);
   gap: 14px;
 }
@@ -335,14 +336,14 @@
 }
 
 .emptyTitle {
-  color: #FFFFFF;
+  color: var(--color-white);
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-size: 1.25rem;
   font-weight: 700;
 }
 
 .emptyDesc {
-  color: #8E8E93;
+  color: var(--color-muted);
   font-size: 0.875rem;
   max-width: 400px;
   line-height: 1.5;

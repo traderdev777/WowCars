@@ -1,7 +1,8 @@
 .trustSection {
-  background: var(--brand-black, #111111);
+  background: var(--trust-section-bg);
   padding: 32px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--trust-section-border);
+  transition: background var(--transition-base, 250ms ease), border-color var(--transition-base, 250ms ease);
 }
 
 .container {
@@ -19,8 +20,8 @@
   align-items: flex-start;
   gap: 16px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--trust-card-bg);
+  border: 1px solid var(--trust-card-border);
   border-radius: var(--radius-md, 10px);
   transition: border-color var(--transition-fast, 150ms ease), background var(--transition-fast, 150ms ease);
 }
@@ -53,13 +54,13 @@
 }
 
 .title {
-  color: #FFFFFF;
+  color: var(--trust-title);
   font-size: 0.9375rem;
   font-weight: 700;
 }
 
 .description {
-  color: #8E8E93;
+  color: var(--trust-desc);
   font-size: 0.8125rem;
   line-height: 1.45;
 }

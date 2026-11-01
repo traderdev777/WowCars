@@ -40,6 +40,16 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from "@/lib/cart/CartContext";
+import { ThemeProvider } from "@/lib/theme/ThemeContext";
+
+const themeInitScript = `(function() {
+  try {
+    var stored = localStorage.getItem('wowcars-theme');
+    var theme = stored === 'light' || stored === 'dark' ? stored : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.add(theme);
+  } catch (e) {}
+})();`;
 
 export default function RootLayout({
   children,
@@ -47,14 +57,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#E50914" />
+        <meta name="theme-color" content="#ED1C24" />
         <link rel="manifest" href="/manifest.json" />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <CartProvider>{children}</CartProvider>
+        <ThemeProvider>
+          <CartProvider>{children}</CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

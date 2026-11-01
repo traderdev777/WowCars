@@ -1,8 +1,9 @@
 .footer {
-  background: var(--brand-black, #111111);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
   padding: 64px 0 24px;
-  color: #9CA3AF;
+  color: var(--footer-text);
+  transition: background var(--transition-base, 250ms ease), border-color var(--transition-base, 250ms ease);
 }
 
 .topGrid {
@@ -33,7 +34,7 @@
 }
 
 .desc {
-  color: #8E8E93;
+  color: var(--footer-text);
   font-size: 0.8125rem;
   line-height: 1.6;
 }
@@ -50,10 +51,10 @@
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--action-btn-bg);
+  border: 1px solid var(--action-btn-border);
   border-radius: var(--radius-sm, 6px);
-  color: #FFFFFF;
+  color: var(--color-white);
   font-size: 0.7rem;
   font-weight: 600;
 }
@@ -73,7 +74,7 @@
 }
 
 .colTitle {
-  color: #FFFFFF;
+  color: var(--footer-title);
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -93,14 +94,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #9CA3AF;
+  color: var(--footer-link);
   font-size: 0.8125rem;
   text-decoration: none;
   transition: color var(--transition-fast, 150ms ease), transform var(--transition-fast, 150ms ease);
 }
 
 .footerLink:hover {
-  color: #FFFFFF;
+  color: var(--footer-link-hover);
   transform: translateX(2px);
 }
 
@@ -135,14 +136,14 @@
 }
 
 .contactLabel {
-  color: #6B7280;
+  color: var(--color-muted);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .contactValue {
-  color: #FFFFFF;
+  color: var(--footer-title);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -156,7 +157,7 @@
 }
 
 .extraLink {
-  color: #9CA3AF;
+  color: var(--footer-link);
   text-decoration: none;
   transition: color var(--transition-fast, 150ms ease);
 }
@@ -167,7 +168,7 @@
 
 .bottomBar {
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--footer-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -177,7 +178,7 @@
 }
 
 .copyright {
-  color: #6B7280;
+  color: var(--color-muted);
 }
 
 .legalLinks {
@@ -187,13 +188,13 @@
 }
 
 .legalLink {
-  color: #9CA3AF;
+  color: var(--footer-link);
   text-decoration: none;
   transition: color var(--transition-fast, 150ms ease);
 }
 
 .legalLink:hover {
-  color: #FFFFFF;
+  color: var(--footer-link-hover);
 }
 
 @media (max-width: 1024px) {
