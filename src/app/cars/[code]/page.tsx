@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getCarByCode, getAllCars, getRelatedCars } from "@/lib/mockData";
+import { db } from "@/lib/db";
 import { formatLakhs } from "@/lib/formatters";
+import { toPublicCar } from "@/lib/db/serializers";
 import CarDetailClient from "./CarDetailClient";
 
 interface PageProps {
@@ -9,17 +10,17 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const cars = getAllCars();
-  return cars.map((car) => ({
+  const result = await db.getCars({ status: "ACTIVE" });
+  return result.cars.map((car) => ({
     code: car.listingCode.toLowerCase(),
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { code } = await params;
-  const car = getCarByCode(code);
+  const car = await db.getCarByListingCode(code);
 
-  if (!car) {
+  if (!car || car.status !== "ACTIVE") {
     return {
       title: "Vehicle Not Found — WowCars Bengaluru",
       description: "The requested vehicle listing could not be found on WowCars.",
@@ -38,13 +39,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CarDetailPage({ params }: PageProps) {
   const { code } = await params;
-  const car = getCarByCode(code);
+  const car = await db.getCarByListingCode(code);
 
-  if (!car) {
+  if (!car || car.status !== "ACTIVE") {
     notFound();
   }
 
-  const relatedCars = getRelatedCars(car, 3);
+  const relatedResult = await db.getCars({ status: "ACTIVE", bodyType: car.bodyType, limit: 4 });
+  const relatedCars = relatedResult.cars
+    .filter((c) => c.id !== car.id)
+    .map(toPublicCar);
 
-  return <CarDetailClient car={car} relatedCars={relatedCars} />;
+  return <CarDetailClient car={toPublicCar(car) as unknown as import("@/lib/mockData").Car} relatedCars={relatedCars as unknown as import("@/lib/mockData").Car[]} />;
 }

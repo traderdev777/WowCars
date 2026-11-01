@@ -7,25 +7,30 @@
 
 /* ---- CSS Design Tokens ---- */
 :root {
-  /* Brand Core */
-  --brand-red: #E50914;
-  --brand-red-hover: #C40812;
-  --brand-red-dark: #A00710;
-  --brand-red-subtle: #FDE8E8;
-  --brand-red-glow: rgba(229, 9, 20, 0.25);
+  /* Brand Core — Official WowCars Palette */
+  --brand-red: #ED1C24;
+  --brand-red-hover: #D0141B;
+  --brand-red-dark: #B30E14;
+  --brand-red-subtle: #FDE8E9;
+  --brand-red-glow: rgba(237, 28, 36, 0.25);
+  --brand-black: #111111;
+  --brand-charcoal: #242424;
+  --brand-light-grey: #F4F5F7;
+  --brand-secondary-grey: #777777;
+  --brand-white: #FFFFFF;
 
   /* Automotive Dark Neutrals */
-  --color-black: #0A0A0A;
-  --color-carbon: #121212;
-  --color-dark-gray: #1A1A1A;
-  --color-surface: #1E1E1E;
+  --color-black: #111111;
+  --color-carbon: #181818;
+  --color-dark-gray: #1E1E1E;
+  --color-surface: #202020;
   --color-surface-raised: #242424;
   --color-mid-gray: #2C2C2E;
   --color-border: #333333;
-  --color-border-light: #404040;
+  --color-border-light: #444444;
   --color-light-gray: #8E8E93;
-  --color-muted: #6B6B6B;
-  --color-off-white: #F8F9FA;
+  --color-muted: #777777;
+  --color-off-white: #F4F5F7;
   --color-white: #FFFFFF;
 
   /* Status & Trust */
@@ -531,3 +536,15 @@ ul, ol {
   color: var(--color-white);
 }
 .price-rupee-symbol { color: var(--brand-red); }
+
+/* ---- Hide Next.js Development Indicator Badge ---- */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay],
+#nextjs-dev-indicator {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+

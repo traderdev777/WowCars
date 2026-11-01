@@ -40,3 +40,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local persistent database and uploads
+/data/*.json
+/data/*.lock
+/data/*.tmp
+/data/.*secret*
+/data/backups/*
+!/data/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep

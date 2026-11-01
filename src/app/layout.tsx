@@ -39,6 +39,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { CartProvider } from "@/lib/cart/CartContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,7 +53,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#E50914" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body>{children}</body>
+      <body>
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }

@@ -12,7 +12,7 @@ export interface Car {
   year: number;
   priceINR: number;
   kmDriven: number;
-  fuelType: "Petrol" | "Diesel" | "CNG" | "Electric" | "Hybrid";
+  fuelType: "Petrol" | "Diesel" | "CNG" | "Electric" | "Hybrid" | "LPG";
   transmission: "Manual" | "Automatic";
   bodyType: "Hatchback" | "Sedan" | "SUV" | "MUV" | "Luxury";
   color: string;
@@ -27,6 +27,8 @@ export interface Car {
   dealerName?: string;
   isVerified: boolean;
   isFeatured: boolean;
+  isSeedData?: boolean;
+  status?: string;
   images: string[];
   createdAt: string;
   // Extended Automotive Specifications

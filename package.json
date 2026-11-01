@@ -6,14 +6,29 @@
     "dev": "next dev",
     "build": "next build",
     "build:static": "NEXT_PUBLIC_OUTPUT=export next build",
+    "build:pages": "npx tsx scripts/build-github-pages.ts",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "create-admin": "npx tsx scripts/create-admin.ts",
+    "test:invariants": "npx tsx scripts/test-invariants.ts",
+    "test:smoke": "npx tsx scripts/smoke-test.ts",
+    "test:admin": "npx tsx scripts/test-admin-operations.ts",
+    "test:network": "npx tsx scripts/test-pan-india-network.ts",
+    "test:marketplace": "npx tsx scripts/test-managed-marketplace.ts",
+    "test:dealer-permissions": "npx tsx scripts/test-dealer-permissions.ts",
+    "test:spare-parts": "npx tsx scripts/test-spare-parts-marketplace.ts",
+    "test:operations": "npx tsx scripts/test-garage-operations.ts",
+    "test:customer": "npx tsx scripts/test-customer-platform.ts",
+    "test:phase1": "npx tsx scripts/test-phase1-inventory-ev.ts",
+    "test:all": "npm run test:invariants && npm run test:network && npm run test:marketplace && npm run test:dealer-permissions && npm run test:admin && npm run test:operations && npm run test:spare-parts && npm run test:customer && npm run test:phase1 && npm run test:smoke"
   },
   "dependencies": {
     "lucide-react": "^1.62.0",
+    "mysql2": "^3.24.6",
     "next": "16.4.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@types/node": "^20",

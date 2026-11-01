@@ -395,3 +395,52 @@
 .summaryRow:last-child {
   border-bottom: none;
 }
+
+/* Attractive Exterior Color Swatches */
+.colorSwatchGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.colorSwatchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-light-gray);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.colorSwatchBtn:hover {
+  border-color: var(--color-slate);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.colorSwatchBtnActive {
+  background: rgba(237, 28, 36, 0.12);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(237, 28, 36, 0.25);
+}
+
+.colorDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.colorName {
+  white-space: nowrap;
+}
+

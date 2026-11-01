@@ -91,6 +91,63 @@
   font-size: var(--text-xs);
 }
 
+.cartBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  color: var(--color-white);
+  transition: all var(--transition-fast);
+}
+
+.cartBtn:hover {
+  background: var(--color-surface-raised);
+  border-color: var(--color-border-light);
+  color: var(--color-primary);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--color-primary, #E50914);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 6px rgba(229, 9, 20, 0.5);
+}
+
+.partsHighlightLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.navBadge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #E50914, #ff4d4d);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
 @media (max-width: 1023px) {
   .phoneBtn span { display: none; }
 }

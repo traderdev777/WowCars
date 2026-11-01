@@ -1,0 +1,240 @@
+.pageWrapper {
+  min-height: 100vh;
+  background: var(--brand-black, #111111);
+  color: #FFFFFF;
+}
+
+.contentSection {
+  padding: 5rem 0;
+}
+
+.altSection {
+  background: var(--brand-charcoal, #242424);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 5rem 0;
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3.5rem;
+}
+
+.sectionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full, 9999px);
+  background: rgba(237, 28, 36, 0.12);
+  border: 1px solid rgba(237, 28, 36, 0.35);
+  color: var(--brand-red, #ED1C24);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+
+.sectionTitle span {
+  color: var(--brand-red, #ED1C24);
+}
+
+.sectionSubtitle {
+  font-size: 1.0625rem;
+  color: #A0A0A0;
+  line-height: 1.6;
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.storyText h3 {
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 1.25rem;
+}
+
+.storyText p {
+  color: #B0B0B0;
+  line-height: 1.75;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.storyHighlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.highlightCard {
+  background: var(--brand-charcoal, #242424);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 10px);
+  padding: 1.25rem;
+}
+
+.highlightCard strong {
+  display: block;
+  font-size: 1.125rem;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.highlightCard span {
+  font-size: 0.875rem;
+  color: #8E8E93;
+  line-height: 1.4;
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.pillarCard {
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg, 12px);
+  padding: 2rem;
+  transition: transform var(--transition-normal, 250ms ease), border-color var(--transition-normal, 250ms ease);
+}
+
+.pillarCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(237, 28, 36, 0.4);
+}
+
+.pillarIconBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md, 10px);
+  background: rgba(237, 28, 36, 0.15);
+  color: var(--brand-red, #ED1C24);
+  margin-bottom: 1.25rem;
+}
+
+.pillarCard h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.75rem;
+}
+
+.pillarCard p {
+  color: #8E8E93;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.hubsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.hubCard {
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+  transition: transform var(--transition-normal, 250ms ease);
+}
+
+.hubCard:hover {
+  transform: translateY(-4px);
+}
+
+.hubImageWrap {
+  position: relative;
+  height: 220px;
+  background: #000;
+}
+
+.hubImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hubPill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--brand-red, #ED1C24);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.hubBody {
+  padding: 1.75rem;
+}
+
+.hubBody h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.5rem;
+}
+
+.hubAddress {
+  color: #8E8E93;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.hubFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1rem;
+}
+
+.hubFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #CCCCCC;
+  font-size: 0.875rem;
+}
+
+.hubFeatureItem svg {
+  color: var(--brand-red, #ED1C24);
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .storyGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}

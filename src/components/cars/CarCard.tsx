@@ -40,13 +40,21 @@ export default function CarCard({ car }: CarCardProps) {
     <article className={`card ${styles.carCard}`}>
       {/* Image with glossy shine hover effect */}
       <div className={`${styles.imageWrap} shine-hover`}>
-        {/* Placeholder gradient image */}
-        <div className={styles.imagePlaceholder} aria-label={`${car.make} ${car.model} photo`}>
-          <div className={styles.placeholderContent}>
-            <span className={styles.carEmoji}>🚗</span>
-            <span className={styles.carMakeLabel}>{car.make}</span>
+        {car.images && car.images.length > 0 && car.images[0] ? (
+          <img
+            src={car.images[0]}
+            alt={`${car.year} ${car.make} ${car.model}`}
+            className={styles.carRealImg}
+            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s ease" }}
+          />
+        ) : (
+          <div className={styles.imagePlaceholder} aria-label={`${car.make} ${car.model} photo`}>
+            <div className={styles.placeholderContent}>
+              <span className={styles.carEmoji}>🚗</span>
+              <span className={styles.carMakeLabel}>{car.make}</span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Favorite Heart Button */}
         <button
@@ -64,6 +72,11 @@ export default function CarCard({ car }: CarCardProps) {
 
         {/* Top Badges */}
         <div className={styles.topBadges}>
+          {car.isSeedData && (
+            <span className="badge badge-dark" style={{ border: "1px dashed rgba(255, 255, 255, 0.3)", fontSize: 10, color: "#aaa" }}>
+              Sample Listing
+            </span>
+          )}
           {car.isFeatured && (
             <span className={`badge badge-red ${styles.featuredBadge}`}>★ Featured</span>
           )}

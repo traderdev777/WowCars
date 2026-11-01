@@ -1,0 +1,215 @@
+.footer {
+  background: var(--brand-black, #111111);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 64px 0 24px;
+  color: #9CA3AF;
+}
+
+.topGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.logo {
+  object-fit: contain;
+  width: auto;
+  height: 44px;
+}
+
+.tagline {
+  color: var(--brand-red, #ED1C24);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.desc {
+  color: #8E8E93;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.trustBadges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm, 6px);
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.badgeRed {
+  color: var(--brand-red, #ED1C24);
+}
+
+.badgeGreen {
+  color: #10B981;
+}
+
+.linksCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.colTitle {
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #9CA3AF;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: color var(--transition-fast, 150ms ease), transform var(--transition-fast, 150ms ease);
+}
+
+.footerLink:hover {
+  color: #FFFFFF;
+  transform: translateX(2px);
+}
+
+.linkChevron {
+  color: var(--brand-red, #ED1C24);
+}
+
+.contactCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contactIcon {
+  color: var(--brand-red, #ED1C24);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.contactLabel {
+  color: #6B7280;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contactValue {
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.extraLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  margin-top: 8px;
+}
+
+.extraLink {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+.extraLink:hover {
+  color: var(--brand-red, #ED1C24);
+}
+
+.bottomBar {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.75rem;
+}
+
+.copyright {
+  color: #6B7280;
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legalLink {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+.legalLink:hover {
+  color: #FFFFFF;
+}
+
+@media (max-width: 1024px) {
+  .topGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .topGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

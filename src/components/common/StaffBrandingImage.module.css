@@ -1,0 +1,147 @@
+.container {
+  position: relative;
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+  border: 1px solid rgba(237, 28, 36, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(237, 28, 36, 0.15);
+  background: var(--brand-charcoal, #242424);
+  width: 100%;
+}
+
+.aspect_16_9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect_3_4 {
+  aspect-ratio: 3 / 4;
+}
+
+.aspect_4_3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect_1_1 {
+  aspect-ratio: 1 / 1;
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.container:hover .image {
+  transform: scale(1.02);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 17, 17, 0.2) 0%,
+    rgba(17, 17, 17, 0) 40%,
+    rgba(17, 17, 17, 0.75) 85%,
+    rgba(17, 17, 17, 0.95) 100%
+  );
+  pointer-events: none;
+}
+
+.trustBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(17, 17, 17, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(237, 28, 36, 0.4);
+  border-radius: var(--radius-full, 9999px);
+  color: var(--brand-white, #FFFFFF);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.badgeIcon {
+  color: var(--brand-red, #ED1C24);
+}
+
+.captionBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(17, 17, 17, 0.88);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+.captionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.specialistName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand-white, #FFFFFF);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.nameIcon {
+  color: var(--brand-red, #ED1C24);
+}
+
+.specialistRole {
+  color: #A0A0A0;
+  font-size: 0.75rem;
+}
+
+.brandTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(237, 28, 36, 0.12);
+  border: 1px solid rgba(237, 28, 36, 0.3);
+  border-radius: var(--radius-sm, 6px);
+  color: #FFC0C3;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.brandDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-red, #ED1C24);
+  box-shadow: 0 0 6px var(--brand-red, #ED1C24);
+}
+
+@media (max-width: 640px) {
+  .captionBar {
+    padding: 10px 14px;
+  }
+  .brandTag {
+    display: none;
+  }
+}

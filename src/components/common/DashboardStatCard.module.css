@@ -1,0 +1,101 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--brand-charcoal, #242424);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 10px);
+  gap: 12px;
+  transition: border-color var(--transition-fast, 150ms ease), transform var(--transition-fast, 150ms ease);
+}
+
+.card:hover {
+  border-color: rgba(237, 28, 36, 0.35);
+  transform: translateY(-2px);
+}
+
+.highlight {
+  border-left: 4px solid var(--brand-red, #ED1C24);
+  background: linear-gradient(135deg, rgba(237, 28, 36, 0.08) 0%, #242424 100%);
+}
+
+.success {
+  border-left: 4px solid #10B981;
+}
+
+.danger {
+  border-left: 4px solid #EF4444;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: #8E8E93;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm, 6px);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--brand-red, #ED1C24);
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.value {
+  color: #FFFFFF;
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.changeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+}
+
+.negative {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+}
+
+.neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: #D1D5DB;
+}
+
+.subtitle {
+  color: #6B7280;
+  font-size: 0.75rem;
+}
+
+.clickable {
+  cursor: pointer;
+}
+

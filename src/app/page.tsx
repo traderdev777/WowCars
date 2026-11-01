@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import {
   Search, SlidersHorizontal, MapPin, TrendingUp, Shield, PhoneCall,
   ChevronDown, X, Zap, Award, Users, MessageCircle, Star,
-  Volume2, VolumeX,
+  Volume2, VolumeX, Wrench, Clock, ArrowRight, Store,
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -102,9 +102,22 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
+  const [carsList, setCarsList] = useState(MOCK_CARS);
+
+  useEffect(() => {
+    fetch("/api/cars")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setCarsList(json.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const filtered = useMemo(() => {
     const bud = BUDGETS[budget];
-    return MOCK_CARS.filter((car) => {
+    return carsList.filter((car) => {
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
@@ -120,7 +133,7 @@ export default function HomePage() {
       const matchBudget = car.priceINR >= bud.min && car.priceINR <= bud.max;
       return matchSearch && matchMake && matchBody && matchFuel && matchTrans && matchBudget;
     });
-  }, [search, make, bodyType, fuelType, transmission, budget]);
+  }, [carsList, search, make, bodyType, fuelType, transmission, budget]);
 
   const activeFilterCount = [
     make !== "All Makes",
@@ -139,7 +152,7 @@ export default function HomePage() {
     setSearch("");
   };
 
-  const featured = MOCK_CARS.filter((c) => c.isFeatured).slice(0, 4);
+  const featured = carsList.filter((c) => c.isFeatured).slice(0, 4);
 
   return (
     <>
@@ -541,6 +554,97 @@ export default function HomePage() {
                   <p className={styles.featureDesc}>{f.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ========== AUTHORIZED SERVICE CENTRES TEASER ========== */}
+        <section className={styles.serviceCentresSection} aria-label="Authorized Service Centres">
+          <div className="container">
+            <div className={styles.serviceCentresCard}>
+              <div className={styles.serviceCentresHeader}>
+                <div className={styles.serviceCentresBadge}>
+                  <Wrench size={14} /> Multi-Brand Service Network
+                </div>
+                <h2 className={`text-display ${styles.serviceCentresTitle}`}>
+                  Need Car or Bike Servicing? Visit Our <span className="text-red">Authorized Garages</span>
+                </h2>
+                <p className={styles.serviceCentresSubtitle}>
+                  State-of-the-art multi-brand workshops in Koramangala (Bengaluru) and Hebbal (Mysuru).
+                  100% genuine spares, fixed transparent labour charges, certified master technicians, and free doorstep pickup.
+                </p>
+              </div>
+
+              <div className={styles.serviceCentresHubs}>
+                <div className={styles.hubTeaser}>
+                  <div className={styles.hubImageWrap}>
+                    <img
+                      src="/images/workshop-koramangala.jpg"
+                      alt="WowCars Koramangala Flagship Hub"
+                      className={styles.hubImg}
+                    />
+                    <span className={styles.hubPill}>Bengaluru Flagship</span>
+                  </div>
+                  <div className={styles.hubInfo}>
+                    <h3 className={styles.hubName}>WowCars Hub & Workshop — Koramangala</h3>
+                    <p className={styles.hubLoc}>Plot 42, 80 Feet Road, 4th Block, Koramangala • 6 Car Bays + 2 Bike Bays</p>
+                    <div className={styles.hubTimings}>
+                      <Clock size={14} /> Open Daily: 8:00 AM – 8:00 PM
+                    </div>
+                    <div className={styles.hubActions}>
+                      <a href="/service-centres" className="btn btn-primary btn-sm">
+                        Book Appointment
+                      </a>
+                      <a href="tel:+919880123456" className="btn btn-ghost btn-sm">
+                        <PhoneCall size={14} /> +91 98801 23456
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.hubTeaser}>
+                  <div className={styles.hubImageWrap}>
+                    <img
+                      src="/images/workshop-mysuru.jpg"
+                      alt="WowCars Mysuru Express Garage"
+                      className={styles.hubImg}
+                    />
+                    <span className={styles.hubPill}>Mysuru Express</span>
+                  </div>
+                  <div className={styles.hubInfo}>
+                    <h3 className={styles.hubName}>WowCars Express Garage & Parts — Mysuru</h3>
+                    <p className={styles.hubLoc}>Near Columbia Asia Junction, Ring Road, Hebbal • 3 Rapid Bays + Parts Store</p>
+                    <div className={styles.hubTimings}>
+                      <Clock size={14} /> Mon–Sat: 8:30 AM – 7:30 PM
+                    </div>
+                    <div className={styles.hubActions}>
+                      <a href="/service-centres" className="btn btn-primary btn-sm">
+                        Book Appointment
+                      </a>
+                      <a href="tel:+919845087654" className="btn btn-ghost btn-sm">
+                        <PhoneCall size={14} /> +91 98450 87654
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.serviceCentresFooter}>
+                <div className={styles.serviceTrustNotes}>
+                  <span>✓ 100% Genuine OEM / OES Spares</span>
+                  <span>✓ Fixed Labour Rate Card</span>
+                  <span>✓ 6-Month Workmanship Warranty</span>
+                  <span>✓ Free Doorstep Pickup & Drop</span>
+                </div>
+                <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                  <a href="/franchise" className="btn btn-ghost">
+                    <Store size={15} /> Open a Franchise Workshop & Store
+                  </a>
+                  <a href="/service-centres" className="btn btn-secondary">
+                    Explore Service Menu & Rate Card <ArrowRight size={16} />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>

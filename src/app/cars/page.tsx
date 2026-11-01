@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { getAllCars } from "@/lib/mockData";
+import { db } from "@/lib/db";
+import { toPublicCar } from "@/lib/db/serializers";
 import CarsCatalogClient from "./CarsCatalogClient";
 
 export const metadata: Metadata = {
@@ -12,7 +14,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CarsPage() {
-  const cars = getAllCars();
-  return <CarsCatalogClient initialCars={cars} />;
+export default async function CarsPage() {
+  const result = await db.getCars({ status: "ACTIVE" });
+
+  return (
+    <Suspense fallback={<div style={{ minHeight: "60vh", background: "#0b1120" }} />}>
+      <CarsCatalogClient
+        initialCars={result.cars.map(toPublicCar) as any}
+      />
+    </Suspense>
+  );
 }

@@ -1,0 +1,115 @@
+.wrapper {
+  margin: 32px 0;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #FFFFFF;
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #8E8E93;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.link {
+  text-decoration: none;
+  display: block;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--brand-charcoal, #242424);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 10px);
+  cursor: pointer;
+  transition: all var(--transition-fast, 150ms ease);
+}
+
+.card:hover {
+  background: #2C2C2E;
+  border-color: rgba(237, 28, 36, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.cardActive {
+  background: rgba(237, 28, 36, 0.12);
+  border-color: var(--brand-red, #ED1C24);
+  box-shadow: 0 0 16px rgba(237, 28, 36, 0.25);
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm, 6px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--brand-red, #ED1C24);
+  flex-shrink: 0;
+  transition: background var(--transition-fast, 150ms ease);
+}
+
+.card:hover .iconBox,
+.cardActive .iconBox {
+  background: var(--brand-red, #ED1C24);
+  color: #FFFFFF;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  color: #FFFFFF;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.count {
+  color: #8E8E93;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .iconBox {
+    width: 36px;
+    height: 36px;
+  }
+}
