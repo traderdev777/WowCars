@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { getAssetPath } from "@/lib/assets";
 import styles from "./ResponsiveGallery.module.css";
 
 export interface ResponsiveGalleryProps {
@@ -19,7 +20,8 @@ export default function ResponsiveGallery({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  const displayImages = images.length > 0 ? images : ["/images/staff-used-cars.jpg"];
+  const rawImages = images.length > 0 ? images : ["/images/staff-used-cars.jpg"];
+  const displayImages = rawImages.map(getAssetPath);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? displayImages.length - 1 : prev - 1));

@@ -89,6 +89,7 @@ try {
     "videos",
     "parts",
     "uploads",
+    "demo",
   ];
 
   for (const item of staticAssetItems) {

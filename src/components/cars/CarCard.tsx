@@ -6,6 +6,7 @@ import { MapPin, Fuel, Settings, Users, MessageCircle, Eye, BadgeCheck, Heart } 
 import { formatLakhs, formatKM, generateWhatsAppLink } from "@/lib/formatters";
 import type { Car } from "@/lib/mockData";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
+import { getAssetPath } from "@/lib/assets";
 import styles from "./CarCard.module.css";
 
 interface CarCardProps {
@@ -22,6 +23,10 @@ const FUEL_COLORS: Record<string, string> = {
 
 export default function CarCard({ car }: CarCardProps) {
   const [isSaved, setIsSaved] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const rawImage = car.images && car.images.length > 0 && car.images[0] ? car.images[0] : "";
+  const resolvedImage = rawImage ? getAssetPath(rawImage) : "";
 
   const waLink = generateWhatsAppLink(WHATSAPP_CONCIERGE_PHONE, {
     listingCode: car.listingCode,
@@ -40,12 +45,13 @@ export default function CarCard({ car }: CarCardProps) {
     <article className={`card ${styles.carCard}`}>
       {/* Image with glossy shine hover effect */}
       <div className={`${styles.imageWrap} shine-hover`}>
-        {car.images && car.images.length > 0 && car.images[0] ? (
+        {resolvedImage && !imageError ? (
           <img
-            src={car.images[0]}
+            src={resolvedImage}
             alt={`${car.year} ${car.make} ${car.model}`}
             className={styles.carRealImg}
             style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s ease" }}
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className={styles.imagePlaceholder} aria-label={`${car.make} ${car.model} photo`}>
