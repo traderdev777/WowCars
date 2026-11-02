@@ -1,0 +1,4 @@
+:HL["/WowCars/_next/static/chunks/3ypc2yqb4olsj.css","style"]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
+0:{"b":"3YbWQirtS5qq_T-KUYyHm","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

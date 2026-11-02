@@ -1,0 +1,6 @@
+:HL["/WowCars/_next/static/chunks/3ypc2yqb4olsj.css","style"]
+:HL["/WowCars/_next/static/chunks/1qg5t5on9iuie.css","style"]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":"operations","h":96,"c":"$Q3"}]]
+1:[["children",{"s":"admin","h":96,"c":"$Q2"}]]
+0:{"b":"3YbWQirtS5qq_T-KUYyHm","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

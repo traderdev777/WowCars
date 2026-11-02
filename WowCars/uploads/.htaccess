@@ -1,0 +1,9 @@
+# WowCars — Upload Directory Defense-in-Depth Security
+# Strictly disables script execution in uploads directory on Apache / LiteSpeed
+
+<FilesMatch "(?i)\.(php|phtml|php3|php4|php5|php7|php8|phps|cgi|pl|py|sh|bash|exe|asp|aspx|jsp)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+Options -ExecCGI -Indexes
