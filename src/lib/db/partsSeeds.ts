@@ -13,7 +13,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "engine-maintenance",
     description: "Oil filters, air/cabin filters, spark plugs, timing belts, synthetic lubricants and engine fluids.",
     icon: "⚙️",
-    imageUrl: "/parts/categories/engine.svg",
+    imageUrl: "/parts/categories/engine-maintenance.jpg",
     displayOrder: 1,
     isActive: true,
     subcategories: [
@@ -33,7 +33,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "brakes-suspension",
     description: "Brake pads, rotors, shock absorbers, suspension arms, wheel bearings, and steering components.",
     icon: "🛑",
-    imageUrl: "/parts/categories/brakes.svg",
+    imageUrl: "/parts/categories/brakes-suspension.jpg",
     displayOrder: 2,
     isActive: true,
     subcategories: [
@@ -52,7 +52,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "electrical-lighting",
     description: "Automotive batteries, headlights, tail lamps, alternators, starter motors, and engine sensors.",
     icon: "⚡",
-    imageUrl: "/parts/categories/electrical.svg",
+    imageUrl: "/parts/categories/electrical-lighting.jpg",
     displayOrder: 3,
     isActive: true,
     subcategories: [
@@ -70,7 +70,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "body-parts",
     description: "Bumpers, grilles, side view mirrors, fenders, wiper blades, and exterior replacement panels.",
     icon: "🚗",
-    imageUrl: "/parts/categories/body.svg",
+    imageUrl: "/parts/categories/body-parts.jpg",
     displayOrder: 4,
     isActive: true,
     subcategories: [
@@ -89,7 +89,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "transmission-drivetrain",
     description: "Clutch kits, release bearings, driveshaft components, gearboxes, and transmission oil seals.",
     icon: "🔄",
-    imageUrl: "/parts/categories/transmission.svg",
+    imageUrl: "/parts/categories/transmission-drivetrain.jpg",
     displayOrder: 5,
     isActive: true,
     subcategories: [
@@ -107,7 +107,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "tools-workshop",
     description: "Socket sets, spanners, torque wrenches, OBD-II diagnostic scanners, hydraulic trolley jacks, and inflators.",
     icon: "🔧",
-    imageUrl: "/parts/categories/tools.svg",
+    imageUrl: "/parts/categories/tools-workshop.jpg",
     displayOrder: 6,
     isActive: true,
     subcategories: [
@@ -128,7 +128,7 @@ export const SEED_PART_CATEGORIES: PartCategory[] = [
     slug: "accessories-car-care",
     description: "Car wash shampoos, ceramic polishes, microfiber towels, 7D floor mats, phone mounts, and organizers.",
     icon: "✨",
-    imageUrl: "/parts/categories/care.svg",
+    imageUrl: "/parts/categories/accessories-car-care.jpg",
     displayOrder: 7,
     isActive: true,
     subcategories: [
@@ -270,7 +270,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Height": "85 mm",
       "Valve Type": "Silicone Anti-Drainback",
     },
-    images: ["/parts/products/bosch-oil-filter.svg"],
+    images: ["/parts/products/bosch-oil-filter.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -326,7 +326,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Hex Size": "16 mm",
       "Pre-gap": "1.0 mm",
     },
-    images: ["/parts/products/ngk-spark-plugs.svg"],
+    images: ["/parts/products/ngk-spark-plugs.jpg"],
     condition: "NEW",
     partType: "GENUINE_OEM",
     compatibleVehicles: [
@@ -379,7 +379,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Approvals": "VW 502 00 / 505 00, MB-Approval 229.5 / 226.5, Porsche A40, BMW LL-01",
       "Volume": "5 Litres Canister",
     },
-    images: ["/parts/products/motul-engine-oil.svg"],
+    images: ["/parts/products/motul-engine-oil.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -438,7 +438,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Thickness": "17.5 mm",
       "Includes": "4 Pads, Caliper Clips, Copper Grease",
     },
-    images: ["/parts/products/brembo-brake-pads.svg"],
+    images: ["/parts/products/brembo-brake-pads.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -492,7 +492,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Seal": "Multi-Lip Viton Synthetic Seal",
       "Quantity": "2 Units (Pair)",
     },
-    images: ["/parts/products/monroe-shock-absorbers.svg"],
+    images: ["/parts/products/monroe-shock-absorbers.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -546,7 +546,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Dimensions": "207 x 175 x 190 mm",
       "Warranty": "55 Months (30 Months Free Replacement + 25 Months Pro-rata)",
     },
-    images: ["/parts/products/amaron-battery.svg"],
+    images: ["/parts/products/amaron-battery.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -599,7 +599,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Blade Type": "Frameless Flat Beam",
       "Rubber Material": "Dual-Density Synthetic Rubber with Graphite Coating",
     },
-    images: ["/parts/products/valeo-wiper-blades.svg"],
+    images: ["/parts/products/valeo-wiper-blades.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -653,7 +653,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Includes": "Clutch Pressure Plate, Friction Disc, Release Bearing",
       "Adjustment": "Self-Adjusting Torsion Damper Springs",
     },
-    images: ["/parts/products/luk-clutch-kit.svg"],
+    images: ["/parts/products/luk-clutch-kit.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -706,7 +706,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Hex & Torx Bits": "Complete 30-piece screwdriver and Torx bit set",
       "Case": "Impact Resistant Blow-Molded Case with Metal Latches",
     },
-    images: ["/parts/products/stanley-tool-set.svg"],
+    images: ["/parts/products/stanley-tool-set.jpg"],
     condition: "NEW",
     partType: "AFTERMARKET",
     compatibleVehicles: [
@@ -756,7 +756,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Functions": "Read/Clear Fault Codes, Live Data Stream, I/M Readiness, Freeze Frame, O2 Sensor Test",
       "Power": "Powered directly via 16-pin OBD-II vehicle port (8V-18V)",
     },
-    images: ["/parts/products/launch-obd-scanner.svg"],
+    images: ["/parts/products/launch-obd-scanner.jpg"],
     condition: "NEW",
     partType: "AFTERMARKET",
     compatibleVehicles: [
@@ -807,7 +807,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Dilution Ratio": "10-20 ml per 4 Litres of water",
       "Scent": "Fresh Citrus Blend",
     },
-    images: ["/parts/products/3m-car-shampoo.svg"],
+    images: ["/parts/products/3m-car-shampoo.jpg"],
     condition: "NEW",
     partType: "OES",
     compatibleVehicles: [
@@ -856,7 +856,7 @@ export const SEED_PART_PRODUCTS: PartProduct[] = [
       "Application": "Hand application or Dual-Action Polisher",
       "Includes": "Foam Applicator Pad & Microfiber Towel in Box",
     },
-    images: ["/parts/products/meguiars-liquid-wax.svg"],
+    images: ["/parts/products/meguiars-liquid-wax.jpg"],
     condition: "NEW",
     partType: "AFTERMARKET",
     compatibleVehicles: [

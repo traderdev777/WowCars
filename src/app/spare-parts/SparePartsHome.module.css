@@ -284,7 +284,7 @@
 .catName {
   font-size: 15px;
   font-weight: 700;
-  color: #fff;
+  color: var(--brand-white, #fff);
   margin-bottom: 4px;
 }
 
