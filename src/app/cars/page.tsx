@@ -1,27 +1,24 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { db } from "@/lib/db";
-import { toPublicCar } from "@/lib/db/serializers";
 import CarsCatalogClient from "./CarsCatalogClient";
+import { loadPublicListings } from "@/lib/listings/server";
 
 export const metadata: Metadata = {
-  title: "Used Cars in Bengaluru — 100% Inspected & Verified | WowCars",
+  title: "Used Cars for Sale — Inspected, with EMI & Fair-Price Ratings | WowCars",
   description:
-    "Browse verified pre-owned cars for sale in Bengaluru. Filter by budget, make, fuel type, transmission, and RTO code. Direct WhatsApp contact with zero buyer commission.",
+    "Browse inspected pre-owned cars. Filter by budget or EMI, fuel, owners, registration state and WowPrice deal rating. Direct WhatsApp contact.",
   openGraph: {
-    title: "Used Cars in Bengaluru — Verified & Inspected | WowCars",
-    description: "Browse verified used cars in Bengaluru with transparent pricing and direct WhatsApp contact.",
+    title: "Used Cars — Inspected & Verified | WowCars",
+    description: "Browse inspected used cars with EMI estimates, honest price ratings and direct WhatsApp contact.",
   },
 };
 
 export default async function CarsPage() {
-  const result = await db.getCars({ status: "ACTIVE" });
+  const cars = await loadPublicListings();
 
   return (
-    <Suspense fallback={<div style={{ minHeight: "60vh", background: "#0b1120" }} />}>
-      <CarsCatalogClient
-        initialCars={result.cars.map(toPublicCar) as any}
-      />
+    <Suspense fallback={<div style={{ minHeight: "70vh", background: "var(--bg)" }} />}>
+      <CarsCatalogClient initialCars={cars} />
     </Suspense>
   );
 }

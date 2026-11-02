@@ -1,827 +1,600 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  MapPin, Fuel, Settings, Users, MessageCircle, Eye, BadgeCheck,
-  Shield, CheckCircle2, Share2, Calendar, Phone,
-  X, Award, Sparkles, Info, FileText
+  MessageCircle, Phone, CalendarCheck, HandCoins, Heart, Share2, ChevronLeft, ChevronRight,
+  CheckCircle2, AlertTriangle, ShieldCheck, Star, Flag, X, BadgeCheck, Info,
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
 import EmiCalculator from "@/components/cars/EmiCalculator";
-import ResponsiveGallery from "@/components/common/ResponsiveGallery";
-import CTASection from "@/components/common/CTASection";
-import StaffBrandingImage from "@/components/common/StaffBrandingImage";
-import { formatLakhs, formatKM, generateWhatsAppLink } from "@/lib/formatters";
-import type { Car } from "@/lib/mockData";
+import DealBadge from "@/components/cars/DealBadge";
+import { generateWhatsAppLink } from "@/lib/formatters";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
+import { getAssetPath } from "@/lib/assets";
+import {
+  daysSince, dealEstimate, DEAL_LABEL, EMI_FOOTNOTE, emiFor, formatDate, fuelLabel, kmText, listedDate,
+  listingTitle, monthYearEnd, needsNoc, ownerLabel, priceDrop, priceShort, regStateOf, rupees, specParts, type Listing,
+} from "@/lib/listings/listing";
+import { pushRecentlyViewed, useSavedCars } from "@/lib/listings/storage";
 import styles from "./CarDetail.module.css";
 
 interface CarDetailClientProps {
-  car: Car;
-  relatedCars: Car[];
+  car: Listing;
+  relatedCars: Listing[];
 }
 
-const GALLERY_ANGLES = [
-  { id: "front", label: "Front 3/4", emoji: "🏎️" },
-  { id: "side", label: "Side Profile", emoji: "🚗" },
-  { id: "rear", label: "Rear View", emoji: "🚙" },
-  { id: "interior", label: "Interior Cockpit", emoji: "💺" },
-  { id: "engine", label: "Engine Bay", emoji: "⚙️" },
-  { id: "tyres", label: "Tyres & Alloys", emoji: "🛞" },
-];
+type ContactMode = "TEST_DRIVE" | "CALLBACK" | "OFFER";
 
 export default function CarDetailClient({ car, relatedCars }: CarDetailClientProps) {
-  const [selectedAngle, setSelectedAngle] = useState(0);
+  const title = listingTitle(car);
+  const images = (car.images || []).filter(Boolean);
+  const est = dealEstimate(car);
+  const drop = priceDrop(car);
+  const listed = listedDate(car);
+  const emi = emiFor(car.priceINR);
+  const { isSaved, toggle } = useSavedCars();
+  const saved = isSaved(car.listingCode);
+
+  const [slide, setSlide] = useState(0);
+  const [now, setNow] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  // Enquiry modal state (existing CRM submission logic)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [contactMode, setContactMode] = useState<"TEST_DRIVE" | "ENQUIRY" | "CALLBACK">("TEST_DRIVE");
-  const [submittedEnquiryCode, setSubmittedEnquiryCode] = useState<string>("");
-  const [isCopied, setIsCopied] = useState(false);
-  const [testDriveData, setTestDriveData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    date: "",
-    timeSlot: "Morning (10 AM - 1 PM)",
-    message: "",
-    honeypot: "",
-  });
+  const [contactMode, setContactMode] = useState<ContactMode>("TEST_DRIVE");
+  const [submittedEnquiryCode, setSubmittedEnquiryCode] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // Pre-calculated estimated EMI (20% down, 5 yrs, 9.5% rate)
-  const principal = car.priceINR * 0.8;
-  const monthlyRate = 0.095 / 12;
-  const tenureMonths = 60;
-  const estimatedEmi = Math.round(
-    (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-    (Math.pow(1 + monthlyRate, tenureMonths) - 1)
-  );
-
-  const waEnquiryLink = generateWhatsAppLink(WHATSAPP_CONCIERGE_PHONE, {
-    listingCode: car.listingCode,
-    title: `${car.year} ${car.make} ${car.model} ${car.variant}`,
-    priceLakhs: formatLakhs(car.priceINR),
-    url: typeof window !== "undefined" ? window.location.href : `https://wowcars.in/cars/${car.listingCode.toLowerCase()}`,
-  });
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `${car.year} ${car.make} ${car.model} — WowCars Bengaluru`,
-          text: `Check out this verified ${car.year} ${car.make} ${car.model} on WowCars for ₹${formatLakhs(car.priceINR)} Lakhs.`,
-          url: window.location.href,
-        });
-      } catch {
-        // User cancelled share
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2500);
-    }
-  };
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [form, setForm] = useState({
+    name: "", phone: "", email: "", date: "", timeSlot: "Morning (10 AM – 1 PM)", message: "", offer: "", honeypot: "",
+  });
+
+  useEffect(() => {
+    pushRecentlyViewed(car.listingCode);
+    setNow(Date.now());
+  }, [car.listingCode]);
+
+  const waLink = generateWhatsAppLink(WHATSAPP_CONCIERGE_PHONE, {
+    listingCode: car.listingCode,
+    title: `${title} ${car.variant}`,
+    priceLakhs: priceShort(car.priceINR),
+    url: `https://wowcars.in/cars/${car.listingCode.toLowerCase()}`,
+  });
 
   const logWhatsAppClick = () => {
-    try {
-      fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          carId: car.id,
-          type: "WHATSAPP_CLICK",
-          buyerName: "WhatsApp Buyer",
-          buyerPhone: "Direct WhatsApp",
-        }),
-      }).catch(() => {});
-    } catch {
-      // Non-blocking telemetry
-    }
+    fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ carId: car.id, type: "WHATSAPP_CLICK", buyerName: "WhatsApp Buyer", buyerPhone: "Direct WhatsApp" }),
+    }).catch(() => {});
   };
 
-  const handleTestDriveSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (testDriveData.honeypot) return; // Silent reject for spam bots
+  const openModal = (mode: ContactMode) => {
+    setContactMode(mode);
+    setIsSubmitted(false);
+    setSubmitError(null);
+    setIsModalOpen(true);
+  };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (form.honeypot) return;
     setIsSubmitting(true);
     setSubmitError(null);
-
     try {
-      const requestType =
-        contactMode === "TEST_DRIVE"
-          ? "TEST_DRIVE_REQUEST"
-          : contactMode === "CALLBACK"
-          ? "CALLBACK_REQUEST"
-          : "LOAN_INQUIRY";
-
+      const type = contactMode === "TEST_DRIVE" ? "TEST_DRIVE_REQUEST" : "CALLBACK_REQUEST";
+      const message =
+        contactMode === "OFFER"
+          ? `Offer: ₹${Number(form.offer || 0).toLocaleString("en-IN")}${form.message ? ` — ${form.message}` : ""}`
+          : form.message || undefined;
       const res = await fetch("/api/enquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           carId: car.id,
-          type: requestType,
-          buyerName: testDriveData.name,
-          buyerPhone: testDriveData.phone,
-          buyerEmail: testDriveData.email || undefined,
-          preferredDate: testDriveData.date,
-          preferredTime: testDriveData.timeSlot,
-          message: testDriveData.message || undefined,
+          type,
+          buyerName: form.name,
+          buyerPhone: form.phone,
+          buyerEmail: form.email || undefined,
+          preferredDate: form.date,
+          preferredTime: form.timeSlot,
+          message,
           preferredContactMethod: contactMode === "CALLBACK" ? "PHONE" : "WHATSAPP",
         }),
       });
-
       const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.error || "Failed to submit request.");
-      }
-
+      if (!res.ok) throw new Error(json.error || "Failed to submit request.");
       setSubmittedEnquiryCode(json.enquiryCode || json.enquiryId || "WC-ENQ-REGISTERED");
       setIsSubmitted(true);
-    } catch (err: unknown) {
-      setSubmitError(err instanceof Error ? err.message : "Error submitting request. Please try again.");
+    } catch {
+      setSubmitError("We couldn't send this right now. Please message us on WhatsApp instead — it reaches the same team.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const share = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${title} — WowCars`, url });
+      } catch {
+        /* cancelled */
+      }
+    } else {
+      await navigator.clipboard?.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const goTo = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const n = Math.max(0, Math.min(images.length - 1, i));
+    el.scrollTo({ left: n * el.clientWidth, behavior: "smooth" });
+    setSlide(n);
+  };
+
+  // Market range bar geometry
+  const bar = est
+    ? (() => {
+        const lo = Math.min(est.low, car.priceINR) * 0.97;
+        const hi = Math.max(est.high, car.priceINR) * 1.03;
+        const pos = (v: number) => ((v - lo) / (hi - lo)) * 100;
+        return { price: pos(car.priceINR), fairL: pos(est.low), fairR: pos(est.high), market: pos(est.marketValue) };
+      })()
+    : null;
+
+  const noc = needsNoc(car);
+  const state = regStateOf(car);
+  const isDealer = car.sellerType === "Verified Dealer";
+
+  const flags: { ok: boolean; label: string }[] = [];
+  if (car.accidentFree !== undefined) flags.push({ ok: car.accidentFree, label: car.accidentFree ? "No accident history" : "Accident repair reported" });
+  if (car.floodFree) flags.push({ ok: true, label: "No flood damage" });
+  const insEnd = monthYearEnd(car.insuranceValidity);
+  const insExpired = insEnd !== null && now !== null && insEnd < now;
+  if (car.insuranceValidity) {
+    flags.push(
+      insExpired
+        ? { ok: false, label: `Insurance expired ${car.insuranceValidity} — renew before driving` }
+        : { ok: true, label: `Insurance valid till ${car.insuranceValidity} (${car.insuranceType})` },
+    );
+  }
+  if (car.serviceRecords !== undefined) flags.push({ ok: car.serviceRecords, label: car.serviceRecords ? "Service records available" : "Service records incomplete" });
+  if (car.numOwners === 1) flags.push({ ok: true, label: "Single owner" });
+
+  const paperwork: [string, string, ("ok" | "warn" | undefined)?][] = [
+    ["RTO", `${car.rtoCode} — ${car.rtoArea}`],
+    ["Registered in", state],
+    ["First registration", car.registrationDate || "Ask seller"],
+    ["RC", car.rcType ? `${car.rcType} RC` : "Ask seller"],
+    ["Hypothecation (loan)", car.hypothecationStatus || "Ask seller", car.hypothecationStatus && /clear|closed|none/i.test(car.hypothecationStatus) ? "ok" : undefined],
+    ["NOC for transfer", noc ? `Needed — registered in ${state}, car is in ${car.city}` : "Not needed (same state)", noc ? "warn" : "ok"],
+    ["Road tax", car.roadTax || "Ask seller"],
+    ["PUC valid till", car.pucValidTill || "Ask seller"],
+    ["Insurance", car.insuranceValidity ? `${car.insuranceType}, ${insExpired ? "expired" : "valid till"} ${car.insuranceValidity}` : car.insuranceType || "Ask seller", insExpired ? "warn" : undefined],
+  ];
+
+  const facts: [string, string][] = [
+    ["Year", String(car.year)],
+    ["Kilometres", kmText(car.kmDriven)],
+    ["Fuel", fuelLabel(car.fuelType)],
+    ["Transmission", car.transmission],
+    ["Owners", ownerLabel(car.numOwners)],
+    ["Body type", car.bodyType],
+    ["Registration", car.rtoCode],
+    ["Colour", car.color],
+  ];
+  if (car.engineDisplacement) facts.push(["Engine", car.engineDisplacement]);
+  if (car.batteryCapacityKwh) facts.push(["Battery", `${car.batteryCapacityKwh} kWh`]);
+  if (car.seatingCapacity) facts.push(["Seats", String(car.seatingCapacity)]);
+  if (car.mileageARAI) facts.push(["Mileage (ARAI)", car.mileageARAI]);
+
+  const history = car.priceHistory && car.priceHistory.length ? car.priceHistory : listed ? [{ date: listed, priceINR: car.priceINR }] : [];
+  const days = listed && now ? daysSince(listed, now) : null;
+
   return (
     <>
       <Navbar />
-
       <main className={styles.page}>
-        <div className="container">
-          {/* Breadcrumb Navigation */}
-          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-            <Link href="/" className={styles.breadcrumbLink}>Home</Link>
-            <span className={styles.breadcrumbSep}>/</span>
-            <Link href="/#browse" className={styles.breadcrumbLink}>Used Cars in Bengaluru</Link>
-            <span className={styles.breadcrumbSep}>/</span>
-            <span className={styles.breadcrumbCurrent}>{car.year} {car.make} {car.model}</span>
+        <div className={`container ${styles.container}`}>
+          <nav className={styles.crumbs} aria-label="Breadcrumb">
+            <Link href="/cars" className={styles.back}><ChevronLeft size={15} /> Back to results</Link>
+            <span className={styles.crumbTrail}>
+              <Link href="/">Home</Link> / <Link href="/cars">Used cars</Link> / <span>{car.make} {car.model}</span>
+            </span>
           </nav>
 
-          {/* Title Header */}
-          <div className={styles.headerArea}>
-            <div className={styles.topBadges}>
-              <span className="badge badge-white">{car.listingCode}</span>
-              {car.isVerified && (
-                <span className="badge badge-green">
-                  <span className="radar-dot" style={{ width: 6, height: 6 }} />
-                  <BadgeCheck size={12} /> WowCars Verified
-                </span>
-              )}
-              {car.isFeatured && (
-                <span className="badge badge-red">★ Featured</span>
-              )}
-              {car.numOwners === 1 && (
-                <span className="badge badge-amber">1st Owner</span>
-              )}
-            </div>
-
-            <h1 className={styles.title}>
-              {car.year} {car.make} {car.model}
-            </h1>
-
-            <div className={styles.subhead}>
-              <span style={{ color: "var(--color-primary)", fontWeight: 700 }}>{car.variant}</span>
-              <span className={styles.dot}>·</span>
-              <span>{car.color}</span>
-              <span className={styles.dot}>·</span>
-              <span><MapPin size={13} style={{ display: "inline", verticalAlign: "middle", marginRight: 3 }} />{car.locality}, {car.city}</span>
-              <span className={styles.dot}>·</span>
-              <span>RTO {car.rtoCode} ({car.rtoArea})</span>
-            </div>
-          </div>
-
-          {/* Main 2-Column Content Grid */}
-          <div className={styles.mainGrid}>
-            {/* Left Column: Visual Showcase, Specs & Details */}
-            <div className={styles.leftCol}>
-              {/* Photo Showcase */}
-              {car.images && car.images.length > 0 ? (
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <ResponsiveGallery
-                    images={car.images}
-                    title={`${car.year} ${car.make} ${car.model}`}
-                  />
-                </div>
-              ) : (
-                <div className={styles.galleryCard}>
-                  <div className={styles.heroViewer}>
-                    <div className={styles.heroViewerVisual}>
-                      <span className={styles.carBigEmoji}>{GALLERY_ANGLES[selectedAngle].emoji}</span>
-                      <span className={styles.carAngleLabel}>{GALLERY_ANGLES[selectedAngle].label}</span>
-                    </div>
-
-                    <div className={styles.galleryWatermark}>
-                      <Shield size={14} style={{ color: "var(--color-primary)" }} />
-                      <span>WowCars Inspected</span>
-                    </div>
-
-                    <div className={styles.galleryCounter}>
-                      {selectedAngle + 1} / {GALLERY_ANGLES.length}
-                    </div>
-                  </div>
-
-                  {/* Angle Thumbnails */}
-                  <div className={styles.thumbRow}>
-                    {GALLERY_ANGLES.map((angle, idx) => (
-                      <button
-                        key={angle.id}
-                        type="button"
-                        onClick={() => setSelectedAngle(idx)}
-                        className={`${styles.thumbBtn} ${selectedAngle === idx ? styles.thumbBtnActive : ""}`}
-                      >
-                        <span style={{ fontSize: "1.2rem" }}>{angle.emoji}</span>
-                        <span>{angle.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Quick Specs 4-Box Strip */}
-              <div className={styles.quickSpecsStrip}>
-                <div className={styles.quickSpecItem}>
-                  <div className={styles.quickSpecIcon}><Eye size={18} /></div>
-                  <div className={styles.quickSpecContent}>
-                    <span className={styles.quickSpecLabel}>Kilometers</span>
-                    <span className={styles.quickSpecValue}>{formatKM(car.kmDriven)}</span>
-                  </div>
-                </div>
-
-                <div className={styles.quickSpecItem}>
-                  <div className={styles.quickSpecIcon}><Fuel size={18} /></div>
-                  <div className={styles.quickSpecContent}>
-                    <span className={styles.quickSpecLabel}>Fuel Type</span>
-                    <span className={styles.quickSpecValue}>{car.fuelType}</span>
-                  </div>
-                </div>
-
-                <div className={styles.quickSpecItem}>
-                  <div className={styles.quickSpecIcon}><Settings size={18} /></div>
-                  <div className={styles.quickSpecContent}>
-                    <span className={styles.quickSpecLabel}>Transmission</span>
-                    <span className={styles.quickSpecValue}>{car.transmission}</span>
-                  </div>
-                </div>
-
-                <div className={styles.quickSpecItem}>
-                  <div className={styles.quickSpecIcon}><Users size={18} /></div>
-                  <div className={styles.quickSpecContent}>
-                    <span className={styles.quickSpecLabel}>Ownership</span>
-                    <span className={styles.quickSpecValue}>{car.numOwners} {car.numOwners === 1 ? "Owner" : "Owners"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Vehicle Overview Narrative */}
-              {car.overview && (
-                <div className={styles.sectionCard}>
-                  <h2 className={styles.sectionTitle}>
-                    <FileText size={18} className={styles.sectionTitleIcon} />
-                    Seller Overview
-                  </h2>
-                  <p className={styles.overviewText}>{car.overview}</p>
-                </div>
-              )}
-
-              {/* Detailed Specifications Table */}
-              <div className={styles.sectionCard}>
-                <h2 className={styles.sectionTitle}>
-                  <Settings size={18} className={styles.sectionTitleIcon} />
-                  Vehicle Specifications
-                </h2>
-
-                <div className={styles.specsGrid}>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Make & Model</span>
-                    <span className={styles.specRowVal}>{car.make} {car.model}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Variant</span>
-                    <span className={styles.specRowVal}>{car.variant}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Year of Registration</span>
-                    <span className={styles.specRowVal}>{car.year}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>RTO Location</span>
-                    <span className={styles.specRowVal}>{car.rtoCode} — {car.rtoArea}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Body Style</span>
-                    <span className={styles.specRowVal}>{car.bodyType}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Exterior Color</span>
-                    <span className={styles.specRowVal}>{car.color}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Engine Displacement</span>
-                    <span className={styles.specRowVal}>{car.engineDisplacement || "1497 cc"}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>ARAI Fuel Economy</span>
-                    <span className={styles.specRowVal}>{car.mileageARAI || "18.0 kmpl"}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Seating Capacity</span>
-                    <span className={styles.specRowVal}>{car.seatingCapacity || 5} Seater</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Boot Space</span>
-                    <span className={styles.specRowVal}>{car.bootSpace || "430 Litres"}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Ground Clearance</span>
-                    <span className={styles.specRowVal}>{car.groundClearance || "180 mm"}</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Insurance Type</span>
-                    <span className={styles.specRowVal}>{car.insuranceType} ({car.insuranceValidity || "Active"})</span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Hypothecation / Loan</span>
-                    <span className={styles.specRowVal} style={{ color: "var(--color-accent)" }}>
-                      {car.hypothecationStatus || "Cleared (NOC Available)"}
-                    </span>
-                  </div>
-                  <div className={styles.specRow}>
-                    <span className={styles.specRowLabel}>Listing Date</span>
-                    <span className={styles.specRowVal}>{car.createdAt}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Key Features & Equipment */}
-              {car.features && car.features.length > 0 && (
-                <div className={styles.sectionCard}>
-                  <h2 className={styles.sectionTitle}>
-                    <Sparkles size={18} className={styles.sectionTitleIcon} />
-                    Key Features & Equipment
-                  </h2>
-                  <div className={styles.featuresGrid}>
-                    {car.features.map((feature) => (
-                      <div key={feature} className={styles.featurePill}>
-                        <CheckCircle2 size={16} className={styles.featureCheck} />
-                        <span>{feature}</span>
+          <div className={styles.layout}>
+            {/* ---------------- Gallery ---------------- */}
+            <div className={styles.galleryArea}>
+              <div className={styles.gallery}>
+                <div
+                  className={styles.track}
+                  ref={trackRef}
+                  onScroll={(e) => {
+                    const el = e.currentTarget;
+                    setSlide(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+                  }}
+                >
+                  {images.length ? (
+                    images.map((src, i) => (
+                      <div className={styles.slide} key={src + i}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={getAssetPath(src)} alt={i === 0 ? `${title} ${car.variant}` : `${title} photo ${i + 1}`} width={1376} height={768} />
                       </div>
-                    ))}
-                  </div>
+                    ))
+                  ) : (
+                    <div className={styles.slide}><span className={styles.noPhoto}>Photos coming soon</span></div>
+                  )}
                 </div>
-              )}
-
-              {/* 150-Point Inspection Report */}
-              <div className={styles.inspectionCard}>
-                <div className={styles.inspectionHeader}>
-                  <div>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--color-white)", display: "flex", alignItems: "center", gap: 8 }}>
-                      <Shield size={20} style={{ color: "var(--color-accent)" }} />
-                      WowCars 150-Point Technical Inspection
-                    </h2>
-                    <p style={{ fontSize: "var(--font-size-xs)", color: "var(--color-light-gray)", marginTop: 4 }}>
-                      Verified by certified automotive technicians in Bengaluru. No flood or structural accidental damage.
-                    </p>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <svg width="44" height="44" viewBox="0 0 60 60" style={{ transform: "rotate(-90deg)" }}>
-                      <circle cx="30" cy="30" r="24" stroke="rgba(255,255,255,0.12)" strokeWidth="6" fill="none" />
-                      <circle
-                        cx="30"
-                        cy="30"
-                        r="24"
-                        stroke="var(--color-trust-green)"
-                        strokeWidth="6"
-                        strokeDasharray="150.8"
-                        strokeDashoffset={150.8 * (1 - ((car.inspectionScore || 9.4) / 10))}
-                        strokeLinecap="round"
-                        fill="none"
-                        style={{ transition: "stroke-dashoffset 0.8s ease" }}
-                      />
-                    </svg>
-
-                    <div className={styles.scoreBadge}>
-                      <Award size={18} />
-                      <span>{car.inspectionScore || 9.4} / 10 Score</span>
-                    </div>
-                  </div>
+                {images.length > 0 && (
+                  <span className={styles.counter}>{slide + 1} / {images.length}</span>
+                )}
+                {images.length > 1 && (
+                  <>
+                    <button type="button" className={`${styles.nav} ${styles.navPrev}`} onClick={() => goTo(slide - 1)} aria-label="Previous photo"><ChevronLeft size={20} /></button>
+                    <button type="button" className={`${styles.nav} ${styles.navNext}`} onClick={() => goTo(slide + 1)} aria-label="Next photo"><ChevronRight size={20} /></button>
+                  </>
+                )}
+                <div className={styles.galleryActions}>
+                  <button type="button" onClick={() => toggle(car.listingCode)} aria-pressed={saved} aria-label={saved ? "Remove from saved" : "Save car"} className={saved ? styles.on : ""}>
+                    <Heart size={18} fill={saved ? "currentColor" : "none"} />
+                  </button>
+                  <button type="button" onClick={share} aria-label="Share">
+                    <Share2 size={18} />
+                  </button>
                 </div>
-
-                <div className={styles.inspectionList}>
-                  {(car.inspectionHighlights || [
-                    "Engine compression and smooth idle tested with zero vibration",
-                    "Chassis and structural pillars certified free from accidental impacts",
-                    "Electrical wiring, ECU diagnostic scan, and sensors pass 100%",
-                    "Brake discs and pads inspected with >75% remaining life",
-                    "Valid registration and clean title with RTO verification"
-                  ]).map((point) => (
-                    <div key={point} className={styles.inspectionItem}>
-                      <CheckCircle2 size={18} className={styles.inspectionItemCheck} />
-                      <span>{point}</span>
-                    </div>
+                {copied && <span className={styles.toast}>Link copied</span>}
+              </div>
+              {images.length > 1 && (
+                <div className={styles.thumbs}>
+                  {images.map((src, i) => (
+                    <button key={src + i} type="button" onClick={() => goTo(i)} className={i === slide ? styles.thumbOn : ""} aria-label={`Photo ${i + 1}`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={getAssetPath(src)} alt="" width={120} height={90} loading="lazy" />
+                    </button>
                   ))}
                 </div>
-
-                {/* Lead Inspector Endorsement */}
-                <div style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 14, alignItems: "center", marginTop: 18, padding: 14, background: "rgba(17,17,17,0.75)", borderRadius: 10, border: "1px solid rgba(237,28,36,0.3)" }}>
-                  <img src="/images/staff-sell-car.jpg" alt="Lead Inspector Arjun" style={{ width: 80, height: 60, objectFit: "cover", borderRadius: 8, border: "1px solid rgba(237,28,36,0.35)" }} />
-                  <div>
-                    <div style={{ color: "#fff", fontWeight: 700, fontSize: "0.875rem" }}>Evaluated by Arjun Sharma</div>
-                    <div style={{ color: "#9ca3af", fontSize: "0.75rem" }}>Lead Automotive Inspector · WowCars Bengaluru Hub</div>
-                    <div style={{ color: "var(--brand-red, #ED1C24)", fontSize: "0.7rem", fontWeight: 600, marginTop: 2 }}>✓ Certified 140-Point Diagnostic Protocol Passed</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* EV Powertrain & Battery Health (If Electric) */}
-              {(car.fuelType === "Electric" || (car as any).batteryChemistry) && (
-                <div className={styles.sectionCard} style={{ borderLeft: "4px solid #10B981" }}>
-                  <h2 className={styles.sectionTitle}>
-                    <Shield size={18} style={{ color: "#10B981" }} className={styles.sectionTitleIcon} />
-                    High-Voltage Battery & EV Diagnostics
-                  </h2>
-                  <div className={styles.specsGrid}>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>Battery Chemistry</span>
-                      <span className={styles.specRowVal}>{(car as any).batteryChemistry || "LFP"}</span>
-                    </div>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>Pack Capacity</span>
-                      <span className={styles.specRowVal}>{(car as any).batteryCapacityKwh ? `${(car as any).batteryCapacityKwh} kWh` : "40.5 kWh"}</span>
-                    </div>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>Voltage Architecture</span>
-                      <span className={styles.specRowVal}>{(car as any).voltageClass || "HIGH_VOLTAGE_400V"}</span>
-                    </div>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>Charging Port</span>
-                      <span className={styles.specRowVal}>{(car as any).chargingConnector || "CCS2 Fast Charge"}</span>
-                    </div>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>State of Health (SoH)</span>
-                      <span className={styles.specRowVal} style={{ color: "#34D399", fontWeight: 700 }}>
-                        {(car as any).stateOfHealthPercent ? `${(car as any).stateOfHealthPercent}%` : "98.2% Health"}
-                      </span>
-                    </div>
-                    <div className={styles.specRow}>
-                      <span className={styles.specRowLabel}>Battery Warranty</span>
-                      <span className={styles.specRowVal}>{(car as any).batteryWarrantyExpiry || "Active Manufacturer Warranty"}</span>
-                    </div>
-                  </div>
-                </div>
               )}
-
-              {/* Interactive EMI Calculator for this specific car */}
-              <div className={styles.sectionCard}>
-                <h2 className={styles.sectionTitle}>
-                  <Info size={18} className={styles.sectionTitleIcon} />
-                  Calculate EMI for this {car.model}
-                </h2>
-                <EmiCalculator carPrice={car.priceINR} />
-              </div>
             </div>
 
-            {/* Right Column: Sticky Action Card & Seller Box */}
-            <aside className={styles.stickyCard}>
-              <div className={styles.priceBlock}>
-                <div className={styles.priceLabel}>Price in Bengaluru</div>
-                <div className={styles.priceAmount}>
-                  <span className={styles.rupeeSym}>₹</span>
-                  <span className={styles.lakhsVal}>{formatLakhs(car.priceINR)}</span>
-                  <span className={styles.lakhsWord}>Lakhs</span>
-                </div>
-                <div className={styles.emiHint}>
-                  <span>Est. EMI:</span>
-                  <span className={styles.emiHighlight}>₹{estimatedEmi.toLocaleString("en-IN")}/mo</span>
-                  <span>(60 mos @ 9.5%)</span>
-                </div>
-              </div>
+            {/* ---------------- Title ---------------- */}
+            <header className={styles.headArea}>
+              <h1 className={styles.title}>{title}</h1>
+              <p className={styles.variant}>{car.variant}</p>
+              <p className={styles.spec}>
+                {specParts(car).map((part, i) => (
+                  <span key={i}>{i > 0 ? " · " : ""}<span className={styles.nowrap}>{part}</span></span>
+                ))}
+              </p>
+              <p className={styles.loc}>
+                {car.locality}, {car.city} · Listing {car.listingCode}
+                {car.isSeedData && <span className={styles.sampleTag}>Sample listing</span>}
+              </p>
+            </header>
 
-              {/* Seller Information */}
-              <div className={styles.sellerBox}>
-                <div className={styles.sellerBoxHeader}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--color-surface)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-primary)", fontWeight: 800 }}>
-                    {car.sellerType === "Verified Dealer" ? "🏢" : "👤"}
+            {/* ---------------- Price panel ---------------- */}
+            <aside className={styles.panelArea} aria-label="Price and contact">
+              <div className={styles.panel}>
+                <div className={styles.priceBlock}>
+                  <div className={styles.price}>{priceShort(car.priceINR)}</div>
+                  <div className={styles.emi}>
+                    EMI from <strong className="tnum">{rupees(emi)}/mo*</strong>
                   </div>
-                  <div>
-                    <div className={styles.sellerName}>
-                      {car.dealerName || "Direct Individual Seller"}
+                  {drop > 0 && car.previousPriceINR && (
+                    <div className={styles.drop}>
+                      <span>↓ {rupees(drop)}</span> <s>{priceShort(car.previousPriceINR)}</s>
                     </div>
-                    <div className={styles.sellerMeta}>
-                      {car.sellerType === "Verified Dealer" ? "WowCars Verified Dealer" : "Private Car Owner"} · {car.locality}
-                    </div>
+                  )}
+                </div>
+
+                <div className={styles.dealBox}>
+                  <div className={styles.dealHead}>
+                    <DealBadge car={car} size="md" />
+                    <span className={styles.estTag}>Estimated</span>
                   </div>
+                  {est && bar ? (
+                    <>
+                      <div className={styles.rangeBar} aria-hidden="true">
+                        <span className={styles.rangeFair} style={{ left: `${bar.fairL}%`, width: `${bar.fairR - bar.fairL}%` }} />
+                        <span className={`${styles.rangeMarker} deal-${est.rating}`} style={{ left: `${bar.price}%` }} />
+                      </div>
+                      <div className={styles.rangeLabels}>
+                        <span>{priceShort(est.low)}</span>
+                        <span>Similar cars</span>
+                        <span>{priceShort(est.high)}</span>
+                      </div>
+                      <p className={styles.dealText}>
+                        {DEAL_LABEL[est.rating]}: this asking price is {Math.abs(Math.round((est.ratio - 1) * 100))}% {est.ratio <= 1 ? "below" : "above"} our {priceShort(est.marketValue)} estimate for a car like this in good condition.
+                      </p>
+                    </>
+                  ) : (
+                    <p className={styles.dealText}>Not enough comparable data to rate this price yet.</p>
+                  )}
                 </div>
-                <div style={{ fontSize: "11px", color: "var(--color-slate)", display: "flex", alignItems: "center", gap: 4, marginTop: 4 }}>
-                  <CheckCircle2 size={12} style={{ color: "var(--color-accent)" }} />
-                  <span>Responds typically within 15 minutes on WhatsApp</span>
+
+                <div className={styles.ctas}>
+                  <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={logWhatsAppClick} className="btn btn-whatsapp btn-lg btn-full">
+                    <MessageCircle size={18} /> WhatsApp seller
+                  </a>
+                  <div className={styles.ctaRow}>
+                    <a href="tel:+919019088160" className="btn btn-secondary"><Phone size={16} /> Call</a>
+                    <button type="button" className="btn btn-secondary" onClick={() => openModal("TEST_DRIVE")}><CalendarCheck size={16} /> Test drive</button>
+                  </div>
+                  <button type="button" className="btn btn-ghost btn-full" onClick={() => openModal("OFFER")}>
+                    <HandCoins size={16} /> Make an offer
+                  </button>
                 </div>
-              </div>
 
-              {/* Managed Marketplace Safe Buyer Action CTAs */}
-              <div className={styles.ctaGroup}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setContactMode("TEST_DRIVE");
-                    setIsSubmitted(false);
-                    setIsModalOpen(true);
-                  }}
-                  className="btn btn-primary btn-lg"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <Calendar size={18} />
-                  Request a Test Drive
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setContactMode("ENQUIRY");
-                    setIsSubmitted(false);
-                    setIsModalOpen(true);
-                  }}
-                  className="btn btn-secondary btn-lg"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <MessageCircle size={18} />
-                  Enquire About This Car
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setContactMode("CALLBACK");
-                    setIsSubmitted(false);
-                    setIsModalOpen(true);
-                  }}
-                  className="btn btn-ghost"
-                  style={{ width: "100%", justifyContent: "center", border: "1px solid rgba(255, 255, 255, 0.12)" }}
-                >
-                  <Phone size={15} />
-                  Request a Callback
-                </button>
-
-                <a
-                  href={waEnquiryLink}
-                  onClick={logWhatsAppClick}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-whatsapp"
-                  style={{ width: "100%", justifyContent: "center", fontSize: "var(--font-size-xs)" }}
-                >
-                  <MessageCircle size={15} />
-                  Chat with WowCars Concierge
-                </a>
-
-                <button
-                  type="button"
-                  onClick={handleShare}
-                  className="btn btn-ghost"
-                  style={{ width: "100%", justifyContent: "center", gap: 6, fontSize: "var(--font-size-xs)" }}
-                >
-                  <Share2 size={14} />
-                  {isCopied ? "Link Copied to Clipboard!" : "Share Vehicle Details"}
-                </button>
-              </div>
-
-              {/* Trust Safeguard */}
-              <div className={styles.guaranteeNote}>
-                <Shield size={13} style={{ color: "var(--color-accent)" }} />
-                <span>Zero Buyer Commission · Transparent Pricing</span>
+                <div className={styles.sellerMini}>
+                  {isDealer ? (
+                    <>
+                      <BadgeCheck size={16} />
+                      <span>
+                        <strong>{car.dealerName || "Verified dealer"}</strong>
+                        {car.dealerRating ? <> · <Star size={12} fill="currentColor" className={styles.star} /> {car.dealerRating.toFixed(1)} ({car.dealerReviews || 0})</> : null}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <BadgeCheck size={16} />
+                      <span><strong>Individual seller</strong>{car.idVerified ? " · ID verified" : " · ID not verified yet"}</span>
+                    </>
+                  )}
+                </div>
+                <p className={styles.panelNote}>{EMI_FOOTNOTE}</p>
               </div>
             </aside>
+
+            {/* ---------------- Content ---------------- */}
+            <div className={styles.contentArea}>
+              <section className={styles.card} aria-labelledby="facts-h">
+                <h2 id="facts-h" className={styles.h2}>Key facts</h2>
+                <dl className={styles.facts}>
+                  {facts.map(([k, v]) => (
+                    <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+                  ))}
+                </dl>
+                {flags.length > 0 && (
+                  <ul className={styles.flags}>
+                    {flags.map((f) => (
+                      <li key={f.label} className={f.ok ? styles.flagOk : styles.flagWarn}>
+                        {f.ok ? <CheckCircle2 size={15} /> : <AlertTriangle size={15} />} {f.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {car.keySellingPoints && car.keySellingPoints.length > 0 && (
+                  <p className={styles.ksp}>
+                    <span>Seller highlights:</span> {car.keySellingPoints.slice(0, 3).join(" · ")}
+                  </p>
+                )}
+              </section>
+
+              <section className={styles.card} aria-labelledby="paper-h">
+                <h2 id="paper-h" className={styles.h2}>Registration &amp; paperwork</h2>
+                <dl className={styles.paper}>
+                  {paperwork.map(([k, v, tone]) => (
+                    <div key={k}>
+                      <dt>{k}</dt>
+                      <dd className={tone === "warn" ? styles.warnText : tone === "ok" ? styles.okText : ""}>{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className={styles.note}><Info size={13} /> Seller-declared; WowCars checks the RC, insurance and loan status before any token is paid.</p>
+              </section>
+
+              {history.length > 0 && (
+                <section className={styles.card} aria-labelledby="hist-h">
+                  <h2 id="hist-h" className={styles.h2}>Price history</h2>
+                  <p className={styles.histSummary}>
+                    Listed {listed ? formatDate(listed) : ""}{days !== null ? ` · ${days} ${days === 1 ? "day" : "days"} on WowCars` : ""}
+                    {history.length > 1 ? ` · price changed ${history.length - 1} ${history.length - 1 === 1 ? "time" : "times"}` : " · no price changes"}
+                  </p>
+                  {history.length > 1 && <PriceSteps history={history} />}
+                  <ol className={styles.histList}>
+                    {history.map((h, i) => {
+                      const diff = i > 0 ? h.priceINR - history[i - 1].priceINR : 0;
+                      return (
+                        <li key={h.date + i}>
+                          <span>{formatDate(h.date)}</span>
+                          <strong className="tnum">{priceShort(h.priceINR)}</strong>
+                          <span className={diff < 0 ? styles.okText : ""}>{i === 0 ? "Listed" : diff < 0 ? `↓ ${rupees(-diff)}` : `↑ ${rupees(diff)}`}</span>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </section>
+              )}
+
+              <section className={styles.card} aria-labelledby="insp-h">
+                <h2 id="insp-h" className={styles.h2}>Inspection report</h2>
+                {car.inspectedByWowCars ? (
+                  <div className={styles.insp}>
+                    <div className={styles.score}>
+                      <ShieldCheck size={22} />
+                      <div>
+                        <strong className="tnum">{car.inspectionScore ? `${car.inspectionScore.toFixed(1)}/10` : "Passed"}</strong>
+                        <span>WowCars 140-point inspection</span>
+                      </div>
+                    </div>
+                    {car.inspectionHighlights && car.inspectionHighlights.length > 0 && (
+                      <ul className={styles.inspList}>
+                        {car.inspectionHighlights.map((h) => (
+                          <li key={h}><CheckCircle2 size={15} /> {h}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {car.isSeedData && <p className={styles.note}><Info size={13} /> Sample report for a demonstration listing.</p>}
+                  </div>
+                ) : (
+                  <p className={styles.muted}>
+                    This car hasn&apos;t been inspected by WowCars yet. Ask the seller for a report, or book a WowCars inspection before you pay a token.
+                  </p>
+                )}
+              </section>
+
+              {(car.overview || (car.features && car.features.length > 0)) && (
+                <section className={styles.card} aria-labelledby="ov-h">
+                  <h2 id="ov-h" className={styles.h2}>About this car</h2>
+                  {car.overview && <p className={styles.overview}>{car.overview}</p>}
+                  {car.features && car.features.length > 0 && (
+                    <ul className={styles.features}>
+                      {car.features.map((f) => <li key={f}>{f}</li>)}
+                    </ul>
+                  )}
+                </section>
+              )}
+
+              <section aria-labelledby="emi-h">
+                <h2 id="emi-h" className="sr-only">EMI calculator</h2>
+                <EmiCalculator carPrice={car.priceINR} title="EMI calculator" />
+              </section>
+
+              <section className={styles.card} aria-labelledby="seller-h">
+                <h2 id="seller-h" className={styles.h2}>Seller</h2>
+                <div className={styles.seller}>
+                  <div className={styles.sellerAvatar} aria-hidden="true">{(car.dealerName || "I").slice(0, 1)}</div>
+                  <div>
+                    <strong>{isDealer ? car.dealerName || "Verified dealer" : "Individual seller"}</strong>
+                    <p>
+                      {isDealer ? "KYC-verified dealer" : car.idVerified ? "ID verified" : "ID not verified yet"}
+                      {isDealer && car.dealerRating ? (
+                        <> · <Star size={12} fill="currentColor" className={styles.star} /> {car.dealerRating.toFixed(1)} from {car.dealerReviews || 0} reviews</>
+                      ) : null}
+                    </p>
+                    <p>{car.locality}, {car.city}</p>
+                  </div>
+                </div>
+                <p className={styles.note}><Info size={13} /> Your number is shared only when you contact the seller. All chats go through the WowCars concierge.</p>
+              </section>
+
+              <p className={styles.report}>
+                <Flag size={14} /> Something wrong with this listing?{" "}
+                <a href={`https://wa.me/${WHATSAPP_CONCIERGE_PHONE}?text=${encodeURIComponent(`Report listing ${car.listingCode}: `)}`} target="_blank" rel="noopener noreferrer">Report it</a>
+              </p>
+            </div>
           </div>
 
-          {/* Similar / Related Cars Recommendation Section */}
-          {relatedCars && relatedCars.length > 0 && (
-            <section className={styles.relatedSection}>
-              <h2 className={styles.relatedTitle}>Similar Verified Cars in Bengaluru</h2>
+          {relatedCars.length > 0 && (
+            <section className={styles.related} aria-labelledby="rel-h">
+              <h2 id="rel-h" className={styles.h2}>Similar cars</h2>
               <div className={styles.relatedGrid}>
-                {relatedCars.map((relatedCar) => (
-                  <CarCard key={relatedCar.id} car={relatedCar} />
-                ))}
+                {relatedCars.map((c) => <CarCard key={c.id} car={c} />)}
               </div>
             </section>
           )}
         </div>
       </main>
 
-      {/* Managed Marketplace Ingestion Modal */}
+      {/* Mobile fixed bottom bar */}
+      <div className={styles.bottomBar}>
+        <div>
+          <div className={styles.bbPrice}>{priceShort(car.priceINR)}</div>
+          <div className={styles.bbEmi}>{rupees(emi)}/mo*</div>
+        </div>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={logWhatsAppClick} className="btn btn-whatsapp">
+          <MessageCircle size={18} /> WhatsApp
+        </a>
+      </div>
+
       {isModalOpen && (
-        <div className={styles.modalBackdrop} onClick={() => setIsModalOpen(false)}>
-          <div className={styles.modalWindow} onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className={styles.modalCloseBtn}
-              onClick={() => setIsModalOpen(false)}
-              aria-label="Close modal"
-            >
+        <div className={styles.backdrop} onClick={() => setIsModalOpen(false)}>
+          <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="modal-h" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className={styles.modalClose} onClick={() => setIsModalOpen(false)} aria-label="Close">
               <X size={20} />
             </button>
-
             {!isSubmitted ? (
-              <>
-                <h3 className={styles.modalTitle}>
-                  {contactMode === "TEST_DRIVE"
-                    ? "Request a Test Drive"
-                    : contactMode === "CALLBACK"
-                    ? "Request a Callback"
-                    : "Enquire About This Car"}
+              <form onSubmit={handleSubmit} className={styles.form}>
+                <h3 id="modal-h" className={styles.modalTitle}>
+                  {contactMode === "TEST_DRIVE" ? "Book a test drive" : contactMode === "OFFER" ? "Make an offer" : "Request a callback"}
                 </h3>
-                <p className={styles.modalSubtitle}>
-                  For {car.year} {car.make} {car.model} ({car.listingCode}) in {car.locality}
-                </p>
-
-                <form onSubmit={handleTestDriveSubmit}>
-                  {/* Honeypot field for bot suppression */}
-                  <input
-                    type="text"
-                    name="website_url"
-                    value={testDriveData.honeypot}
-                    onChange={(e) => setTestDriveData({ ...testDriveData, honeypot: e.target.value })}
-                    style={{ display: "none" }}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-
-                  <div className={styles.formField}>
-                    <label className={styles.formLabel}>Your Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rahul Sharma"
-                      value={testDriveData.name}
-                      onChange={(e) => setTestDriveData({ ...testDriveData, name: e.target.value })}
-                      className={styles.formInput}
-                    />
-                  </div>
-
-                  <div className={styles.formField}>
-                    <label className={styles.formLabel}>WhatsApp / Mobile Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      pattern="[0-9]{10}"
-                      placeholder="10-digit mobile number"
-                      value={testDriveData.phone}
-                      onChange={(e) => setTestDriveData({ ...testDriveData, phone: e.target.value })}
-                      className={styles.formInput}
-                    />
-                  </div>
-
-                  {contactMode === "TEST_DRIVE" && (
-                    <>
-                      <div className={styles.formField}>
-                        <label className={styles.formLabel}>Preferred Date</label>
-                        <input
-                          type="date"
-                          value={testDriveData.date}
-                          onChange={(e) => setTestDriveData({ ...testDriveData, date: e.target.value })}
-                          className={styles.formInput}
-                        />
-                      </div>
-
-                      <div className={styles.formField}>
-                        <label className={styles.formLabel}>Preferred Time Slot</label>
-                        <select
-                          value={testDriveData.timeSlot}
-                          onChange={(e) => setTestDriveData({ ...testDriveData, timeSlot: e.target.value })}
-                          className={styles.formInput}
-                        >
-                          <option>Morning (10:00 AM - 1:00 PM)</option>
-                          <option>Afternoon (1:00 PM - 4:00 PM)</option>
-                          <option>Evening (4:00 PM - 7:00 PM)</option>
-                        </select>
-                      </div>
-                    </>
-                  )}
-
-                  {contactMode === "CALLBACK" && (
-                    <div className={styles.formField}>
-                      <label className={styles.formLabel}>Best Time for Callback</label>
-                      <select
-                        value={testDriveData.timeSlot}
-                        onChange={(e) => setTestDriveData({ ...testDriveData, timeSlot: e.target.value })}
-                        className={styles.formInput}
-                      >
-                        <option>Immediate / Within 15 minutes</option>
-                        <option>Morning (10:00 AM - 1:00 PM)</option>
-                        <option>Afternoon (1:00 PM - 4:00 PM)</option>
-                        <option>Evening (4:00 PM - 7:00 PM)</option>
+                <p className={styles.muted}>{title} · {car.listingCode} · {car.locality}</p>
+                <input type="text" name="website_url" value={form.honeypot} onChange={(e) => setForm({ ...form, honeypot: e.target.value })} style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+                <label className={styles.formField}>
+                  <span>Your name</span>
+                  <input className="input" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Rahul Sharma" />
+                </label>
+                <label className={styles.formField}>
+                  <span>Mobile / WhatsApp</span>
+                  <input className="input" required type="tel" pattern="[0-9]{10}" inputMode="numeric" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="10-digit number" />
+                </label>
+                {contactMode === "OFFER" && (
+                  <label className={styles.formField}>
+                    <span>Your offer (₹)</span>
+                    <input className="input" required type="number" inputMode="numeric" min={0} step={5000} value={form.offer} onChange={(e) => setForm({ ...form, offer: e.target.value })} placeholder={String(Math.round((car.priceINR * 0.95) / 5000) * 5000)} />
+                  </label>
+                )}
+                {contactMode === "TEST_DRIVE" && (
+                  <div className={styles.formRow}>
+                    <label className={styles.formField}>
+                      <span>Date</span>
+                      <input className="input" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
+                    </label>
+                    <label className={styles.formField}>
+                      <span>Time</span>
+                      <select className="select" value={form.timeSlot} onChange={(e) => setForm({ ...form, timeSlot: e.target.value })}>
+                        <option>Morning (10 AM – 1 PM)</option>
+                        <option>Afternoon (1 PM – 4 PM)</option>
+                        <option>Evening (4 PM – 7 PM)</option>
                       </select>
-                    </div>
-                  )}
-
-                  {contactMode === "ENQUIRY" && (
-                    <>
-                      <div className={styles.formField}>
-                        <label className={styles.formLabel}>Email Address (Optional)</label>
-                        <input
-                          type="email"
-                          placeholder="name@example.com"
-                          value={testDriveData.email}
-                          onChange={(e) => setTestDriveData({ ...testDriveData, email: e.target.value })}
-                          className={styles.formInput}
-                        />
-                      </div>
-
-                      <div className={styles.formField}>
-                        <label className={styles.formLabel}>Your Message / Question</label>
-                        <textarea
-                          rows={3}
-                          placeholder="Ask about service history, price negotiation, or warranty details..."
-                          value={testDriveData.message}
-                          onChange={(e) => setTestDriveData({ ...testDriveData, message: e.target.value })}
-                          className={styles.formInput}
-                        />
-                      </div>
-                    </>
-                  )}
-
-                  {submitError && (
-                    <div style={{ padding: "8px 12px", background: "rgba(229, 9, 20, 0.15)", border: "1px solid var(--color-primary)", borderRadius: "var(--radius-md)", color: "#ff8b8b", fontSize: "13px", marginBottom: "var(--space-3)" }}>
-                      ⚠️ {submitError}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-lg"
-                    disabled={isSubmitting}
-                    style={{ width: "100%", marginTop: "var(--space-2)" }}
-                  >
-                    {isSubmitting
-                      ? "Submitting to WowCars CRM..."
-                      : contactMode === "TEST_DRIVE"
-                      ? "Confirm Test Drive Request"
-                      : contactMode === "CALLBACK"
-                      ? "Request Callback"
-                      : "Submit Enquiry"}
-                  </button>
-                </form>
-              </>
+                    </label>
+                  </div>
+                )}
+                <label className={styles.formField}>
+                  <span>Message (optional)</span>
+                  <textarea className="input" rows={2} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+                </label>
+                {submitError && (
+                  <p className={styles.formError}>
+                    {submitError} <a href={waLink} target="_blank" rel="noopener noreferrer">Open WhatsApp</a>
+                  </p>
+                )}
+                <button type="submit" className="btn btn-primary btn-lg btn-full" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending…" : contactMode === "TEST_DRIVE" ? "Request test drive" : contactMode === "OFFER" ? "Send offer" : "Request callback"}
+                </button>
+              </form>
             ) : (
-              <div style={{ textAlign: "center", padding: "var(--space-4) 0" }}>
-                <div style={{ fontSize: "3rem", marginBottom: "var(--space-2)" }}>🎉</div>
-                <h3 className={styles.modalTitle}>Enquiry Logged in WowCars CRM</h3>
-                <div
-                  style={{
-                    display: "inline-block",
-                    padding: "6px 14px",
-                    background: "rgba(16, 185, 129, 0.15)",
-                    border: "1px solid rgba(16, 185, 129, 0.3)",
-                    borderRadius: "8px",
-                    color: "#34d399",
-                    fontWeight: 700,
-                    fontSize: "14px",
-                    marginBottom: "var(--space-3)",
-                  }}
-                >
-                  Official Reference: {submittedEnquiryCode}
-                </div>
-                <p style={{ color: "var(--color-light-gray)", fontSize: "var(--font-size-sm)", margin: "var(--space-2) 0 var(--space-6)" }}>
-                  Thank you, <strong>{testDriveData.name}</strong>! Your inquiry for <strong>{car.year} {car.make} {car.model}</strong> ({car.listingCode}) has been received by the WowCars relationship team. A qualified advisor will contact you at +91 {testDriveData.phone} to assist with vehicle inspection, availability, and scheduling.
-                </p>
-                <a
-                  href={waEnquiryLink}
-                  onClick={logWhatsAppClick}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-whatsapp"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <MessageCircle size={16} />
-                  Connect with WowCars Concierge
-                </a>
+              <div className={styles.done}>
+                <CheckCircle2 size={36} />
+                <h3 className={styles.modalTitle}>Request sent</h3>
+                <p className={styles.muted}>Reference {submittedEnquiryCode}. The WowCars team will WhatsApp you shortly.</p>
+                <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>Close</button>
               </div>
             )}
           </div>
         </div>
       )}
-
-      {/* Experience & Concierge CTA */}
-      <CTASection
-        badge="BENGALURU SHOWROOM & WORKSHOP"
-        title={`Interested in this ${car.year} ${car.make} ${car.model}?`}
-        subtitle="Book an in-person test drive at our Koramangala or Yelahanka Hubs. 140-point inspection documentation provided upfront."
-        primaryActionLabel="Request Free Callback"
-        onPrimaryClick={() => {
-          setContactMode("CALLBACK");
-          setIsModalOpen(true);
-        }}
-        imageSrc="/images/staff-used-cars.jpg"
-        imageAlt={`WowCars specialist with ${car.make} ${car.model}`}
-      />
-
-      <Footer />
     </>
+  );
+}
+
+function PriceSteps({ history }: { history: { date: string; priceINR: number }[] }) {
+  const w = 320;
+  const h = 70;
+  const prices = history.map((x) => x.priceINR);
+  const max = Math.max(...prices);
+  const min = Math.min(...prices);
+  const span = Math.max(1, max - min);
+  const y = (p: number) => 10 + ((max - p) / span) * (h - 20);
+  const step = w / history.length;
+  let d = "";
+  history.forEach((pt, i) => {
+    const x0 = i * step;
+    const x1 = (i + 1) * step;
+    d += `${i === 0 ? "M" : "L"}${x0},${y(pt.priceINR)} L${x1},${y(pt.priceINR)} `;
+  });
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className={styles.steps} role="img" aria-label="Asking price over time">
+      <path d={d} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
   );
 }

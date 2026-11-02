@@ -1,6 +1,6 @@
 .pageWrapper {
   min-height: 100vh;
-  background: var(--brand-black, #111111);
+  background: var(--brand-black, var(--surface));
   color: #FFFFFF;
 }
 
@@ -9,9 +9,9 @@
 }
 
 .altSection {
-  background: var(--brand-charcoal, #242424);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--brand-charcoal, var(--surface));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   padding: 5rem 0;
 }
 
@@ -43,7 +43,7 @@
   font-weight: 800;
   line-height: 1.15;
   margin-bottom: 1rem;
-  color: #FFFFFF;
+  color: var(--text);
 }
 
 .sectionTitle span {
@@ -52,7 +52,7 @@
 
 .sectionSubtitle {
   font-size: 1.0625rem;
-  color: #A0A0A0;
+  color: var(--text-2);
   line-height: 1.6;
 }
 
@@ -67,12 +67,12 @@
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-size: 1.75rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text);
   margin-bottom: 1.25rem;
 }
 
 .storyText p {
-  color: #B0B0B0;
+  color: var(--text-2);
   line-height: 1.75;
   font-size: 1rem;
   margin-bottom: 1.25rem;
@@ -86,8 +86,8 @@
 }
 
 .highlightCard {
-  background: var(--brand-charcoal, #242424);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--brand-charcoal, var(--surface));
+  border: 1px solid var(--line);
   border-radius: var(--radius-md, 10px);
   padding: 1.25rem;
 }
@@ -95,13 +95,13 @@
 .highlightCard strong {
   display: block;
   font-size: 1.125rem;
-  color: #FFFFFF;
+  color: var(--text);
   margin-bottom: 4px;
 }
 
 .highlightCard span {
   font-size: 0.875rem;
-  color: #8E8E93;
+  color: var(--text-2);
   line-height: 1.4;
 }
 
@@ -112,8 +112,8 @@
 }
 
 .pillarCard {
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg, 12px);
   padding: 2rem;
   transition: transform var(--transition-normal, 250ms ease), border-color var(--transition-normal, 250ms ease);
@@ -139,12 +139,12 @@
 .pillarCard h4 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
 .pillarCard p {
-  color: #8E8E93;
+  color: var(--text-2);
   font-size: 0.9375rem;
   line-height: 1.6;
 }
@@ -156,8 +156,8 @@
 }
 
 .hubCard {
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg, 12px);
   overflow: hidden;
   transition: transform var(--transition-normal, 250ms ease);
@@ -170,7 +170,7 @@
 .hubImageWrap {
   position: relative;
   height: 220px;
-  background: #000;
+  background: var(--surface);
 }
 
 .hubImage {
@@ -200,12 +200,12 @@
 .hubBody h4 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .hubAddress {
-  color: #8E8E93;
+  color: var(--text-2);
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 1.25rem;
@@ -215,7 +215,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--line);
   padding-top: 1rem;
 }
 
@@ -223,7 +223,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #CCCCCC;
+  color: var(--text-2);
   font-size: 0.875rem;
 }
 

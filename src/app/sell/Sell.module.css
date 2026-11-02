@@ -4,9 +4,9 @@
    ========================================================================== */
 
 .page {
-  padding-top: var(--nav-height);
-  min-height: 100vh;
-  background-color: var(--color-black);
+  padding-top: var(--space-8);
+  min-height: 60vh;
+  background-color: var(--bg);
   color: var(--color-white);
   padding-bottom: var(--space-16);
 }
@@ -259,7 +259,7 @@
 }
 
 .pillBtnActive {
-  background: rgba(229, 9, 20, 0.15);
+  background: var(--brand-soft);
   border-color: var(--color-primary);
   color: var(--color-white);
   font-weight: 700;
@@ -267,8 +267,8 @@
 
 /* Fair Valuation Box */
 .valuationBox {
-  background: linear-gradient(135deg, rgba(229, 9, 20, 0.08) 0%, rgba(18, 18, 18, 1) 100%);
-  border: 1px solid rgba(229, 9, 20, 0.3);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   padding: var(--space-5);
   display: flex;
@@ -389,7 +389,7 @@
   justify-content: space-between;
   padding: 6px 0;
   font-size: var(--font-size-xs);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--line);
 }
 
 .summaryRow:last-child {
@@ -444,3 +444,197 @@
   white-space: nowrap;
 }
 
+
+/* ==== v2 hero / entry / how-it-works ==== */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 24px 0 28px;
+}
+.heroGrid {
+  display: grid;
+  gap: 20px;
+  align-items: center;
+}
+.heroKicker {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+.heroTitle {
+  font-size: clamp(1.6rem, 4.6vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.heroSub {
+  margin-top: 10px;
+  font-size: 15.5px;
+  color: var(--text-2);
+  max-width: 520px;
+}
+
+.entryCard {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+}
+.entryTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+.entryTabs button {
+  border: 0;
+  background: transparent;
+  padding: 9px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.entryTabs button[aria-selected="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+}
+.entryRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.entryField {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.entryField > span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.entryField small {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.regInput {
+  height: 52px;
+  padding: 0 14px;
+  border: 2px solid var(--text);
+  border-radius: var(--radius-md);
+  background: #fffbe6;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.regInput::placeholder {
+  color: var(--text-2);
+}
+.estimate {
+  display: grid;
+  gap: 2px;
+  padding: 12px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+.estimate span {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.estimate strong {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.estimate small {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.how {
+  padding: 28px 0 4px;
+  background: var(--bg);
+}
+.howTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.howGrid {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+}
+.howGrid li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 12px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+.howGrid strong {
+  color: var(--text);
+  font-size: 15px;
+}
+.howGrid p {
+  grid-column: 2;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.howNum {
+  grid-row: span 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 48px 0;
+  }
+  .heroGrid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+  }
+  .howGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.entryField input,
+.entryField select {
+  width: 100%;
+  min-width: 0;
+}
+.changeCar {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--brand);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  justify-self: start;
+}
