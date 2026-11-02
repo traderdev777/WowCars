@@ -213,6 +213,26 @@ export class DatabaseStore implements DatabaseAdapter {
         this.cache.paymentTransactions = [];
         needsSave = true;
       }
+      // Seed-listing migration: add new demo listings and back-fill new optional
+      // fields on existing demo listings. Never overwrites a value already stored.
+      if (Array.isArray(this.cache.cars)) {
+        for (const seedCar of INITIAL_SEED_DATA.cars) {
+          const existing = this.cache.cars.find((c) => c.id === seedCar.id);
+          if (!existing) {
+            this.cache.cars.push({ ...seedCar });
+            needsSave = true;
+            continue;
+          }
+          if (!existing.isSeedData) continue;
+          for (const [key, value] of Object.entries(seedCar)) {
+            const rec = existing as unknown as Record<string, unknown>;
+            if (rec[key] === undefined) {
+              rec[key] = value;
+              needsSave = true;
+            }
+          }
+        }
+      }
       if (needsSave) {
         this.persistSync();
       }

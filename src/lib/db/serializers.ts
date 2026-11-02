@@ -15,7 +15,7 @@ import { Car, Dealer, PublicCar, PublicDealer } from "./types";
  * Transforms an internal Car model into a strictly sanitized PublicCar schema.
  * Explicitly removes sellerId, internal dealerId, private notes, and internal flags.
  */
-export function toPublicCar(car: Car): PublicCar {
+export function toPublicCar(car: Car, dealer?: Dealer | null): PublicCar {
   return {
     id: car.id,
     listingCode: car.listingCode,
@@ -47,6 +47,29 @@ export function toPublicCar(car: Car): PublicCar {
     mileageARAI: car.mileageARAI,
     seatingCapacity: car.seatingCapacity,
     createdAt: car.createdAt,
+    sellerType: car.sellerType,
+    dealerName: car.sellerType === "Verified Dealer" ? (dealer?.name || car.dealerName) : undefined,
+    dealerRating: dealer?.rating,
+    dealerReviews: dealer?.reviewsCount,
+    insuranceValidity: car.insuranceValidity,
+    hypothecationStatus: car.hypothecationStatus,
+    newPriceINR: car.newPriceINR,
+    previousPriceINR: car.previousPriceINR,
+    priceHistory: car.priceHistory,
+    listedOn: car.listedOn,
+    registrationDate: car.registrationDate,
+    regState: car.regState,
+    rcType: car.rcType,
+    roadTax: car.roadTax,
+    pucValidTill: car.pucValidTill,
+    accidentFree: car.accidentFree,
+    floodFree: car.floodFree,
+    serviceRecords: car.serviceRecords,
+    inspectedByWowCars: car.inspectedByWowCars,
+    idVerified: car.idVerified,
+    keySellingPoints: car.keySellingPoints,
+    inspectionHighlights: car.inspectionHighlights,
+    batteryCapacityKwh: car.batteryCapacityKwh,
   };
 }
 

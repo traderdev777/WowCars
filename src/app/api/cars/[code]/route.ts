@@ -52,7 +52,7 @@ export async function GET(
     });
     const related = relatedResult.cars
       .filter((c) => c.id !== car.id)
-      .map(toPublicCar);
+      .map((c) => toPublicCar(c));
 
     return NextResponse.json({
       success: true,

@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
       limit,
     });
 
-    const sanitizedCars = result.cars.map(toPublicCar);
+    const sanitizedCars = result.cars.map((c) => toPublicCar(c));
 
     return NextResponse.json({
       success: true,
