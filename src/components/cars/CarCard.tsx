@@ -21,6 +21,14 @@ const FUEL_COLORS: Record<string, string> = {
   Hybrid: "badge-green",
 };
 
+/** Indicative EMI: 80% loan, 9.5% p.a., 60 months */
+function estimateEmi(priceINR: number) {
+  const principal = priceINR * 0.8;
+  const r = 0.095 / 12;
+  const n = 60;
+  return Math.round((principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) / 100) * 100;
+}
+
 export default function CarCard({ car }: CarCardProps) {
   const [isSaved, setIsSaved] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -50,7 +58,11 @@ export default function CarCard({ car }: CarCardProps) {
             src={resolvedImage}
             alt={`${car.year} ${car.make} ${car.model}`}
             className={styles.carRealImg}
-            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s ease" }}
+            loading="lazy"
+            decoding="async"
+            width={640}
+            height={400}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
             onError={() => setImageError(true)}
           />
         ) : (
@@ -78,11 +90,6 @@ export default function CarCard({ car }: CarCardProps) {
 
         {/* Top Badges */}
         <div className={styles.topBadges}>
-          {car.isSeedData && (
-            <span className="badge badge-dark" style={{ border: "1px dashed rgba(255, 255, 255, 0.3)", fontSize: 10, color: "#aaa" }}>
-              Sample Listing
-            </span>
-          )}
           {car.isFeatured && (
             <span className={`badge badge-red ${styles.featuredBadge}`}>★ Featured</span>
           )}
@@ -95,7 +102,11 @@ export default function CarCard({ car }: CarCardProps) {
         </div>
 
         {/* Listing Code */}
-        <span className={`badge badge-white ${styles.listingCode}`}>{car.listingCode}</span>
+        <span className={`badge badge-white ${styles.listingCode}`}>
+          {car.listingCode}
+          {car.isSeedData ? " · Sample" : ""}
+        </span>
+        <div className={styles.imageShade} aria-hidden="true" />
       </div>
 
       {/* Body */}
@@ -124,6 +135,10 @@ export default function CarCard({ car }: CarCardProps) {
             <span className="badge badge-green">1st Owner</span>
           )}
         </div>
+        <p className={styles.emiHint}>
+          EMI from <strong>₹{estimateEmi(car.priceINR).toLocaleString("en-IN")}/mo</strong>
+          <span> · 60 months, 20% down</span>
+        </p>
 
         {/* Specs Row */}
         <div className={styles.specs}>

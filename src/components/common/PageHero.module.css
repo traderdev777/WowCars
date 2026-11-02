@@ -169,3 +169,11 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Compact variant for catalogue pages: get users to the listings faster on phones */
+@media (max-width: 767px) {
+  .compactMobile { padding-top: 24px !important; padding-bottom: 24px !important; }
+  .compactMobile .visualCol,
+  .compactMobile .statsStrip { display: none; }
+  .compactMobile .heroBtnSecondary { display: none; }
+}

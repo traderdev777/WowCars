@@ -348,3 +348,137 @@
   max-width: 400px;
   line-height: 1.5;
 }
+
+/* ==========================================================================
+   Refresh: sticky desktop filters, mobile filter drawer, polished toolbar
+   ========================================================================== */
+.mobileFilterBtn,
+.drawerClose,
+.drawerApply,
+.drawerBackdrop { display: none; }
+
+.filterCountBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--brand-red, #ED1C24);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sortBar {
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.carsGrid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+
+@media (min-width: 1024px) {
+  .filterSidebar {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 1023px) {
+  .page { padding: 20px 0 56px; }
+  .catalogHeader { margin-bottom: 16px; padding-bottom: 16px; }
+
+  /* Category pills become a swipeable row */
+  .categoryPills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .categoryPills::-webkit-scrollbar { display: none; }
+  .catTab { flex-shrink: 0; }
+
+  /* Sticky toolbar with Filters button */
+  .sortBar {
+    position: sticky;
+    top: 70px;
+    z-index: 20;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+  .sortLabel { display: none; }
+  .sortSelect { max-width: 60%; }
+
+  .mobileFilterBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-raised, var(--color-surface));
+    color: var(--color-white);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  /* Filter sidebar becomes a bottom sheet */
+  .filterSidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(105%);
+    transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
+  }
+  .filterSidebarOpen { transform: translateY(0); }
+
+  .drawerBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 200ms ease;
+  }
+  .drawerClose {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-white);
+    cursor: pointer;
+  }
+  .drawerApply {
+    display: flex;
+    position: sticky;
+    bottom: 0;
+  }
+  .specialistHelpBox { display: none; }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

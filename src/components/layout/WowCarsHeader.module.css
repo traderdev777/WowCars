@@ -525,3 +525,15 @@
     display: flex;
   }
 }
+
+/* Phone header: keep everything inside the viewport (hamburger was pushed off-screen) */
+@media (max-width: 640px) {
+  .inner { gap: 8px; }
+  .actions { gap: 6px; min-width: 0; }
+  .themeToggleBtn { display: none; }
+  .logoImg { height: 34px; }
+  .sellBtn { padding: 8px 12px !important; font-size: 0.8125rem !important; }
+}
+@media (max-width: 380px) {
+  .cartBtn { display: none; }
+}

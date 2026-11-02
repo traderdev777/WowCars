@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle, Phone, ArrowRight, ShieldCheck } from "lucide-react";
 import styles from "./CTASection.module.css";
+import { getAssetPath } from "@/lib/assets";
 
 export interface CTAAction {
   label: string;
@@ -117,7 +118,7 @@ export default function CTASection({
           <div className={styles.visualCol}>
             <div className={styles.imageWrapper}>
               <Image
-                src={imageSrc}
+                src={getAssetPath(imageSrc)}
                 alt={imageAlt}
                 fill
                 sizes="(max-width: 768px) 100vw, 480px)"

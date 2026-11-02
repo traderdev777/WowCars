@@ -13,6 +13,7 @@ import {
   Bike,
   Car as CarIcon,
   CheckCircle2,
+  X,
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -51,6 +52,7 @@ export default function CarsCatalogClient({
   const [selectedBody, setSelectedBody] = useState("all");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filteredCars = useMemo(() => {
     return initialCars
@@ -127,6 +129,14 @@ export default function CarsCatalogClient({
     sortBy,
   ]);
 
+  const activeFilterCount =
+    (searchQuery.trim() ? 1 : 0) +
+    (selectedBudget !== "all" ? 1 : 0) +
+    (selectedFuel !== "all" ? 1 : 0) +
+    (selectedTrans !== "all" ? 1 : 0) +
+    (selectedBody !== "all" ? 1 : 0) +
+    (verifiedOnly ? 1 : 0);
+
   const handleResetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
@@ -159,6 +169,7 @@ export default function CarsCatalogClient({
         ]}
         imageSrc="/images/staff-used-cars.jpg"
         imageAlt="WowCars specialist Arjun inspecting pre-owned vehicle with customer"
+        compactOnMobile
         staffName="Arjun Sharma"
         staffRole="Vehicle Evaluation Lead"
         staffBadge="140-Point Certified Inspector"
@@ -171,9 +182,6 @@ export default function CarsCatalogClient({
           href: "/service-centres",
         }}
       />
-
-      {/* Trust Guarantee Strip */}
-      <TrustIndicators />
 
       <main className={styles.page}>
         <div className="container">
@@ -279,20 +287,40 @@ export default function CarsCatalogClient({
           {/* Layout: Sidebar + Cars Grid */}
           <div className={styles.catalogLayout}>
             {/* Filter Sidebar */}
-            <aside className={styles.filterSidebar}>
+            {filtersOpen && (
+              <div
+                className={styles.drawerBackdrop}
+                onClick={() => setFiltersOpen(false)}
+                aria-hidden="true"
+              />
+            )}
+            <aside
+              className={`${styles.filterSidebar} ${filtersOpen ? styles.filterSidebarOpen : ""}`}
+              aria-label="Filters"
+            >
               <div className={styles.filterHeader}>
                 <div className={styles.filterHeading}>
                   <SlidersHorizontal size={16} />
                   <span>Filters</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className={styles.resetBtn}
-                >
-                  <RotateCcw size={12} />
-                  <span>Reset All</span>
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className={styles.resetBtn}
+                  >
+                    <RotateCcw size={12} />
+                    <span>Reset All</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFiltersOpen(false)}
+                    className={styles.drawerClose}
+                    aria-label="Close filters"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
 
               {/* Search Box */}
@@ -441,12 +469,32 @@ export default function CarsCatalogClient({
                   WhatsApp Specialist
                 </a>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setFiltersOpen(false)}
+                className={`btn btn-primary btn-full ${styles.drawerApply}`}
+              >
+                Show {filteredCars.length} {filteredCars.length === 1 ? "vehicle" : "vehicles"}
+              </button>
             </aside>
 
             {/* Cars Grid Area */}
             <div className={styles.catalogMain}>
               {/* Sorting Bar */}
               <div className={styles.sortBar}>
+                <button
+                  type="button"
+                  onClick={() => setFiltersOpen(true)}
+                  className={styles.mobileFilterBtn}
+                  aria-expanded={filtersOpen}
+                >
+                  <SlidersHorizontal size={15} />
+                  Filters
+                  {activeFilterCount > 0 && (
+                    <span className={styles.filterCountBadge}>{activeFilterCount}</span>
+                  )}
+                </button>
                 <div className={styles.sortLabel}>
                   Sort by:
                 </div>
@@ -456,7 +504,7 @@ export default function CarsCatalogClient({
                   className={styles.sortSelect}
                   aria-label="Sort vehicles"
                 >
-                  <option value="featured">Featured & Recommended</option>
+                  <option value="featured">Recommended</option>
                   <option value="price-asc">Price: Low to High</option>
                   <option value="price-desc">Price: High to Low</option>
                   <option value="year-desc">Year: Newest First</option>
@@ -491,6 +539,9 @@ export default function CarsCatalogClient({
           </div>
         </div>
       </main>
+
+      {/* Trust Guarantee Strip (after listings so buyers see cars first) */}
+      <TrustIndicators />
 
       {/* Bottom CTA with Arjun Specialist Handover */}
       <CTASection
