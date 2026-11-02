@@ -10,10 +10,8 @@ console.log("=================================================================="
 console.log("  WOWCARS — DEPLOYING TO GITHUB PAGES (gh-pages BRANCH)           ");
 console.log("==================================================================");
 
-if (!fs.existsSync(outDir) || !fs.existsSync(path.join(outDir, "index.html"))) {
-  console.log("⚙️  Running npm run build:pages to generate static export...");
-  execSync("npm run build:pages", { cwd: rootDir, stdio: "inherit" });
-}
+console.log("⚙️  Running npm run build:pages to generate fresh static export...");
+execSync("npm run build:pages", { cwd: rootDir, stdio: "inherit" });
 
 const gitDir = path.join(outDir, ".git");
 if (fs.existsSync(gitDir)) {
