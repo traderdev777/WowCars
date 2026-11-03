@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description:
       "Order genuine OEM, OES and certified replacement parts. Check vehicle fitment for Swift, Creta, City, Scorpio and more.",
     url: "https://wowcars.in/spare-parts",
-    images: [{ url: "/parts/categories/engine-and-maintenance.svg", width: 800, height: 600, alt: "WowCars Spare Parts" }],
+    images: [{ url: "/parts/categories/engine-maintenance.jpg", width: 800, height: 600, alt: "WowCars Spare Parts" }],
   },
 };
 

@@ -159,6 +159,8 @@ export default function ContactPage() {
       </section>
 
       <CTASection
+        imageAlt="WowCars Koramangala flagship hub"
+        imageSrc="/images/workshop-koramangala.jpg"
         title="Visiting Us for a Test Drive or Multi-Point Service?"
         subtitle="We offer complimentary doorstep pickup & drop for all scheduled garage appointments within 15 km of our hubs."
         primaryAction={{

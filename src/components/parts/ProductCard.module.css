@@ -128,7 +128,7 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
-  color: #fff;
+  color: var(--brand-white, #fff);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -200,7 +200,7 @@
 .sellingPrice {
   font-size: 16px;
   font-weight: 800;
-  color: #fff;
+  color: var(--brand-white, #fff);
 }
 
 .mrp {

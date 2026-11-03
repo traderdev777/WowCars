@@ -609,7 +609,7 @@ export default function AdminSparePartsClient() {
                   <div key={cat.id} className={styles.catCard}>
                     <div className={styles.catTop}>
                       <Image
-                        src={cat.image || `/parts/categories/${cat.slug}.svg`}
+                        src={cat.image || `/parts/categories/${cat.slug}.jpg`}
                         alt={cat.name}
                         width={60}
                         height={45}

@@ -19,6 +19,8 @@ export interface PageHeroAction {
 }
 
 export interface PageHeroProps {
+  /** Hide the staff photo and stats strip on phones so content starts sooner */
+  compactOnMobile?: boolean;
   badge?: string;
   title: React.ReactNode;
   subtitle: string;
@@ -50,11 +52,12 @@ export default function PageHero({
   staffContext,
   staffBadge,
   children,
+  compactOnMobile = false,
 }: PageHeroProps) {
   const finalImage = imageSrc || staffImage;
   const finalRole = staffRole || staffContext || "Automotive Experience Lead";
   return (
-    <section className={styles.heroSection}>
+    <section className={`${styles.heroSection} ${compactOnMobile ? styles.compactMobile : ""}`}>
       <div className={styles.ambientGlow} />
       <div className={`container ${styles.container}`}>
         <div className={styles.grid}>

@@ -45,7 +45,7 @@ export default function CategoriesClient({ categories }: CategoriesClientProps) 
               <div className={styles.categoryCard}>
                 <div className={styles.imageCol}>
                   <Image
-                    src={cat.image || `/parts/categories/${cat.slug}.svg`}
+                    src={cat.image || `/parts/categories/${cat.slug}.jpg`}
                     alt={cat.name}
                     width={320}
                     height={220}

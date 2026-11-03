@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
-import { formatLakhs } from "@/lib/formatters";
-import { toPublicCar } from "@/lib/db/serializers";
+import { loadPublicListings } from "@/lib/listings/server";
+import { priceShort } from "@/lib/listings/listing";
 import CarDetailClient from "./CarDetailClient";
 
 interface PageProps {
@@ -22,33 +22,36 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!car || car.status !== "ACTIVE") {
     return {
-      title: "Vehicle Not Found — WowCars Bengaluru",
+      title: "Car not found | WowCars",
       description: "The requested vehicle listing could not be found on WowCars.",
     };
   }
 
+  const title = `${car.year} ${car.make} ${car.model} ${car.variant} — ${priceShort(car.priceINR)} in ${car.locality}, ${car.city} | WowCars`;
+  const desc = `${car.year} ${car.make} ${car.model} (${car.fuelType}, ${car.transmission}), ${car.kmDriven.toLocaleString("en-IN")} km, ${car.numOwners} owner, RTO ${car.rtoCode}. ${priceShort(car.priceINR)}. Direct WhatsApp enquiry.`;
   return {
-    title: `${car.year} ${car.make} ${car.model} ${car.variant} for Sale in ${car.locality}, Bengaluru | WowCars`,
-    description: `Verified ${car.year} ${car.make} ${car.model} (${car.fuelType}, ${car.transmission}) with ${car.kmDriven.toLocaleString("en-IN")} km, ${car.numOwners} owner, RTO ${car.rtoCode} (${car.rtoArea}). Price: ₹${formatLakhs(car.priceINR)} Lakhs. Direct WhatsApp inquiry with ₹0 buyer fee.`,
-    openGraph: {
-      title: `${car.year} ${car.make} ${car.model} ${car.variant} — ₹${formatLakhs(car.priceINR)} Lakhs`,
-      description: `Verified in ${car.locality}, Bengaluru. ${car.fuelType} · ${car.transmission} · ${car.kmDriven.toLocaleString("en-IN")} km · RTO ${car.rtoCode}`,
-    },
+    title,
+    description: desc,
+    openGraph: { title, description: desc },
   };
 }
 
 export default async function CarDetailPage({ params }: PageProps) {
   const { code } = await params;
-  const car = await db.getCarByListingCode(code);
+  const all = await loadPublicListings();
+  const car = all.find((c) => c.listingCode.toLowerCase() === code.toLowerCase());
 
-  if (!car || car.status !== "ACTIVE") {
+  if (!car) {
     notFound();
   }
 
-  const relatedResult = await db.getCars({ status: "ACTIVE", bodyType: car.bodyType, limit: 4 });
-  const relatedCars = relatedResult.cars
+  // Similar cars: same body type first, then closest price.
+  const related = all
     .filter((c) => c.id !== car.id)
-    .map(toPublicCar);
+    .map((c) => ({ c, score: (c.bodyType === car.bodyType ? 0 : 1) + Math.abs(c.priceINR - car.priceINR) / Math.max(1, car.priceINR) }))
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3)
+    .map((x) => x.c);
 
-  return <CarDetailClient car={toPublicCar(car) as unknown as import("@/lib/mockData").Car} relatedCars={relatedCars as unknown as import("@/lib/mockData").Car[]} />;
+  return <CarDetailClient car={car} relatedCars={related} />;
 }

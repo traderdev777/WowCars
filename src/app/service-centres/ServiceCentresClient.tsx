@@ -644,8 +644,8 @@ export default function ServiceCentresClient({
         subtitle="Complimentary doorstep pickup within 15 km of Koramangala Hub. Fixed labour pricing, 100% genuine spares, and live WhatsApp progress updates."
         primaryActionLabel="Book Appointment"
         onPrimaryClick={() => openBookingFor()}
-        imageSrc="/images/staff-service-garage.jpg"
-        imageAlt="WowCars specialist Arjun inspecting vehicle on hydraulic lift with technician"
+        imageSrc="/images/staff-vehicle-delivery.jpg"
+        imageAlt="WowCars specialist handing over a serviced car"
       />
 
       {/* ========== BOOKING MODAL ========== */}

@@ -247,7 +247,7 @@ export default function SellerDashboardClient({
               endYear: 2025,
             },
           ],
-          images: [`/parts/categories/${prodCategory}.svg`],
+          images: [`/parts/categories/${prodCategory}.jpg`],
         }),
       });
 

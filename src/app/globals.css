@@ -3,7 +3,23 @@
    Pre-Owned Cars You Can Trust | Bengaluru, India
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap');
+/* Inter, self-hosted (latin + latin-ext so ₹ renders in Inter). No runtime font fetch. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("./fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("./fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 /* ---- CSS Design Tokens ---- */
 :root,
@@ -88,6 +104,36 @@
   --color-error-red: #EF4444;
   --color-error-subtle: #FEE2E2;
   --color-info-blue: #3B82F6;
+
+  /* ===== WowCars design system v2 (semantic tokens) — dark ===== */
+  --bg: #0F131A;
+  --surface: #171C25;
+  --surface-2: #1F2530;
+  --surface-3: #262D3A;
+  --line: #2B3240;
+  --line-strong: #3A4352;
+  --text: #E8EBF0;
+  --text-2: #B0B8C4;
+  --text-3: #8C96A4;
+  --brand: #EF2B33;
+  --brand-hover: #D51E26;
+  --brand-soft: rgba(239, 43, 51, 0.14);
+  --on-brand: #FFFFFF;
+  --wa: #1FA855;
+  --wa-hover: #188A45;
+  --focus: rgba(239, 43, 51, 0.45);
+  --overlay: rgba(5, 8, 12, 0.6);
+  --pill-on-photo: rgba(10, 12, 16, 0.72);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+  /* Deal-rating scale — used ONLY for WowPrice ratings */
+  --deal-great: #4ADE80;  --deal-great-bg: rgba(34, 197, 94, 0.16);
+  --deal-good: #A3E635;   --deal-good-bg: rgba(132, 204, 22, 0.15);
+  --deal-fair: #60A5FA;   --deal-fair-bg: rgba(59, 130, 246, 0.16);
+  --deal-high: #FBBF24;   --deal-high-bg: rgba(245, 158, 11, 0.16);
+  --deal-over: #F87171;   --deal-over-bg: rgba(239, 68, 68, 0.16);
+  --ok: #34D399;
+  --ok-bg: rgba(16, 185, 129, 0.14);
 }
 
 /* Light Theme Tokens */
@@ -107,13 +153,13 @@
 
   /* Automotive Crisp Light Neutrals */
   --color-black: #FFFFFF;
-  --color-carbon: #F8FAFC;
-  --color-dark-gray: #F1F5F9;
+  --color-carbon: #F5F6F8;
+  --color-dark-gray: #F1F3F6;
   --color-surface: #FFFFFF;
   --color-surface-raised: #F8FAFC;
   --color-mid-gray: #E2E8F0;
-  --color-border: #E2E8F0;
-  --color-border-light: #CBD5E1;
+  --color-border: #E3E6EB;
+  --color-border-light: #CDD2DA;
   --color-light-gray: #475569;
   --color-muted: #64748B;
   --color-off-white: #0F172A;
@@ -172,13 +218,43 @@
   --color-error-red: #DC2626;
   --color-error-subtle: #FEE2E2;
   --color-info-blue: #2563EB;
+
+  /* ===== WowCars design system v2 (semantic tokens) — light ===== */
+  --bg: #F5F6F8;
+  --surface: #FFFFFF;
+  --surface-2: #F1F3F6;
+  --surface-3: #E9ECF1;
+  --line: #E3E6EB;
+  --line-strong: #CDD2DA;
+  --text: #111827;
+  --text-2: #4B5563;
+  --text-3: #6B7280;
+  --brand: #D9161F;
+  --brand-hover: #B91219;
+  --brand-soft: #FDECEC;
+  --on-brand: #FFFFFF;
+  --wa: #1E9E4A;
+  --wa-hover: #17853D;
+  --focus: rgba(217, 22, 31, 0.35);
+  --overlay: rgba(17, 24, 39, 0.5);
+  --pill-on-photo: rgba(17, 24, 39, 0.72);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.14);
+  /* Deal-rating scale — used ONLY for WowPrice ratings */
+  --deal-great: #0B7A3B;  --deal-great-bg: #E2F4E8;
+  --deal-good: #4A7F0E;   --deal-good-bg: #EDF6DC;
+  --deal-fair: #1C6A9E;   --deal-fair-bg: #E2EFF8;
+  --deal-high: #A85007;   --deal-high-bg: #FDF0DC;
+  --deal-over: #A4211B;   --deal-over-bg: #FCE6E4;
+  --ok: #067647;
+  --ok-bg: #E3F6EC;
 }
 
 :root {
 
   /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: 'Poppins', 'Inter', sans-serif;
+  --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-family);
 
   /* Font sizes (fluid) */
   --text-xs: 0.75rem;
@@ -207,10 +283,11 @@
   /* Radii */
   --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 28px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 16px;
+  --radius: 10px;
   --radius-full: 9999px;
 
   /* Shadows */
@@ -227,9 +304,26 @@
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
 
+  /* Legacy aliases (referenced by older modules) mapped onto the v2 tokens */
+  --color-primary: var(--brand);
+  --color-accent: var(--ok);
+  --color-slate: var(--text-3);
+  --color-bg: var(--bg);
+  --color-text-main: var(--text);
+  --color-surface-elevated: var(--surface-2);
+  --font-sans: var(--font-family);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --transition-normal: 250ms ease;
+
   /* Layout */
   --container-max: 1280px;
-  --nav-height: 68px;
+  --nav-height: 60px;
 }
 
 /* ---- Reset & Base ---- */
@@ -247,9 +341,10 @@ html {
 
 body {
   font-family: var(--font-family);
-  background-color: var(--color-carbon);
-  color: var(--color-white);
-  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -298,12 +393,7 @@ ul, ol {
   letter-spacing: -0.02em;
 }
 
-.text-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E50914 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+.text-gradient { color: var(--brand); }
 
 .text-red { color: var(--brand-red); }
 .text-green { color: var(--color-trust-green); }
@@ -501,24 +591,27 @@ ul, ol {
   border-radius: var(--radius-md);
 }
 
+/* ---- Numerals ---- */
+.tnum, .price-lakhs { font-variant-numeric: tabular-nums; }
+
 /* ---- Badge Component ---- */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: 2px var(--space-2);
+  gap: 4px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: 0.02em;
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-.badge-red   { background: var(--brand-red-subtle); color: var(--brand-red); }
-.badge-green { background: var(--color-trust-green-subtle); color: var(--color-trust-green); }
-.badge-amber { background: var(--color-warning-subtle); color: #B45309; }
-.badge-dark  { background: var(--color-surface-raised); color: var(--color-light-gray); border: 1px solid var(--color-border); }
-.badge-white { background: rgba(255,255,255,0.12); color: var(--color-white); backdrop-filter: blur(8px); }
+.badge-red   { background: var(--brand-soft); color: var(--brand); }
+.badge-green { background: var(--ok-bg); color: var(--ok); }
+.badge-amber { background: var(--deal-high-bg); color: var(--deal-high); }
+.badge-dark  { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--line); }
+.badge-white { background: var(--pill-on-photo); color: #FFFFFF; }
 
 /* ---- Button Component ---- */
 .btn {
@@ -526,102 +619,79 @@ ul, ol {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
+  padding: 10px 18px;
   border-radius: var(--radius-md);
   font-weight: 600;
   font-size: var(--text-sm);
+  line-height: 1.2;
   cursor: pointer;
-  border: none;
-  transition: all var(--transition-base);
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
   white-space: nowrap;
   min-height: 44px;
   position: relative;
-  overflow: hidden;
   text-decoration: none;
 }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background var(--transition-fast);
-}
+.btn-primary { background: var(--brand); color: var(--on-brand); }
+.btn-primary:hover { background: var(--brand-hover); }
 
-.btn:hover::after { background: rgba(255,255,255,0.08); }
-.btn:active { transform: scale(0.98); }
+.btn-secondary { background: var(--surface); color: var(--text); border-color: var(--line-strong); }
+.btn-secondary:hover { background: var(--surface-2); }
 
-.btn-primary {
-  background: var(--brand-red);
-  color: #fff;
-  box-shadow: var(--shadow-red);
-}
-.btn-primary:hover { background: var(--brand-red-hover); box-shadow: 0 6px 25px rgba(229,9,20,0.45); }
+.btn-whatsapp { background: var(--wa); color: #FFFFFF; }
+.btn-whatsapp:hover { background: var(--wa-hover); }
 
-.btn-secondary {
-  background: var(--color-surface-raised);
-  color: var(--color-white);
-  border: 1px solid var(--color-border);
-}
-.btn-secondary:hover { background: var(--color-mid-gray); border-color: var(--color-border-light); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--line); }
+.btn-ghost:hover { color: var(--text); border-color: var(--line-strong); }
 
-.btn-whatsapp {
-  background: #25D366;
-  color: #fff;
-  box-shadow: var(--shadow-green);
-}
-.btn-whatsapp:hover { background: #22C05E; box-shadow: 0 6px 25px rgba(37,211,102,0.45); }
-
-.btn-ghost {
-  background: transparent;
-  color: var(--color-light-gray);
-  border: 1px solid var(--color-border);
-}
-.btn-ghost:hover { color: var(--color-white); border-color: var(--color-border-light); }
-
-.btn-lg { padding: var(--space-4) var(--space-8); font-size: var(--text-base); border-radius: var(--radius-lg); min-height: 52px; }
-.btn-sm { padding: var(--space-2) var(--space-4); font-size: var(--text-xs); min-height: 36px; }
+.btn-lg { padding: 14px 24px; font-size: var(--text-base); min-height: 50px; }
+.btn-sm { padding: 6px 12px; font-size: var(--text-xs); min-height: 36px; }
 .btn-full { width: 100%; }
 
 .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
 /* ---- Card Component ---- */
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
 }
-
-.card:hover {
-  border-color: var(--color-border-light);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
-}
+.card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-pop); }
 
 /* ---- Form Elements ---- */
 .input, .select {
   width: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  color: var(--color-white);
-  padding: var(--space-3) var(--space-4);
+  color: var(--text);
+  padding: 10px 12px;
   font-size: var(--text-sm);
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   min-height: 44px;
   outline: none;
 }
+.input:focus, .select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--focus); }
+.input::placeholder { color: var(--text-3); }
+.select option { background: var(--surface); color: var(--text); }
 
-.input:focus, .select:focus {
-  border-color: var(--brand-red);
-  box-shadow: 0 0 0 3px var(--brand-red-glow);
-}
+/* ---- Deal rating pill (semantic scale, only for price ratings) ---- */
+.deal { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: var(--radius-full); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.deal::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.deal-great { color: var(--deal-great); background: var(--deal-great-bg); }
+.deal-good  { color: var(--deal-good);  background: var(--deal-good-bg); }
+.deal-fair  { color: var(--deal-fair);  background: var(--deal-fair-bg); }
+.deal-high  { color: var(--deal-high);  background: var(--deal-high-bg); }
+.deal-over  { color: var(--deal-over);  background: var(--deal-over-bg); }
+.deal-none  { color: var(--text-3); background: var(--surface-2); }
 
-.input::placeholder { color: var(--color-muted); }
-
-.select option { background: var(--color-dark-gray); color: var(--color-white); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ---- Divider ---- */
 .divider {
@@ -642,7 +712,7 @@ ul, ol {
 }
 @media (min-width: 600px)  { .grid-cars { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px)  { .grid-cars { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1200px) { .grid-cars { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1200px) { .grid-cars { grid-template-columns: repeat(3, 1fr); } }
 
 /* ---- Glassmorphism Utility ---- */
 .glass {
@@ -655,8 +725,8 @@ ul, ol {
 /* ---- Spinner ---- */
 .spinner {
   width: 20px; height: 20px;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-top-color: var(--color-white);
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--brand);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   display: inline-block;
@@ -664,11 +734,10 @@ ul, ol {
 
 /* ---- INR Price Display ---- */
 .price-lakhs {
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-white);
+  font-weight: 800;
+  color: var(--text);
 }
-.price-rupee-symbol { color: var(--brand-red); }
+.price-rupee-symbol { color: inherit; }
 
 /* ---- Hide Next.js Development Indicator Badge ---- */
 nextjs-portal,

@@ -229,6 +229,32 @@ export interface Car {
   engineDisplacement?: string;
   mileageARAI?: string;
   seatingCapacity?: number;
+  // ---- Buyer-journey enrichment (all optional; seed listings carry SAMPLE values) ----
+  /** Estimated on-road price when new. Basis for the WowPrice estimate; never shown as a fact. */
+  newPriceINR?: number;
+  /** Previous asking price, when the seller has dropped the price. */
+  previousPriceINR?: number;
+  /** Asking-price history, oldest first (ISO dates). */
+  priceHistory?: { date: string; priceINR: number }[];
+  /** ISO date the listing went live (falls back to createdAt). */
+  listedOn?: string;
+  /** First registration month, e.g. "Mar 2021". */
+  registrationDate?: string;
+  /** State of registration (derived from the RTO code when missing). */
+  regState?: string;
+  rcType?: "Original" | "Duplicate";
+  roadTax?: string;
+  pucValidTill?: string;
+  accidentFree?: boolean;
+  floodFree?: boolean;
+  serviceRecords?: boolean;
+  /** Passed the WowCars inspection (score shown on the detail page). */
+  inspectedByWowCars?: boolean;
+  /** Private seller identity checked (Aadhaar/DigiLocker). */
+  idVerified?: boolean;
+  /** Up to 3 seller highlights picked from a controlled list. */
+  keySellingPoints?: string[];
+  inspectionHighlights?: string[];
   vehicleCategory?: VehicleCategory;
   // Electric & Hybrid Vehicle Specifications
   batteryChemistry?: "LFP" | "NMC" | "SOLID_STATE";
@@ -329,6 +355,30 @@ export interface PublicCar {
   mileageARAI?: string;
   seatingCapacity?: number;
   createdAt: string;
+  // Public-safe seller summary (trade name + rating only; never phone/email/address)
+  sellerType?: "Individual" | "Verified Dealer";
+  dealerName?: string;
+  dealerRating?: number;
+  dealerReviews?: number;
+  insuranceValidity?: string;
+  hypothecationStatus?: string;
+  newPriceINR?: number;
+  previousPriceINR?: number;
+  priceHistory?: { date: string; priceINR: number }[];
+  listedOn?: string;
+  registrationDate?: string;
+  regState?: string;
+  rcType?: "Original" | "Duplicate";
+  roadTax?: string;
+  pucValidTill?: string;
+  accidentFree?: boolean;
+  floodFree?: boolean;
+  serviceRecords?: boolean;
+  inspectedByWowCars?: boolean;
+  idVerified?: boolean;
+  keySellingPoints?: string[];
+  inspectionHighlights?: string[];
+  batteryCapacityKwh?: number;
 }
 
 /**

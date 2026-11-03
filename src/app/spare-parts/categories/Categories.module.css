@@ -139,7 +139,7 @@
 }
 
 .catName a {
-  color: #fff;
+  color: var(--brand-white, #fff);
   text-decoration: none;
 }
 

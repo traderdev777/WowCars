@@ -8,8 +8,6 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/common/PageHero";
-import TrustIndicators from "@/components/common/TrustIndicators";
 import CTASection from "@/components/common/CTASection";
 import { WHATSAPP_CONCIERGE_PHONE } from "@/lib/mockData";
 import {
@@ -49,6 +47,9 @@ export default function SellClient() {
   const [submittedListingCode, setSubmittedListingCode] = useState<string>("WC-1050");
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
+
+  const [entryMode, setEntryMode] = useState<"reg" | "model">("reg");
+  const [regNumber, setRegNumber] = useState("");
 
   // Form State
   const [formData, setFormData] = useState({
@@ -177,6 +178,19 @@ export default function SellClient() {
     setUploadedPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const startListing = () => {
+    if (entryMode === "reg") {
+      const m = regNumber.replace(/[^A-Z0-9]/g, "").match(/^([A-Z]{2})(\d{1,2})/);
+      if (m) {
+        const code = `${m[1]}-${m[2].padStart(2, "0")}`;
+        const known = BENGALURU_RTOS.some((r) => r.code === code);
+        setFormData((f) => ({ ...f, rtoCode: known ? code : "OTHER" }));
+      }
+    }
+    setCurrentStep(1);
+    document.getElementById("sell-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   // Real-time Fair Price Estimator algorithm based on Indian used-car benchmarks
   const estimatedFairRange = useMemo(() => {
     const age = 2026 - Number(formData.year);
@@ -246,44 +260,132 @@ export default function SellClient() {
     <>
       <Navbar />
 
-      {/* Hero Banner with Arjun Specialist Inspection */}
-      <PageHero
-        badge="SELL YOUR CAR FREE · BENGALURU PILOT"
-        title={
-          <>
-            Sell Your Car to Genuine Buyers with <span>₹0 Broker Fee</span>
-          </>
-        }
-        subtitle="100% Free listing. Fair market price estimation, transparent paperwork assistance, and zero spam calls with verified WhatsApp inquiries."
-        stats={[
-          { label: "Broker Commission", value: "₹0" },
-          { label: "Listing Approval", value: "Under 2 Hrs" },
-          { label: "Active Buyers", value: "12,000+" },
-          { label: "Evaluation Hubs", value: "Bengaluru" },
-        ]}
-        imageSrc="/images/staff-sell-car.jpg"
-        imageAlt="WowCars specialist Arjun inspecting engine bay for valuation"
-        staffName="Arjun Sharma"
-        staffRole="Lead Vehicle Evaluator"
-        staffBadge="140-Point Technical Inspector"
-        primaryAction={{
-          label: "Browse Current Catalog",
-          href: "/cars",
-        }}
-        secondaryAction={{
-          label: "Service Centres",
-          href: "/service-centres",
-        }}
-      />
+      {/* Hero: registration number or make/model entry with a live estimate */}
+      <section className={styles.hero} aria-labelledby="sell-title">
+        <div className={`container ${styles.heroGrid}`}>
+          <div>
+            <p className={styles.heroKicker}>Sell your car · free listing · ₹0 broker fee</p>
+            <h1 id="sell-title" className={styles.heroTitle}>Get a fair price for your car, without the broker.</h1>
+            <p className={styles.heroSub}>
+              Verified WhatsApp enquiries only, listing approval in under 2 hours, and help with RC transfer paperwork.
+            </p>
+          </div>
 
-      {/* 4-Pillar Trust Strip */}
-      <TrustIndicators />
+          <div className={styles.entryCard}>
+            <div className={styles.entryTabs} role="tablist" aria-label="Find your car by">
+              <button type="button" role="tab" aria-selected={entryMode === "reg"} onClick={() => setEntryMode("reg")}>
+                Registration number
+              </button>
+              <button type="button" role="tab" aria-selected={entryMode === "model"} onClick={() => setEntryMode("model")}>
+                Make &amp; model
+              </button>
+            </div>
+
+            {entryMode === "reg" ? (
+              <label className={styles.entryField}>
+                <span>Registration number</span>
+                <input
+                  className={styles.regInput}
+                  value={regNumber}
+                  onChange={(e) => setRegNumber(e.target.value.toUpperCase())}
+                  placeholder="KA 05 MX 1234"
+                  maxLength={13}
+                  autoComplete="off"
+                  aria-describedby="reg-help"
+                />
+                <small id="reg-help">We only use the RTO code (e.g. KA-05) to pre-fill your form.</small>
+              </label>
+            ) : (
+              <div className={styles.entryRow}>
+                <label className={styles.entryField}>
+                  <span>Make</span>
+                  <select value={formData.make} onChange={(e) => handleMakeChange(e.target.value)} className={styles.select}>
+                    {ALL_MANUFACTURERS.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className={styles.entryField}>
+                  <span>Model</span>
+                  <select value={formData.model} onChange={(e) => handleModelChange(e.target.value)} className={styles.select}>
+                    {availableModels.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            )}
+
+            <div className={styles.entryRow}>
+              <label className={styles.entryField}>
+                <span>Year</span>
+                <select value={formData.year} onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })} className={styles.select}>
+                  {[2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014].map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
+              </label>
+              <label className={styles.entryField}>
+                <span>Kilometres</span>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={0}
+                  step={1000}
+                  value={formData.kmDriven}
+                  onChange={(e) => setFormData({ ...formData, kmDriven: Number(e.target.value) })}
+                  className={styles.select}
+                />
+              </label>
+            </div>
+
+            <div className={styles.estimate} aria-live="polite">
+              <span>Instant estimate for a {formData.year} {formData.make} {formData.model}</span>
+              <strong>₹{estimatedFairRange.low} L – ₹{estimatedFairRange.high} L</strong>
+              <small>Rough guide from make, year and km. Your final price depends on inspection.</small>
+              {entryMode === "reg" && (
+                <button type="button" className={styles.changeCar} onClick={() => setEntryMode("model")}>
+                  Not your car? Choose make &amp; model
+                </button>
+              )}
+            </div>
+
+            <button type="button" className="btn btn-primary btn-lg btn-full" onClick={startListing}>
+              Continue — list my car free <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className={styles.how} aria-labelledby="how-title">
+        <div className="container">
+          <h2 id="how-title" className={styles.howTitle}>How selling works</h2>
+          <ol className={styles.howGrid}>
+            <li>
+              <span className={styles.howNum}>1</span>
+              <strong>Tell us about your car</strong>
+              <p>Make, model, RTO and a few photos. Takes about 3 minutes.</p>
+            </li>
+            <li>
+              <span className={styles.howNum}>2</span>
+              <strong>We verify and publish</strong>
+              <p>Our team checks the details and approves the listing, usually within 2 hours.</p>
+            </li>
+            <li>
+              <span className={styles.howNum}>3</span>
+              <strong>Talk to real buyers</strong>
+              <p>Verified buyers reach you on WhatsApp. We help with the RC transfer and NOC.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
 
       <main className={styles.page}>
         <div className="container">
 
           {/* Stepper Card */}
-          <div className={styles.wizardCard}>
+          <div className={styles.wizardCard} id="sell-form">
             {!isSubmitted ? (
               <>
                 {/* Stepper Bar */}

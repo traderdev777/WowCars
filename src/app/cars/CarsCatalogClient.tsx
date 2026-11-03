@@ -1,508 +1,243 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  Search,
-  SlidersHorizontal,
-  RotateCcw,
-  BadgeCheck,
-  Zap,
-  Truck,
-  Bike,
-  Car as CarIcon,
-  CheckCircle2,
-} from "lucide-react";
+import { SlidersHorizontal, X, Search, Bookmark, BookmarkCheck, LayoutGrid, List, Heart, RotateCcw } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CarCard from "@/components/cars/CarCard";
-import PageHero from "@/components/common/PageHero";
-import TrustIndicators from "@/components/common/TrustIndicators";
-import CTASection from "@/components/common/CTASection";
-import type { Car } from "@/lib/mockData";
+import FilterPanel from "@/components/cars/FilterPanel";
+import type { Listing } from "@/lib/listings/listing";
+import { EMI_FOOTNOTE, DEAL_TOOLTIP } from "@/lib/listings/listing";
+import {
+  activeChips, applyFilters, countMatching, EMPTY_FILTERS, filtersFromQuery, filtersToQuery,
+  SORT_OPTIONS, type SearchFilters, type SortKey,
+} from "@/lib/listings/filters";
+import { useSavedCars, useSavedSearches } from "@/lib/listings/storage";
 import styles from "./CarsCatalog.module.css";
 
 interface CarsCatalogClientProps {
-  initialCars: Car[];
-  initialFuel?: string;
-  initialCategory?: string;
-  initialBudget?: string;
+  initialCars: Listing[];
 }
 
-export default function CarsCatalogClient({
-  initialCars,
-  initialFuel,
-  initialCategory,
-  initialBudget,
-}: CarsCatalogClientProps) {
+export default function CarsCatalogClient({ initialCars }: CarsCatalogClientProps) {
   const searchParams = useSearchParams();
-  const paramFuel = searchParams.get("fuel");
-  const paramCategory = searchParams.get("category");
-  const paramBudget = searchParams.get("budget");
+  const [filters, setFilters] = useState<SearchFilters>(() => filtersFromQuery(new URLSearchParams(searchParams.toString())));
+  const [savedOnly, setSavedOnly] = useState(() => searchParams.get("saved") === "1");
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
+  const { saved } = useSavedCars();
+  const savedSearches = useSavedSearches();
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(paramCategory || initialCategory || "all");
-  const [selectedBudget, setSelectedBudget] = useState(paramBudget || initialBudget || "all");
-  const [selectedFuel, setSelectedFuel] = useState(
-    (paramFuel || initialFuel) ? (paramFuel || initialFuel)!.toLowerCase() : "all"
+  // Keep the URL shareable without a navigation.
+  useEffect(() => {
+    const q = filtersToQuery(filters);
+    const extra = savedOnly ? (q ? "&saved=1" : "?saved=1") : "";
+    const url = `${window.location.pathname}${q}${extra}`;
+    window.history.replaceState(window.history.state, "", url);
+  }, [filters, savedOnly]);
+
+  useEffect(() => {
+    document.body.style.overflow = sheetOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sheetOpen]);
+
+  const pool = useMemo(
+    () => (savedOnly ? initialCars.filter((c) => saved.includes(c.listingCode)) : initialCars),
+    [initialCars, savedOnly, saved],
   );
-  const [selectedTrans, setSelectedTrans] = useState("all");
-  const [selectedBody, setSelectedBody] = useState("all");
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
-  const [sortBy, setSortBy] = useState("featured");
+  const results = useMemo(() => applyFilters(pool, filters), [pool, filters]);
+  const chips = activeChips(filters);
+  const count = results.length;
+  const query = filtersToQuery({ ...filters, sort: "recommended" });
+  const searchSaved = query !== "" && savedSearches.has(query);
 
-  const filteredCars = useMemo(() => {
-    return initialCars
-      .filter((car) => {
-        // Vehicle category filter
-        if (selectedCategory !== "all") {
-          const cat = (car as any).vehicleCategory || "CAR";
-          if (cat !== selectedCategory) return false;
-        }
+  const reset = () => setFilters({ ...EMPTY_FILTERS, sort: filters.sort });
+  const showN = `Show ${count} ${count === 1 ? "car" : "cars"}`;
 
-        // Search query
-        if (searchQuery.trim()) {
-          const q = searchQuery.toLowerCase();
-          const matches =
-            car.make.toLowerCase().includes(q) ||
-            car.model.toLowerCase().includes(q) ||
-            car.variant.toLowerCase().includes(q) ||
-            car.listingCode.toLowerCase().includes(q) ||
-            car.locality.toLowerCase().includes(q) ||
-            (car.city && car.city.toLowerCase().includes(q));
-          if (!matches) return false;
-        }
-
-        // Budget filter
-        if (selectedBudget === "under-8") {
-          if (car.priceINR > 800000) return false;
-        } else if (selectedBudget === "8-15") {
-          if (car.priceINR < 800000 || car.priceINR > 1500000) return false;
-        } else if (selectedBudget === "above-15") {
-          if (car.priceINR < 1500000) return false;
-        }
-
-        // Fuel filter
-        if (selectedFuel !== "all" && car.fuelType.toLowerCase() !== selectedFuel) {
-          return false;
-        }
-
-        // Transmission
-        if (selectedTrans !== "all" && car.transmission.toLowerCase() !== selectedTrans) {
-          return false;
-        }
-
-        // Body Type
-        if (selectedBody !== "all" && car.bodyType.toLowerCase() !== selectedBody) {
-          return false;
-        }
-
-        // Verified Only
-        if (verifiedOnly && !car.isVerified) {
-          return false;
-        }
-
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === "price-asc") return a.priceINR - b.priceINR;
-        if (sortBy === "price-desc") return b.priceINR - a.priceINR;
-        if (sortBy === "km-asc") return a.kmDriven - b.kmDriven;
-        if (sortBy === "year-desc") return b.year - a.year;
-        // Default: featured first, then newest
-        if (a.isFeatured && !b.isFeatured) return -1;
-        if (!a.isFeatured && b.isFeatured) return 1;
-        return b.year - a.year;
-      });
-  }, [
-    initialCars,
-    searchQuery,
-    selectedCategory,
-    selectedBudget,
-    selectedFuel,
-    selectedTrans,
-    selectedBody,
-    verifiedOnly,
-    sortBy,
-  ]);
-
-  const handleResetFilters = () => {
-    setSearchQuery("");
-    setSelectedCategory("all");
-    setSelectedBudget("all");
-    setSelectedFuel("all");
-    setSelectedTrans("all");
-    setSelectedBody("all");
-    setVerifiedOnly(false);
-    setSortBy("featured");
+  const saveSearch = () => {
+    if (!query) return;
+    savedSearches.save({
+      query,
+      label: chips.map((c) => c.label).join(" · ") || "All cars",
+      savedAt: new Date().toISOString(),
+    });
   };
+
+  const heading = filters.cities.length === 1 ? `Used cars in ${filters.cities[0]}` : "Used cars for sale";
 
   return (
     <>
       <Navbar />
-
-      {/* Premium Hero Banner */}
-      <PageHero
-        badge="BENGALURU PILOT · 140-POINT INSPECTED"
-        title={
-          <>
-            Explore Verified <span>Pre-Owned Vehicles</span>
-          </>
-        }
-        subtitle="Transparent pricing, guaranteed documentation, zero buyer commission, and direct verified seller contact across Bengaluru."
-        stats={[
-          { label: "Inspection Check", value: "140-Point" },
-          { label: "Buyer Commission", value: "₹0" },
-          { label: "Active Listings", value: `${initialCars.length}+` },
-          { label: "Bengaluru Hubs", value: "2 Outlets" },
-        ]}
-        imageSrc="/images/staff-used-cars.jpg"
-        imageAlt="WowCars specialist Arjun inspecting pre-owned vehicle with customer"
-        staffName="Arjun Sharma"
-        staffRole="Vehicle Evaluation Lead"
-        staffBadge="140-Point Certified Inspector"
-        primaryAction={{
-          label: "+ Sell Your Car Free",
-          href: "/sell",
-        }}
-        secondaryAction={{
-          label: "View Service Centres",
-          href: "/service-centres",
-        }}
-      />
-
-      {/* Trust Guarantee Strip */}
-      <TrustIndicators />
-
       <main className={styles.page}>
         <div className="container">
-          {/* Breadcrumb & Title */}
-          <div className={styles.catalogHeader}>
-            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-              <Link href="/" className={styles.breadcrumbLink}>
-                Home
-              </Link>
-              <span>/</span>
-              <span style={{ color: "var(--brand-white, #FFFFFF)" }}>
-                Verified Inventory in Bengaluru
-              </span>
-            </nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb">
+            <Link href="/">Home</Link>
+            <span aria-hidden="true">/</span>
+            <span>Used cars</span>
+          </nav>
 
-            <div className={styles.headerFlex}>
-              <div>
-                <h2 className={styles.sectionHeading}>
-                  {selectedCategory === "ELECTRIC" || selectedFuel === "electric"
-                    ? "Electric Vehicles (EVs)"
-                    : selectedCategory === "COMMERCIAL"
-                    ? "Commercial Vehicles & Vans"
-                    : selectedCategory === "TWO_WHEELER"
-                    ? "Pre-Owned Two-Wheelers"
-                    : "Verified Used Cars Catalog"}
-                </h2>
-                <p className={styles.resultCount}>
-                  Showing <strong>{filteredCars.length}</strong> verified{" "}
-                  {filteredCars.length === 1 ? "vehicle" : "vehicles"} available in Bengaluru
-                </p>
-              </div>
-
-              {/* Quick Category Switcher Tabs */}
-              <div className={styles.categoryPills}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory("all");
-                    setSelectedFuel("all");
-                  }}
-                  className={`${styles.catTab} ${
-                    selectedCategory === "all" && selectedFuel === "all"
-                      ? styles.catTabActive
-                      : ""
-                  }`}
-                >
-                  <CarIcon size={14} /> All
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory("CAR");
-                    if (selectedFuel === "electric") setSelectedFuel("all");
-                  }}
-                  className={`${styles.catTab} ${
-                    selectedCategory === "CAR" && selectedFuel !== "electric"
-                      ? styles.catTabActive
-                      : ""
-                  }`}
-                >
-                  <CarIcon size={14} /> Cars
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedFuel("electric");
-                    setSelectedCategory("all");
-                  }}
-                  className={`${styles.catTab} ${
-                    selectedFuel === "electric" ? styles.catTabActive : ""
-                  }`}
-                >
-                  <Zap size={14} style={{ color: "#34D399" }} /> Electric
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory("COMMERCIAL");
-                    setSelectedFuel("all");
-                  }}
-                  className={`${styles.catTab} ${
-                    selectedCategory === "COMMERCIAL" ? styles.catTabActive : ""
-                  }`}
-                >
-                  <Truck size={14} /> Commercial
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory("TWO_WHEELER");
-                    setSelectedFuel("all");
-                  }}
-                  className={`${styles.catTab} ${
-                    selectedCategory === "TWO_WHEELER" ? styles.catTabActive : ""
-                  }`}
-                >
-                  <Bike size={14} /> Two-Wheelers
-                </button>
-              </div>
+          <div className={styles.head}>
+            <div>
+              <h1 className={styles.h1}>{savedOnly ? "Saved cars" : heading}</h1>
+              <p className={styles.sub}>
+                <span className="tnum">{count}</span> {count === 1 ? "car" : "cars"} · every price shows an EMI estimate and a WowPrice rating
+              </p>
             </div>
+            <label className={styles.search}>
+              <Search size={17} aria-hidden="true" />
+              <input
+                type="search"
+                placeholder="Search make, model or area"
+                value={filters.q}
+                onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+                aria-label="Search cars"
+              />
+            </label>
           </div>
 
-          {/* Layout: Sidebar + Cars Grid */}
-          <div className={styles.catalogLayout}>
-            {/* Filter Sidebar */}
-            <aside className={styles.filterSidebar}>
-              <div className={styles.filterHeader}>
-                <div className={styles.filterHeading}>
-                  <SlidersHorizontal size={16} />
-                  <span>Filters</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className={styles.resetBtn}
-                >
-                  <RotateCcw size={12} />
-                  <span>Reset All</span>
-                </button>
-              </div>
+          {savedOnly && (
+            <div className={styles.savedBanner}>
+              <Heart size={16} /> Showing the {saved.length} {saved.length === 1 ? "car" : "cars"} you saved on this device.
+              <button type="button" onClick={() => setSavedOnly(false)}>Show all cars</button>
+            </div>
+          )}
 
-              {/* Search Box */}
-              <div className={styles.filterGroup}>
-                <label className={styles.filterGroupTitle}>Keyword Search</label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    type="text"
-                    placeholder="e.g. Creta, Nexon EV, KA-01..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className={styles.searchInput}
-                  />
-                  <Search size={14} className={styles.searchIcon} />
-                </div>
-              </div>
+          {/* Mobile sticky bar */}
+          <div className={styles.mobileBar}>
+            <button type="button" className={styles.filterBtn} onClick={() => setSheetOpen(true)}>
+              <SlidersHorizontal size={16} /> Filters{chips.length ? ` (${chips.length})` : ""}
+            </button>
+            <label className={styles.sortMobile}>
+              <span className="sr-only">Sort</span>
+              <select value={filters.sort} onChange={(e) => setFilters({ ...filters, sort: e.target.value as SortKey })}>
+                {SORT_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-              {/* Budget Filter */}
-              <div className={styles.filterGroup}>
-                <label className={styles.filterGroupTitle}>Budget</label>
-                <div className={styles.filterPills}>
-                  {[
-                    { id: "all", label: "All Prices" },
-                    { id: "under-8", label: "Under ₹8L" },
-                    { id: "8-15", label: "₹8L - ₹15L" },
-                    { id: "above-15", label: "Above ₹15L" },
-                  ].map((b) => (
-                    <button
-                      key={b.id}
-                      type="button"
-                      onClick={() => setSelectedBudget(b.id)}
-                      className={`${styles.pillBtn} ${
-                        selectedBudget === b.id ? styles.pillBtnActive : ""
-                      }`}
-                    >
-                      {b.label}
-                    </button>
-                  ))}
-                </div>
+          <div className={styles.layout}>
+            <aside className={styles.aside} aria-label="Filters">
+              <div className={styles.asideHead}>
+                <h2>Filters</h2>
+                {chips.length > 0 && (
+                  <button type="button" onClick={reset} className={styles.linkBtn}>
+                    <RotateCcw size={13} /> Reset
+                  </button>
+                )}
               </div>
-
-              {/* Fuel Type */}
-              <div className={styles.filterGroup}>
-                <label className={styles.filterGroupTitle}>Fuel Type</label>
-                <div className={styles.filterPills}>
-                  {[
-                    { id: "all", label: "All Fuels" },
-                    { id: "petrol", label: "Petrol" },
-                    { id: "diesel", label: "Diesel" },
-                    { id: "cng", label: "CNG" },
-                    { id: "electric", label: "Electric ⚡" },
-                  ].map((f) => (
-                    <button
-                      key={f.id}
-                      type="button"
-                      onClick={() => setSelectedFuel(f.id)}
-                      className={`${styles.pillBtn} ${
-                        selectedFuel === f.id ? styles.pillBtnActive : ""
-                      }`}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Transmission */}
-              <div className={styles.filterGroup}>
-                <label className={styles.filterGroupTitle}>Transmission</label>
-                <div className={styles.filterPills}>
-                  {[
-                    { id: "all", label: "All" },
-                    { id: "manual", label: "Manual" },
-                    { id: "automatic", label: "Automatic" },
-                  ].map((t) => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setSelectedTrans(t.id)}
-                      className={`${styles.pillBtn} ${
-                        selectedTrans === t.id ? styles.pillBtnActive : ""
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Body Type */}
-              <div className={styles.filterGroup}>
-                <label className={styles.filterGroupTitle}>Body Style</label>
-                <div className={styles.filterPills}>
-                  {[
-                    { id: "all", label: "All Styles" },
-                    { id: "suv", label: "SUV" },
-                    { id: "hatchback", label: "Hatchback" },
-                    { id: "sedan", label: "Sedan" },
-                    { id: "muv", label: "MUV" },
-                  ].map((bt) => (
-                    <button
-                      key={bt.id}
-                      type="button"
-                      onClick={() => setSelectedBody(bt.id)}
-                      className={`${styles.pillBtn} ${
-                        selectedBody === bt.id ? styles.pillBtnActive : ""
-                      }`}
-                    >
-                      {bt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Verified Filter */}
-              <div className={styles.filterGroup}>
-                <label className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={verifiedOnly}
-                    onChange={(e) => setVerifiedOnly(e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  <span className={styles.checkboxText}>
-                    <BadgeCheck size={14} style={{ color: "#10B981" }} />
-                    Verified Listings Only
-                  </span>
-                </label>
-              </div>
-
-              {/* Specialist Assistance Box */}
-              <div className={styles.specialistHelpBox}>
-                <div className={styles.helpHeader}>
-                  <span className={styles.helpDot} />
-                  <span>Looking for a Specific Model?</span>
-                </div>
-                <p className={styles.helpText}>
-                  Our concierge team will search our dealer and consignment networks across Bengaluru.
-                </p>
-                <a
-                  href="https://wa.me/919019088160?text=Hi%20WowCars!%20I%20am%20looking%20for%20a%20specific%20used%20car."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-whatsapp btn-sm btn-full"
-                >
-                  WhatsApp Specialist
-                </a>
-              </div>
+              <FilterPanel cars={pool} filters={filters} onChange={setFilters} />
             </aside>
 
-            {/* Cars Grid Area */}
-            <div className={styles.catalogMain}>
-              {/* Sorting Bar */}
-              <div className={styles.sortBar}>
-                <div className={styles.sortLabel}>
-                  Sort by:
+            <section className={styles.results} aria-label="Results">
+              <div className={styles.toolbar}>
+                <p className={styles.count}>
+                  <strong className="tnum">{count}</strong> {count === 1 ? "result" : "results"}
+                </p>
+                <div className={styles.toolbarRight}>
+                  <button type="button" className={styles.saveBtn} onClick={saveSearch} disabled={!query || searchSaved}>
+                    {searchSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+                    {searchSaved ? "Search saved" : "Save search"}
+                  </button>
+                  <div className={styles.viewToggle} role="group" aria-label="Layout">
+                    <button type="button" aria-pressed={layout === "grid"} onClick={() => setLayout("grid")} aria-label="Grid view">
+                      <LayoutGrid size={16} />
+                    </button>
+                    <button type="button" aria-pressed={layout === "list"} onClick={() => setLayout("list")} aria-label="List view">
+                      <List size={16} />
+                    </button>
+                  </div>
+                  <label className={styles.sortDesk}>
+                    <span>Sort</span>
+                    <select value={filters.sort} onChange={(e) => setFilters({ ...filters, sort: e.target.value as SortKey })}>
+                      {SORT_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                      ))}
+                    </select>
+                  </label>
                 </div>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className={styles.sortSelect}
-                  aria-label="Sort vehicles"
-                >
-                  <option value="featured">Featured & Recommended</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="year-desc">Year: Newest First</option>
-                  <option value="km-asc">Kilometres: Lowest First</option>
-                </select>
               </div>
 
-              {/* Grid or Empty State */}
-              {filteredCars.length > 0 ? (
-                <div className={styles.carsGrid}>
-                  {filteredCars.map((car) => (
-                    <CarCard key={car.id} car={car} />
+              {chips.length > 0 && (
+                <div className={styles.chips}>
+                  {chips.map((c) => (
+                    <button key={c.key} type="button" className={styles.chip} onClick={() => setFilters(c.remove(filters))} aria-label={`Remove filter ${c.label}`}>
+                      {c.label} <X size={13} />
+                    </button>
+                  ))}
+                  <button type="button" className={styles.clearAll} onClick={reset}>Clear all</button>
+                </div>
+              )}
+
+              {count > 0 ? (
+                <div className={layout === "list" ? styles.list : styles.grid}>
+                  {results.map((car) => (
+                    <CarCard key={car.id} car={car} layout={layout} />
                   ))}
                 </div>
               ) : (
-                <div className={styles.emptyState}>
-                  <div className={styles.emptyIcon}>🚗</div>
-                  <h3 className={styles.emptyTitle}>No Matching Vehicles Found</h3>
-                  <p className={styles.emptyDesc}>
-                    Try adjusting your budget, fuel type, or keyword search to view more verified cars.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleResetFilters}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Reset All Filters
-                  </button>
+                <div className={styles.empty}>
+                  <h2>No cars match all of these filters</h2>
+                  <p>Remove a filter to see more cars{savedOnly ? ", or show all cars instead of only saved ones" : ""}.</p>
+                  <div className={styles.emptyActions}>
+                    {chips.slice(0, 3).map((c) => (
+                      <button key={c.key} type="button" className={styles.chip} onClick={() => setFilters(c.remove(filters))}>
+                        Remove {c.label} <X size={13} />
+                      </button>
+                    ))}
+                    {savedOnly && (
+                      <button type="button" className="btn btn-secondary btn-sm" onClick={() => setSavedOnly(false)}>Show all cars</button>
+                    )}
+                  </div>
                 </div>
               )}
-            </div>
+
+              <div className={styles.footnotes}>
+                <p>{EMI_FOOTNOTE}</p>
+                <p>{DEAL_TOOLTIP}</p>
+                <p>Listings marked “Sample listing” are demonstration data.</p>
+              </div>
+            </section>
           </div>
         </div>
+
+        {/* Mobile filter sheet */}
+        {sheetOpen && (
+          <div className={styles.sheet} role="dialog" aria-modal="true" aria-label="Filters">
+            <div className={styles.sheetHead}>
+              <button type="button" className={styles.sheetClose} onClick={() => setSheetOpen(false)} aria-label="Close filters">
+                <X size={20} />
+              </button>
+              <h2>Filters</h2>
+              <button type="button" className={styles.linkBtn} onClick={reset} disabled={!chips.length}>
+                Reset
+              </button>
+            </div>
+            <div className={styles.sheetBody}>
+              {chips.length > 0 && (
+                <div className={styles.chips}>
+                  {chips.map((c) => (
+                    <button key={c.key} type="button" className={styles.chip} onClick={() => setFilters(c.remove(filters))}>
+                      {c.label} <X size={13} />
+                    </button>
+                  ))}
+                </div>
+              )}
+              <FilterPanel cars={pool} filters={filters} onChange={setFilters} />
+            </div>
+            <div className={styles.sheetFoot}>
+              <button type="button" className="btn btn-primary btn-full btn-lg" onClick={() => setSheetOpen(false)} data-testid="sheet-apply">
+                {countMatching(pool, filters) === 0 ? "No cars match — adjust filters" : showN}
+              </button>
+            </div>
+          </div>
+        )}
       </main>
-
-      {/* Bottom CTA with Arjun Specialist Handover */}
-      <CTASection
-        badge="BENGALURU EXPERIENCE CENTRE"
-        title="Ready to Test Drive or Inspect a Car?"
-        subtitle="Visit our Koramangala or Yelahanka Hubs. 140-point inspection documentation provided upfront with transparent RTO paperwork."
-        primaryActionLabel="Sell Your Car Free"
-        primaryActionHref="/sell"
-        imageSrc="/images/staff-vehicle-delivery.jpg"
-        imageAlt="WowCars specialist Arjun handing over keys with customer in Bengaluru"
-      />
-
       <Footer />
     </>
   );

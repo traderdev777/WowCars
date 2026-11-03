@@ -29,7 +29,7 @@ export async function generateMetadata({
       title: `${category.name} | WowCars Auto Parts`,
       description: category.description,
       url: `https://wowcars.in/spare-parts/category/${slug}`,
-      images: [{ url: category.image || `/parts/categories/${slug}.svg`, width: 800, height: 600, alt: category.name }],
+      images: [{ url: category.image || `/parts/categories/${slug}.jpg`, width: 800, height: 600, alt: category.name }],
     },
   };
 }

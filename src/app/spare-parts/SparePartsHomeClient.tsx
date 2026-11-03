@@ -205,7 +205,7 @@ export default function SparePartsHomeClient({
               >
                 <div className={styles.catImageWrapper}>
                   <Image
-                    src={cat.image || `/parts/categories/${cat.slug}.svg`}
+                    src={cat.image || `/parts/categories/${cat.slug}.jpg`}
                     alt={cat.name}
                     width={200}
                     height={150}

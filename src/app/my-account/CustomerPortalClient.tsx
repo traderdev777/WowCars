@@ -1033,7 +1033,7 @@ export default function CustomerPortalClient() {
               <div className={styles.compatibleDrawer}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: "1.25rem", color: "#fff" }}>
+                    <h3 style={{ margin: 0, fontSize: "1.25rem", color: "var(--text)" }}>
                       Verified Compatible Spares for {selectedVehicleForSpares.make} {selectedVehicleForSpares.model} ({selectedVehicleForSpares.year})
                     </h3>
                     <p style={{ margin: "0.25rem 0 0", color: "#8E8E93", fontSize: "0.85rem" }}>
@@ -1068,12 +1068,12 @@ export default function CustomerPortalClient() {
                           }`}>
                             {p.compatibilityConfidence} Match
                           </span>
-                          <h4 style={{ margin: "0.25rem 0", fontSize: "0.95rem", color: "#fff" }}>{p.name}</h4>
+                          <h4 style={{ margin: "0.25rem 0", fontSize: "0.95rem", color: "var(--text)" }}>{p.name}</h4>
                           <span style={{ fontSize: "0.75rem", color: "#888" }}>SKU: {p.sku}</span>
                           <p style={{ fontSize: "0.8rem", color: "#AAA", margin: "0.4rem 0" }}>{p.matchReason}</p>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.75rem", borderTop: "1px solid #282828", paddingTop: "0.5rem" }}>
-                          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff" }}>
+                          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text)" }}>
                             ₹{p.price.toLocaleString("en-IN")}
                           </span>
                           <Link href={`/spare-parts/${p.id}`} className="btn btn-primary btn-sm">
@@ -1127,7 +1127,7 @@ export default function CustomerPortalClient() {
                     <div className={styles.jobHeader}>
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.25rem" }}>
-                          <h3 style={{ margin: 0, fontSize: "1.2rem", color: "#fff" }}>
+                          <h3 style={{ margin: 0, fontSize: "1.2rem", color: "var(--text)" }}>
                             Job Card #{a.jobCardNumber}
                           </h3>
                           <span className={`${styles.statusPill} ${
@@ -1143,7 +1143,7 @@ export default function CustomerPortalClient() {
                       </div>
 
                       <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: "1.35rem", fontWeight: 800, color: "#fff" }}>
+                        <div style={{ fontSize: "1.35rem", fontWeight: 800, color: "var(--text)" }}>
                           ₹{a.totalInvoiceINR.toLocaleString("en-IN")}
                         </div>
                         <span style={{ fontSize: "0.8rem", color: "#888" }}>
@@ -1249,7 +1249,7 @@ export default function CustomerPortalClient() {
                   <div key={o.id} className={styles.orderCard}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
                       <div>
-                        <h3 style={{ margin: 0, fontSize: "1.2rem", color: "#fff" }}>
+                        <h3 style={{ margin: 0, fontSize: "1.2rem", color: "var(--text)" }}>
                           Order #{o.orderNumber}
                         </h3>
                         <span style={{ fontSize: "0.85rem", color: "#888" }}>
@@ -1258,7 +1258,7 @@ export default function CustomerPortalClient() {
                       </div>
 
                       <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: "1.35rem", fontWeight: 800, color: "#fff" }}>
+                        <div style={{ fontSize: "1.35rem", fontWeight: 800, color: "var(--text)" }}>
                           ₹{o.totalAmount.toLocaleString("en-IN")}
                         </div>
                         <span className={`${styles.statusPill} ${
@@ -1386,7 +1386,7 @@ export default function CustomerPortalClient() {
                   <tbody>
                     {invoices.map((inv) => (
                       <tr key={inv.id}>
-                        <td style={{ fontWeight: 700, color: "#fff" }}>{inv.invoiceNumber}</td>
+                        <td style={{ fontWeight: 700, color: "var(--text)" }}>{inv.invoiceNumber}</td>
                         <td>{new Date(inv.date).toLocaleDateString("en-IN")}</td>
                         <td>
                           <span className={styles.specPill}>
@@ -1396,7 +1396,7 @@ export default function CustomerPortalClient() {
                         <td>{inv.outletOrSeller}</td>
                         <td>₹{inv.subtotalINR.toLocaleString("en-IN")}</td>
                         <td>₹{inv.taxINR.toLocaleString("en-IN")}</td>
-                        <td style={{ fontWeight: 800, color: "#fff" }}>₹{inv.totalINR.toLocaleString("en-IN")}</td>
+                        <td style={{ fontWeight: 800, color: "var(--text)" }}>₹{inv.totalINR.toLocaleString("en-IN")}</td>
                         <td>
                           <span className={`${styles.statusPill} ${
                             inv.paymentStatus === "PAID" ? styles.statusResolved : styles.statusInProgress
@@ -1457,7 +1457,7 @@ export default function CustomerPortalClient() {
                         <span style={{ fontSize: "0.8rem", color: "#888", fontWeight: 700 }}>
                           #{t.ticketNumber} • {t.category}
                         </span>
-                        <h4 style={{ margin: "0.2rem 0", fontSize: "1.1rem", color: "#fff" }}>
+                        <h4 style={{ margin: "0.2rem 0", fontSize: "1.1rem", color: "var(--text)" }}>
                           {t.subject}
                         </h4>
                       </div>
@@ -1605,7 +1605,7 @@ export default function CustomerPortalClient() {
                 <X size={20} />
               </button>
 
-              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "#fff" }}>
+              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "var(--text)" }}>
                 Add Vehicle to My Garage
               </h3>
               <p style={{ margin: "0 0 1.5rem", color: "#8E8E93", fontSize: "0.85rem" }}>
@@ -1726,7 +1726,7 @@ export default function CustomerPortalClient() {
                 <X size={20} />
               </button>
 
-              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "#fff" }}>
+              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "var(--text)" }}>
                 Book Service Appointment
               </h3>
               <p style={{ margin: "0 0 1.5rem", color: "#8E8E93", fontSize: "0.85rem" }}>
@@ -1803,7 +1803,7 @@ export default function CustomerPortalClient() {
                 <X size={20} />
               </button>
 
-              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "#fff" }}>
+              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "var(--text)" }}>
                 Request Return & Refund
               </h3>
               <p style={{ margin: "0 0 1.5rem", color: "#8E8E93", fontSize: "0.85rem" }}>
@@ -1855,7 +1855,7 @@ export default function CustomerPortalClient() {
                 <X size={20} />
               </button>
 
-              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "#fff" }}>
+              <h3 style={{ margin: "0 0 0.5rem", fontSize: "1.4rem", color: "var(--text)" }}>
                 Raise a Support Ticket
               </h3>
               <p style={{ margin: "0 0 1.5rem", color: "#8E8E93", fontSize: "0.85rem" }}>
@@ -1925,7 +1925,7 @@ export default function CustomerPortalClient() {
                 <span style={{ fontSize: "0.8rem", color: "#888", fontWeight: 700 }}>
                   Ticket #{activeThreadTicket.ticketNumber} • {activeThreadTicket.category}
                 </span>
-                <h3 style={{ margin: "0.25rem 0", fontSize: "1.3rem", color: "#fff" }}>
+                <h3 style={{ margin: "0.25rem 0", fontSize: "1.3rem", color: "var(--text)" }}>
                   {activeThreadTicket.subject}
                 </h3>
               </div>

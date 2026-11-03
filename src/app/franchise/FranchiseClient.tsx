@@ -887,8 +887,8 @@ export default function FranchiseClient() {
         subtitle="Meet our leadership at our Koramangala Hub. We will walk you through live workshop operations, parts distribution margins, and turnkey franchise setup."
         primaryActionLabel="View Live Workshops"
         primaryActionHref="/service-centres"
-        imageSrc="/images/staff-franchise-b2b.jpg"
-        imageAlt="WowCars expansion lead Arjun meeting prospective franchise partners"
+        imageSrc="/images/workshop-mysuru.jpg"
+        imageAlt="WowCars franchise express garage in Mysuru"
       />
     </div>
   );
